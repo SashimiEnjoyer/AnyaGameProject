@@ -1,0 +1,34 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerStats : MonoBehaviour, ISaveSystem
+{
+    public float playerHealth;
+
+    public bool playerIsDie
+    {
+        get { return playerHealth <= 0 ? true : false; }
+    }
+
+    public object CaptureSavedData()
+    {
+        return new SaveData
+        {
+            saveHealth = playerHealth
+        };
+    }
+
+    public void RestoreSavedData(object _savedData)
+    {
+        var saveData = (SaveData) _savedData;
+
+        playerHealth = saveData.saveHealth;
+    }
+
+    [System.Serializable]
+    struct SaveData
+    {
+        public float saveHealth;
+    }
+}

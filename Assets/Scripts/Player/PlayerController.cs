@@ -14,18 +14,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField] PlayerStats playerStats;
 
     [Header("Run Setting")]
-    [SerializeField] float speed;
-    [SerializeField] bool isDashing = false;
-    [SerializeField] float dashSpeed = 50f;
-    [SerializeField] float dashTime = 0.5f;
-    [SerializeField] float dashCooldown = 0.5f;
-    float dash = 0f;
-    bool isFacingRight = true;
+    public float speed;
+    public bool isDashing = false;
+    public float dashSpeed = 50f;
+    public float dashTime = 0.5f;
+    public float dashCooldown = 0.5f;
+    public float dash = 0f;
+    public bool isFacingRight = true;
 
     [Header("Jump Setting")]
-    [SerializeField] float jumpPower;
-    //[SerializeField] bool isJump = false;
-    [SerializeField] int jumpCounter = 2;
+    public float jumpPower;
+    public int jumpCounter = 2;
 
     [Header("Define Interactable Entity")]
     [SerializeField] LayerMask groundLayer;
@@ -35,21 +34,36 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float radiusDetection = 0.5f;
 
     [Header("Audio Setting")]
-    [SerializeField] AudioSource movementAudio;
-    [SerializeField] AudioSource attackAudio;
-    [SerializeField] AudioClip[] attackClip;
+    public AudioSource movementAudio;
+    public AudioSource attackAudio;
+    public AudioClip[] attackClip;
 
-    Rigidbody2D rb;
-    float horizontal;
+    public Rigidbody2D rb;
+    public bool isAttacking = false;
+    public Animator anim;
+    public List<Collider2D> listOfEnemies = new List<Collider2D>();
+
     CircleCollider2D playerCollider;
-    bool isAttacking = false;
-    List<Collider2D> listOfEnemies = new List<Collider2D>();
+    CharacterState currState;
 
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         playerCollider = GetComponent<CircleCollider2D>();
+        anim = GetComponent<Animator>();
+    }
+    
+    public void SetState(CharacterState state)
+    {
+        currState?.ExitState();
+        currState = state;
+        currState?.EnterState();
+    }
+
+    private void Start()
+    {
+        SetState(new PlayerLocomotion(this));
     }
 
     void Update()
@@ -57,14 +71,16 @@ public class PlayerController : MonoBehaviour
         if (playerStats.playerIsDie)
             return;
 
-        horizontal = Input.GetAxisRaw("Horizontal");
+        currState?.Tick();
+
+        anim.SetBool("IsJump", !PlayerTouchEntity(groundLayer, Vector2.down));
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
             PlayerJumping();
         }
 
-        if (Input.GetKey(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             if (PlayerTouchEntity(dialogueEntity, Vector2.right))
                 PlayerTouchEntity(dialogueEntity, Vector2.right).collider.GetComponent<IDialogue>().ExecuteDialogue();        
@@ -72,37 +88,22 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.C))
         {
-            if(!isDashing)
-                isDashing = true;
+            if (CanDash())
+            {
+                SetState(new PlayerDash(this));
+            }
         }
 
-        if (Input.GetKey(KeyCode.X))
+        if (Input.GetKeyDown(KeyCode.X))
         {
-            attackAudio.PlayOneShot(attackClip[Random.Range(0, 5)]);
-            for (int i = 0; i < PlayerTouchEnemy(isFacingRight).Length; i++)
-            {
-                if (listOfEnemies.Contains(PlayerTouchEnemy(isFacingRight)[i].collider))
-                    continue;
-                else
-                {
-                    listOfEnemies.Add(PlayerTouchEnemy(isFacingRight)[i].collider);
-
-                    foreach (var enemy in PlayerTouchEnemy(isFacingRight)[i].collider.GetComponents<IEnemy>())
-                        enemy.EnemyAttacked(transform.position);
-                            
-                }
-            }
+            if(CanAttack())
+                SetState(new PlayerAttack(this));
         }
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
             
         }
-
-        if (!isFacingRight && horizontal > 0)
-            Flip();
-        if (isFacingRight && horizontal < 0)
-            Flip();
 
         if (PlayerTouchEntity(groundLayer, Vector2.down) && jumpCounter <= 0)
             jumpCounter = 2;
@@ -116,37 +117,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!isDashing)
-        {
-            rb.velocity = new Vector2(horizontal * speed * Time.deltaTime, rb.velocity.y);
-
-        }
-        else
-        {
-            //if (Mathf.Abs(horizontal) <= 0.1f)
-            //{
-            //    isDashing = false;
-            //    return;
-            //}
-
-            dash += Time.deltaTime;
-
-            if (dash < dashTime)
-            {
-                rb.velocity = new Vector2((isFacingRight ? 1 : -1) * dashSpeed * Time.deltaTime, rb.velocity.y);
-            }
-            else
-            {
-                rb.velocity = new Vector2(0, rb.velocity.y);
-
-                if (dash >= dashTime + dashCooldown)
-                {
-                    isDashing = false;
-                    dash = 0;
-                }
-            }
-        }
-
+        currState?.PhysicTick();
     }
 
     void PlayerJumping()
@@ -154,6 +125,7 @@ public class PlayerController : MonoBehaviour
         if (jumpCounter <= 0)
             return;
 
+        anim.SetTrigger("Jump");
         jumpCounter -= 1;
         rb.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
     }
@@ -163,9 +135,45 @@ public class PlayerController : MonoBehaviour
         return Physics2D.CircleCast(playerCollider.bounds.center, playerCollider.radius, _detectionDirection, radiusDetection, _entityLayer);
     }
 
-    RaycastHit2D[] PlayerTouchEnemy(bool _isFacingRight)
+    public RaycastHit2D PlayerTouchGround(Vector2 _detectionDirection)
+    {
+        return Physics2D.CircleCast(playerCollider.bounds.center, playerCollider.radius, _detectionDirection, radiusDetection, groundLayer);
+    }
+
+    public RaycastHit2D[] PlayerTouchEnemy(bool _isFacingRight)
     {
         return Physics2D.CircleCastAll(playerCollider.bounds.center, playerCollider.radius, _isFacingRight? Vector2.right : Vector2.left, radiusDetection, enemyEntity);
+    }
+
+    bool CanDash()
+    {
+        return !isDashing && !isAttacking;
+    }
+
+    bool CanAttack()
+    {
+        return !isDashing && !isAttacking;
+    }
+  
+    [ContextMenu("Remove All Enemies")]
+    public void EmptyEnemyList()
+    {
+        listOfEnemies.Clear();
+    }
+
+    public float AnimationLength(string animationName)
+    {
+        float time = 0;
+        RuntimeAnimatorController ra = anim.runtimeAnimatorController;
+
+        for (int i = 0; i < ra.animationClips.Length; i++)
+        {
+            if(ra.animationClips[i].name == animationName)
+            {
+                time = ra.animationClips[i].length;
+            }
+        }
+        return time;
     }
 
     //private void OnDrawGizmos()
@@ -173,23 +181,4 @@ public class PlayerController : MonoBehaviour
     //    Gizmos.DrawWireSphere(playerCollider.bounds.center, playerCollider.radius + 0.5f);
     //}
 
-    void Flip()
-    {
-        if (isFacingRight)
-        {
-            isFacingRight = false;
-            transform.Rotate(0, 180f, 0);
-        }
-        else
-        {
-            isFacingRight = true;
-            transform.Rotate(0, 180f, 0);
-        }
-    }
-
-    [ContextMenu("Remove All Enemies")]
-    public void EmptyEnemyList()
-    {
-        listOfEnemies.Clear();
-    }
 }

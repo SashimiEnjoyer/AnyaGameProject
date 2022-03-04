@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum PlatformTypes { Horizontal, Vertical }
-public enum PlatformFrequencies { Once, Multiple, Reversible}
+public enum PlatformFrequencies { OnceOneWay, Multiple, OnceReversible}
 
 public class Platform : MonoBehaviour
 {
@@ -41,7 +41,7 @@ public class Platform : MonoBehaviour
 
             switch (platformFrequency)
             {
-                case PlatformFrequencies.Once:
+                case PlatformFrequencies.OnceOneWay:
 
                     if (timeCounter < travelTime)
                     {
@@ -86,7 +86,7 @@ public class Platform : MonoBehaviour
                         //isActive = false;
                     }
                     break;
-                case PlatformFrequencies.Reversible:
+                case PlatformFrequencies.OnceReversible:
                     if (timeCounter < travelTime)
                     {
                         switch (platformType)

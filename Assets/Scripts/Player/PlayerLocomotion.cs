@@ -47,4 +47,8 @@ public class PlayerLocomotion : CharacterState
         }
     }
 
+    public override void ExitState()
+    {
+        _player.anim.SetFloat("Speed", 0);
+    }
 }

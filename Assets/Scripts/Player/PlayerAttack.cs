@@ -21,7 +21,7 @@ public class PlayerAttack : CharacterState
     {
         time += Time.deltaTime;
 
-        if (time < _player.AnimationLength("Anya_Attack1") + 0.3f)
+        if (time < _player.AnimationLength("Anya_Attack1"))
         {
             for (int i = 0; i < _player.PlayerTouchEnemy(_player.isFacingRight).Length; i++)
             {
@@ -39,7 +39,7 @@ public class PlayerAttack : CharacterState
         }
         else
         {
-            time = _player.AnimationLength("Anya_Attack1") + 0.3f;
+            time = _player.AnimationLength("Anya_Attack1");
             _player.SetState(new PlayerLocomotion(_player));
         }
 
@@ -49,6 +49,7 @@ public class PlayerAttack : CharacterState
     public override void ExitState()
     {
         _player.isAttacking = false;
+        _player.EmptyEnemyList();
         time = 0;
     }
 }

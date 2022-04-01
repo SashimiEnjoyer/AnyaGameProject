@@ -155,16 +155,6 @@ public class PlayerController : MonoBehaviour
     {
         return !isDashing && !isAttacking;
     }
-
-    //bool CanDash()
-    //{
-    //    return !isDashing && !isAttacking;
-    //}
-
-    //bool CanAttack()
-    //{
-    //    return !isDashing && !isAttacking;
-    //}
   
     [ContextMenu("Remove All Enemies")]
     public void EmptyEnemyList()

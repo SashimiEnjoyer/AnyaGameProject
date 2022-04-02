@@ -249,7 +249,7 @@ GameObject:
   - component: {fileID: 87785935}
   m_Layer: 6
   m_Name: Enemy 1
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -351,7 +351,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 10
   m_Sprite: {fileID: -6297963663658585838, guid: 8d1195de94d7a114690500fc093d4d59, type: 3}
-  m_Color: {r: 0.1942594, g: 1, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
@@ -371,7 +371,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3.66, y: 1.33, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1128131921}
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -79328,6 +79329,63 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1128131920
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1128131921}
+  - component: {fileID: 1128131922}
+  m_Layer: 0
+  m_Name: Hit Box
+  m_TagString: Enemy Hit Box
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1128131921
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1128131920}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 87785932}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1128131922
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1128131920}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.014403462, y: -0.1329566}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.61221004, y: 0.59669846}
+  m_EdgeRadius: 0
 --- !u!1 &1131809486
 GameObject:
   m_ObjectHideFlags: 0
@@ -79579,6 +79637,7 @@ GameObject:
   - component: {fileID: 1297424288}
   - component: {fileID: 1297424284}
   - component: {fileID: 1297424287}
+  - component: {fileID: 1297424289}
   m_Layer: 0
   m_Name: Anya
   m_TagString: Player
@@ -79699,12 +79758,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerStats: {fileID: 1297424286}
   speed: 150
-  isDashing: 0
   dashSpeed: 1000
   dashTime: 0.35
   dashCooldown: 0.3
   dash: 0
-  isFacingRight: 1
   jumpPower: 350
   jumpCounter: 2
   groundLayer:
@@ -79729,10 +79786,14 @@ MonoBehaviour:
   - {fileID: 8300000, guid: f900e52d20f4f2746ab9c3851a56a807, type: 3}
   - {fileID: 8300000, guid: da435023d2d99ac4594df5bcf1defaa5, type: 3}
   - {fileID: 8300000, guid: 22ee7e3547442284194cfe6585569cec, type: 3}
-  rb: {fileID: 0}
-  isAttacking: 0
-  anim: {fileID: 0}
+  isDashing: 0
+  isFacingRight: 1
+  isGetHitByEnemy: 0
+  isInvulnerable: 0
+  rb: {fileID: 1297424288}
+  anim: {fileID: 1297424281}
   listOfEnemies: []
+  invulnerableCount: 0
 --- !u!114 &1297424286
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79783,6 +79844,32 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!61 &1297424289
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1297424280}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.033180952, y: 0.041476905}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.2333333, y: 1.7333333}
+    newSize: {x: 0.37, y: 0.52}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.0093589, y: 1.7084476}
+  m_EdgeRadius: 0
 --- !u!1 &1305367483
 GameObject:
   m_ObjectHideFlags: 0

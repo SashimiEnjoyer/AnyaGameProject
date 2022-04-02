@@ -13,6 +13,8 @@ public class EnemyController : MonoBehaviour, IEnemy
     [SerializeField] GameObject afterHitEffect;
     //[SerializeField] Transform[] border = new Transform[2];
 
+    float timer;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -28,7 +30,14 @@ public class EnemyController : MonoBehaviour, IEnemy
     {
         if (getHit)
         {
-            //rb.velocity = Vector2.zero;
+            if (timer < 1)
+                timer += Time.deltaTime;
+            else
+            {
+                timer = 1;
+                getHit = false;
+                timer = 0;
+            }
             return;
         }
 
@@ -42,16 +51,20 @@ public class EnemyController : MonoBehaviour, IEnemy
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Border"))
+        if (other.CompareTag("Border") && !getHit)
         {
             Flip();
+        }
+        if (other.CompareTag("Player") && !getHit)
+        {
+            other.GetComponent<PlayerController>().PlayerAttacked(gameObject.transform.position);
         }
     }
 
     public void EnemyAttacked(Vector2 _target)
     {
         getHit = true;
-        rb.AddForce(new Vector2 (_target.x > transform.position.x ? -250 : 250, 100));
+        rb.AddForce(new Vector2 (_target.x > transform.position.x ? -350 : 350, 100));
         health -= 10;
 
         if (health <= 0)

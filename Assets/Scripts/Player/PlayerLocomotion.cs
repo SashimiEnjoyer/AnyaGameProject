@@ -26,6 +26,25 @@ public class PlayerLocomotion : CharacterState
             Flip();
         if (_player.isFacingRight && horizontal < 0)
             Flip();
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            PlayerJumping();
+        }
+
+        if (Input.GetKeyDown(KeyCode.C))
+             _player.SetState(new PlayerDash(_player));
+
+        
+
+        if (Input.GetKeyDown(KeyCode.X))
+             _player.SetState(new PlayerAttack(_player));
+
+
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+
+        }
     }
 
     public override void PhysicTick()
@@ -50,5 +69,19 @@ public class PlayerLocomotion : CharacterState
     public override void ExitState()
     {
         _player.anim.SetFloat("Speed", 0);
+    }
+
+    void PlayerJumping()
+    {
+        if (_player.jumpCounter <= 0)
+            return;
+
+        _player.anim.SetTrigger("Jump");
+        _player.jumpCounter -= 1;
+
+        if (_player.jumpCounter >= 1)
+            _player.rb.AddForce(Vector2.up * _player.jumpPower, ForceMode2D.Force);
+        else if (_player.jumpCounter < 1)
+            _player.rb.AddForce(Vector2.up * _player.jumpPower * 1.3f, ForceMode2D.Force);
     }
 }

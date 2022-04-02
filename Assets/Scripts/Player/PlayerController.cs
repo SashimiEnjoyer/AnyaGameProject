@@ -15,13 +15,11 @@ public class PlayerController : MonoBehaviour
 
     [Header("Run Setting")]
     public float speed;
-    public bool isDashing = false;
     public float dashSpeed = 50f;
     public float dashTime = 0.5f;
     public float dashCooldown = 0.5f;
     public float dash = 0f;
-    public bool isFacingRight = true;
-
+    
     [Header("Jump Setting")]
     public float jumpPower;
     public int jumpCounter = 2;
@@ -38,13 +36,19 @@ public class PlayerController : MonoBehaviour
     public AudioSource attackAudio;
     public AudioClip[] attackClip;
 
+    [Header("Conditions")]
+    public bool isDashing = false;
+    public bool isFacingRight = true;
+    public bool isGetHitByEnemy = false;
+    public bool isInvulnerable = false;
+    
     public Rigidbody2D rb;
-    public bool isAttacking = false;
     public Animator anim;
     public List<Collider2D> listOfEnemies = new List<Collider2D>();
 
     CapsuleCollider2D playerCollider;
     CharacterState currState;
+    public float invulnerableCount = 0;
 
     void Awake()
     {
@@ -74,35 +78,12 @@ public class PlayerController : MonoBehaviour
 
         anim.SetBool("IsJump", !PlayerTouchEntity(groundLayer, Vector2.down));
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            PlayerJumping();
-        }
-
         if (Input.GetKeyDown(KeyCode.E))
         {
             if (PlayerTouchEntity(dialogueEntity, Vector2.right))
                 PlayerTouchEntity(dialogueEntity, Vector2.right).collider.GetComponent<IDialogue>().ExecuteDialogue();        
         }
 
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            if (CanMoveState())
-            {
-                SetState(new PlayerDash(this));
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            if(CanMoveState())
-                SetState(new PlayerAttack(this));
-        }
-
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            
-        }
 
         if (PlayerTouchEntity(groundLayer, Vector2.down) && jumpCounter <= 0)
             jumpCounter = 2;
@@ -112,25 +93,23 @@ public class PlayerController : MonoBehaviour
         else
             transform.SetParent(null);
 
+        if (isInvulnerable)
+        {
+            if(invulnerableCount < 2)
+            {
+                invulnerableCount += Time.deltaTime;
+            }else
+            {
+                invulnerableCount = 2;
+                isInvulnerable = false;
+            }
+        }
+
     }
 
     private void FixedUpdate()
     {
         currState?.PhysicTick();
-    }
-
-    void PlayerJumping()
-    {
-        if (jumpCounter <= 0)
-            return;
-
-        anim.SetTrigger("Jump");
-        jumpCounter -= 1;
-
-        if(jumpCounter >= 1)
-            rb.AddForce(Vector2.up * jumpPower, ForceMode2D.Force);
-        else if (jumpCounter < 1)
-            rb.AddForce(Vector2.up * jumpPower * 1.3f, ForceMode2D.Force);
     }
 
     RaycastHit2D PlayerTouchEntity(LayerMask _entityLayer, Vector2 _detectionDirection)
@@ -151,11 +130,20 @@ public class PlayerController : MonoBehaviour
         //return Physics2D.CircleCastAll(playerCollider.bounds.center, playerCollider.radius, _isFacingRight? Vector2.right : Vector2.left, radiusDetection, enemyEntity);
     }
 
-    bool CanMoveState()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        return !isDashing && !isAttacking;
+        if (collision.CompareTag("Enemy Hit Box") && !isInvulnerable)
+        {
+            SetState(new PlayerAttacked(this));
+        }
     }
-  
+
+    public void PlayerAttacked(Vector2 _target)
+    {
+        if(!isInvulnerable)
+            rb.AddForce(new Vector2(_target.x > transform.position.x ? -100 : 100, 150));
+    }
+
     [ContextMenu("Remove All Enemies")]
     public void EmptyEnemyList()
     {
@@ -179,7 +167,7 @@ public class PlayerController : MonoBehaviour
 
     //private void OnDrawGizmos()
     //{
-        
+    //    Gizmos.
     //    //izmos.DrawWireSphere(playerCollider.bounds.center, playerCollider.radius + 0.5f);
     //}
 

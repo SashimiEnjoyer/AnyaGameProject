@@ -13,7 +13,6 @@ public class PlayerAttack : CharacterState
     public override void EnterState()
     {
         _player.anim.SetTrigger("Attack");
-        _player.isAttacking = true;
         _player.attackAudio.PlayOneShot(_player.attackClip[Random.Range(0, 5)]);
     }
 
@@ -48,7 +47,6 @@ public class PlayerAttack : CharacterState
 
     public override void ExitState()
     {
-        _player.isAttacking = false;
         _player.EmptyEnemyList();
         time = 0;
     }

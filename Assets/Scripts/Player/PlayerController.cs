@@ -10,8 +10,6 @@ public struct EnemyData
 
 public class PlayerController : MonoBehaviour
 {
-    [Header("References")]
-    [SerializeField] PlayerStats playerStats;
 
     [Header("Run Setting")]
     public float speed;
@@ -71,9 +69,6 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (playerStats.playerIsDie)
-            return;
-
         currState?.Tick();
 
         anim.SetBool("IsJump", !PlayerTouchEntity(groundLayer, Vector2.down));

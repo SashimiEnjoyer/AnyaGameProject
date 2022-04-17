@@ -39,6 +39,9 @@ public class PlayerController : MonoBehaviour
     public bool isFacingRight = true;
     public bool isGetHitByEnemy = false;
     public bool isInvulnerable = false;
+
+    [Header("Effect")]
+    [SerializeField] HitEffect hitEffect;
     
     public Rigidbody2D rb;
     public Animator anim;
@@ -76,7 +79,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             if (PlayerTouchEntity(dialogueEntity, Vector2.right))
-                PlayerTouchEntity(dialogueEntity, Vector2.right).collider.GetComponent<IDialogue>().ExecuteDialogue();        
+                PlayerTouchEntity(dialogueEntity, Vector2.right).collider.GetComponent<IInteractable>().ExecuteInteractable();        
         }
 
 
@@ -158,6 +161,10 @@ public class PlayerController : MonoBehaviour
             }
         }
         return time;
+    }
+    public void TriggerEffect()
+    {
+
     }
 
     //private void OnDrawGizmos()

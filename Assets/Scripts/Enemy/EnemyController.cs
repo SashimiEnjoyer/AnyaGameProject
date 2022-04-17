@@ -6,12 +6,14 @@ public enum EnemyType { PatrolOnly, ChasePlayer, Projectile}
 public class EnemyController : MonoBehaviour, IEnemy
 {
     public float health = 100;
+    [SerializeField] float movementSpeed = 3f;
     Rigidbody2D rb;
     bool getHit = false;
     [SerializeField] bool isFacingRight = true;
     [SerializeField] EnemyType enemyType;
     [SerializeField] GameObject afterHitEffect;
-    //[SerializeField] Transform[] border = new Transform[2];
+    [SerializeField] Transform leftBorder;
+    [SerializeField] Transform righttBorder;
 
     float timer;
 
@@ -44,7 +46,7 @@ public class EnemyController : MonoBehaviour, IEnemy
         switch (type)
         {
             case EnemyType.PatrolOnly :
-                rb.velocity = new Vector2(isFacingRight ? 5 : -5, rb.velocity.y);
+                rb.velocity = new Vector2(isFacingRight ? movementSpeed : -movementSpeed, rb.velocity.y);
             break;
         }
     }

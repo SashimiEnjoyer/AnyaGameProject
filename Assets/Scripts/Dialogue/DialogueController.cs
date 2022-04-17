@@ -11,7 +11,7 @@ struct DialogueData
     [TextArea(5,20)]public string characterDialogue;
 };
 
-public class DialogueController : MonoBehaviour, IDialogue
+public class DialogueController : MonoBehaviour, IInteractable
 {
     [SerializeField] DialogueData[] dialogues;
     [SerializeField] GameObject dialogueModalUIPrefab;
@@ -20,7 +20,7 @@ public class DialogueController : MonoBehaviour, IDialogue
     bool isOpen = false;
     int dialogueIndex = 0;
 
-    public void ExecuteDialogue()
+    public void ExecuteInteractable()
     {
         if (!isOpen)
         {

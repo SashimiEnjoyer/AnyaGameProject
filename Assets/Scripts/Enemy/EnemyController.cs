@@ -30,6 +30,7 @@ public class EnemyController : MonoBehaviour, IEnemy
 
     void SwitchEnemyType(EnemyType type)
     {
+
         if (getHit)
         {
             if (timer < 1)

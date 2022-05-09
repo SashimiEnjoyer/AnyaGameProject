@@ -72,6 +72,9 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (InGameTracker.instance.isPause)
+            return;
+
         currState?.Tick();
 
         anim.SetBool("IsJump", !PlayerTouchEntity(groundLayer, Vector2.down));
@@ -80,6 +83,7 @@ public class PlayerController : MonoBehaviour
         {
             if (PlayerTouchEntity(dialogueEntity, Vector2.right))
                 PlayerTouchEntity(dialogueEntity, Vector2.right).collider.GetComponent<IInteractable>().ExecuteInteractable();        
+            
         }
 
 

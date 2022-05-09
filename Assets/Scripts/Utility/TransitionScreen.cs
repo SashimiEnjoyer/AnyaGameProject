@@ -24,10 +24,18 @@ public class TransitionScreen : MonoBehaviour
             Destroy(this.gameObject);
     }
 
+    /// <summary>
+    /// Function for start the trasition
+    /// </summary>
+    /// <param name="_transitionPos"> Type of transition</param>
+    /// <param name="_transitionTimer"> How long transition last</param>
     public void StartingTransition(TransitionPosition _transitionPos, float _transitionTimer)
     {
         if (!isStarting)
             isStarting = true;
+
+        if (InGameTracker.instance != null && !InGameTracker.instance.isPause)
+            InGameTracker.instance.isPause = true;
 
         transitionPos = _transitionPos;
         transitionTimer = _transitionTimer;
@@ -61,7 +69,9 @@ public class TransitionScreen : MonoBehaviour
                 {
                     isStarting = false;
                     OnFinishedStartTransition?.Invoke();
-                    Destroy(gameObject);
+                    InGameTracker.instance.isPause = false;
+                    //gameObject.SetActive(false);
+                    Destroy(gameObject);    // Destroy when done transitioning 
                 }
                 break;
 
@@ -75,6 +85,7 @@ public class TransitionScreen : MonoBehaviour
                 {
                     isStarting = false;
                     OnFinishedEndTransition?.Invoke();
+                    InGameTracker.instance.isPause = false;
                     //Destroy(this.gameObject);
                 }
                 break;

@@ -5,6 +5,7 @@ using UnityEngine;
 public class InGameTracker : MonoBehaviour, ISaveSystem
 {
     public static InGameTracker instance;
+    public bool isPause;
 
     private void Awake()
     {

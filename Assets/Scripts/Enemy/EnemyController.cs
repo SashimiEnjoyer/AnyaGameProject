@@ -64,6 +64,11 @@ public class EnemyController : MonoBehaviour, IEnemy
         }
     }
 
+    public void EnemyAttacking()
+    {
+
+    }
+
     public void EnemyAttacked(Vector2 _target)
     {
         getHit = true;

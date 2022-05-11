@@ -116,7 +116,7 @@ public class PlayerController : MonoBehaviour
 
     RaycastHit2D PlayerTouchEntity(LayerMask _entityLayer, Vector2 _detectionDirection)
     {
-        return Physics2D.CapsuleCast(playerCollider.bounds.center, playerCollider.size, CapsuleDirection2D.Vertical, 0.5f, _detectionDirection, 0.5f, _entityLayer);
+        return Physics2D.CapsuleCast(playerCollider.bounds.center, playerCollider.size, CapsuleDirection2D.Horizontal, 0.5f, _detectionDirection, 0.5f, _entityLayer);
         //return Physics2D.CircleCast(playerCollider.bounds.center, playerCollider.radius, _detectionDirection, radiusDetection, _entityLayer);
     }
 
@@ -128,7 +128,7 @@ public class PlayerController : MonoBehaviour
 
     public RaycastHit2D[] PlayerTouchEnemy(bool _isFacingRight)
     {
-        return Physics2D.CapsuleCastAll(playerCollider.bounds.center, playerCollider.size, CapsuleDirection2D.Vertical, 0, _isFacingRight ? Vector2.right : Vector2.left, 0.5f, enemyEntity);
+        return Physics2D.CapsuleCastAll(playerCollider.bounds.center, playerCollider.size, CapsuleDirection2D.Horizontal, 0, _isFacingRight ? Vector2.right : Vector2.left, 0.5f, enemyEntity);
         //return Physics2D.CircleCastAll(playerCollider.bounds.center, playerCollider.radius, _isFacingRight? Vector2.right : Vector2.left, radiusDetection, enemyEntity);
     }
 

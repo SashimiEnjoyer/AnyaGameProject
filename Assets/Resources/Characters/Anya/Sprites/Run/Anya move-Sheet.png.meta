@@ -42,6 +42,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -256,6 +257,13 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      Anya move-Sheet_4: -2586071716196648281
+      Anya move-Sheet_5: 4121866580933249332
+      Anya move-Sheet_1: 2130346201323516818
+      Anya move-Sheet_0: 7271043244460064280
+      Anya move-Sheet_3: 6624946619210028340
+      Anya move-Sheet_2: -1577620668476768517
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

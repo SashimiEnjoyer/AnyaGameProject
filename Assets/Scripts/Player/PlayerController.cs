@@ -132,13 +132,13 @@ public class PlayerController : MonoBehaviour
         //return Physics2D.CircleCastAll(playerCollider.bounds.center, playerCollider.radius, _isFacingRight? Vector2.right : Vector2.left, radiusDetection, enemyEntity);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Enemy Hit Box") && !isInvulnerable)
-        {
-            SetState(new PlayerAttacked(this));
-        }
-    }
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    if (collision.CompareTag("Enemy Hit Box") && !isInvulnerable)
+    //    {
+    //        SetState(new PlayerAttacked(this));
+    //    }
+    //}
 
     public void PlayerAttacked(Vector2 _target)
     {

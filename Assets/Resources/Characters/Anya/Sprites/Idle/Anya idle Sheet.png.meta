@@ -60,6 +60,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -400,6 +401,19 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      Anya idle Sheet_5: -7090493459543952038
+      Anya idle Sheet_7: 7713627009912103523
+      Anya idle Sheet_3: 7828416178403202530
+      Anya idle Sheet_10: -3456971004421450609
+      Anya idle Sheet_11: 1367629922341623213
+      Anya idle Sheet_0: 8443140048058850857
+      Anya idle Sheet_2: 500708442948491930
+      Anya idle Sheet_4: -1893727038169643553
+      Anya idle Sheet_6: -836490495590985438
+      Anya idle Sheet_8: 2160930940991612066
+      Anya idle Sheet_9: 3926152796644909142
+      Anya idle Sheet_1: 611180907673494561
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

@@ -14,18 +14,25 @@ public class EnemyController : MonoBehaviour, IEnemy
     [SerializeField] GameObject afterHitEffect;
     [SerializeField] Transform leftBorder;
     [SerializeField] Transform righttBorder;
+    [SerializeField] LayerMask playerMask;
+
+    CapsuleCollider2D boxCollider;
 
     float timer;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        boxCollider = GetComponent<CapsuleCollider2D>();
     }
 
     private void Update()
     {
 
         SwitchEnemyType(enemyType);
+
+        if (EnemyTouchPlayer(isFacingRight))
+            Debug.Log("YEah " + EnemyTouchPlayer(isFacingRight));
     }
 
     void SwitchEnemyType(EnemyType type)
@@ -58,16 +65,19 @@ public class EnemyController : MonoBehaviour, IEnemy
         {
             Flip();
         }
-        if (other.CompareTag("Player") && !getHit)
+        if (other.CompareTag("Player") && !getHit && enemyType == EnemyType.PatrolOnly)
         {
-            other.GetComponent<PlayerController>().PlayerAttacked(gameObject.transform.position);
+            other.GetComponent<PlayerController>().PlayerAttacked(gameObject.transform.position);   
         }
     }
 
-    public void EnemyAttacking()
-    {
-
-    }
+    //public void EnemyAttacking()
+    //{
+    //    if (EnemyTouchPlayer(isFacingRight))
+    //    {
+    //        EnemyTouchPlayer(isFacingRight).collider.GetComponent<PlayerController>().PlayerAttacked(transform.position);
+    //    }
+    //}
 
     public void EnemyAttacked(Vector2 _target)
     {
@@ -100,5 +110,12 @@ public class EnemyController : MonoBehaviour, IEnemy
             isFacingRight = true;
             transform.Rotate(0, 180f, 0);
         }
+    }
+
+    public bool EnemyTouchPlayer(bool _isFacingRight)
+    {
+
+        return Physics2D.CapsuleCast(boxCollider.bounds.center, boxCollider.size, CapsuleDirection2D.Horizontal, 0, _isFacingRight ? Vector2.right : Vector2.left, 1f, playerMask);
+        //return Physics2D.CircleCastAll(playerCollider.bounds.center, playerCollider.radius, _isFacingRight? Vector2.right : Vector2.left, radiusDetection, enemyEntity);
     }
 }

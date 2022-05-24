@@ -10,6 +10,8 @@ public class PlayerAttacked : CharacterState
 
     public override void EnterState()
     {
+        Debug.Log("Player Hit");
+
         _player.invulnerableCount = 0;
         _player.isInvulnerable = true;
         _player.isGetHitByEnemy = true;

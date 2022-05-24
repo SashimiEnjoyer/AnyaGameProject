@@ -128,22 +128,19 @@ public class PlayerController : MonoBehaviour
 
     public RaycastHit2D[] PlayerTouchEnemy(bool _isFacingRight)
     {
-        return Physics2D.CapsuleCastAll(playerCollider.bounds.center, playerCollider.size, CapsuleDirection2D.Horizontal, 0, _isFacingRight ? Vector2.right : Vector2.left, 0.5f, enemyEntity);
+        return Physics2D.CapsuleCastAll(playerCollider.bounds.center, playerCollider.size, CapsuleDirection2D.Horizontal, 0, _isFacingRight ? Vector2.right : Vector2.left, 1f, enemyEntity);
         //return Physics2D.CircleCastAll(playerCollider.bounds.center, playerCollider.radius, _isFacingRight? Vector2.right : Vector2.left, radiusDetection, enemyEntity);
     }
 
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    if (collision.CompareTag("Enemy Hit Box") && !isInvulnerable)
-    //    {
-    //        SetState(new PlayerAttacked(this));
-    //    }
-    //}
 
     public void PlayerAttacked(Vector2 _target)
     {
-        if(!isInvulnerable)
+        if (!isInvulnerable)
+        {
+            
             rb.AddForce(new Vector2(_target.x > transform.position.x ? -100 : 100, 150));
+            SetState(new PlayerAttacked(this));
+        }
     }
 
     [ContextMenu("Remove All Enemies")]
@@ -173,7 +170,7 @@ public class PlayerController : MonoBehaviour
 
     //private void OnDrawGizmos()
     //{
-    //    Gizmos.
+    //    Gizmos.DrawWireSphere(playerCollider.bounds.center, playerCollider.size.x + 0.5f);
     //    //izmos.DrawWireSphere(playerCollider.bounds.center, playerCollider.radius + 0.5f);
     //}
 

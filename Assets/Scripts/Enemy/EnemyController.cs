@@ -17,6 +17,7 @@ public class EnemyController : MonoBehaviour, IEnemy
     [SerializeField] LayerMask playerMask;
 
     CapsuleCollider2D boxCollider;
+    CapsuleCollider2D playerCollider;
 
     float timer;
 
@@ -31,8 +32,7 @@ public class EnemyController : MonoBehaviour, IEnemy
 
         SwitchEnemyType(enemyType);
 
-        if (EnemyTouchPlayer(isFacingRight))
-            Debug.Log("YEah " + EnemyTouchPlayer(isFacingRight));
+        EnemyAttacking();
     }
 
     void SwitchEnemyType(EnemyType type)
@@ -71,13 +71,13 @@ public class EnemyController : MonoBehaviour, IEnemy
         }
     }
 
-    //public void EnemyAttacking()
-    //{
-    //    if (EnemyTouchPlayer(isFacingRight))
-    //    {
-    //        EnemyTouchPlayer(isFacingRight).collider.GetComponent<PlayerController>().PlayerAttacked(transform.position);
-    //    }
-    //}
+    public void EnemyAttacking()
+    {
+        if (EnemyTouchPlayer(isFacingRight))
+        {
+            EnemyTouchPlayer(isFacingRight).collider.GetComponent<PlayerController>().PlayerAttacked(transform.position);
+        }
+    }
 
     public void EnemyAttacked(Vector2 _target)
     {
@@ -112,7 +112,7 @@ public class EnemyController : MonoBehaviour, IEnemy
         }
     }
 
-    public bool EnemyTouchPlayer(bool _isFacingRight)
+    public RaycastHit2D EnemyTouchPlayer(bool _isFacingRight)
     {
 
         return Physics2D.CapsuleCast(boxCollider.bounds.center, boxCollider.size, CapsuleDirection2D.Horizontal, 0, _isFacingRight ? Vector2.right : Vector2.left, 1f, playerMask);

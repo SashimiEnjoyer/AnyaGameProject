@@ -77,7 +77,7 @@ public class PlayerController : MonoBehaviour
 
         currState?.Tick();
 
-        anim.SetBool("IsJump", !PlayerTouchEntity(groundLayer, Vector2.down));
+        anim.SetBool("IsJump", !PlayerTouchGround(Vector2.down));
 
         if (Input.GetKeyDown(KeyCode.E))
         {
@@ -87,7 +87,7 @@ public class PlayerController : MonoBehaviour
         }
 
 
-        if (PlayerTouchEntity(groundLayer, Vector2.down) && jumpCounter <= 0)
+        if (PlayerTouchGround(Vector2.down) && jumpCounter <= 0)
             jumpCounter = 2;
 
         if (PlayerTouchEntity(movingPlatform, Vector2.down))
@@ -123,7 +123,7 @@ public class PlayerController : MonoBehaviour
     public RaycastHit2D PlayerTouchGround(Vector2 _detectionDirection)
     {
         //return Physics2D.CircleCast(playerCollider.bounds.center, playerCollider.radius, _detectionDirection, radiusDetection, groundLayer);
-        return Physics2D.CapsuleCast(playerCollider.bounds.center, playerCollider.size,CapsuleDirection2D.Vertical, 0.5f, _detectionDirection, 0.5f, groundLayer);
+        return Physics2D.CapsuleCast(playerCollider.bounds.center, playerCollider.size,CapsuleDirection2D.Vertical, 0.5f, _detectionDirection, 0.8f, groundLayer);
     }
 
     public RaycastHit2D[] PlayerTouchEnemy(bool _isFacingRight)

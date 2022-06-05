@@ -67,7 +67,7 @@ public class EnemyController : MonoBehaviour, IEnemy
         }
         if (other.CompareTag("Player") && !getHit && enemyType == EnemyType.PatrolOnly)
         {
-            other.GetComponent<PlayerController>().PlayerAttacked(gameObject.transform.position);   
+            other.GetComponent<PlayerController>().PlayerAttacked(gameObject.transform.position, 1);   
         }
     }
 
@@ -75,7 +75,7 @@ public class EnemyController : MonoBehaviour, IEnemy
     {
         if (EnemyTouchPlayer(isFacingRight))
         {
-            EnemyTouchPlayer(isFacingRight).collider.GetComponent<PlayerController>().PlayerAttacked(transform.position);
+            EnemyTouchPlayer(isFacingRight).collider.GetComponent<PlayerController>().PlayerAttacked(transform.position, 1);
         }
     }
 

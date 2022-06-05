@@ -133,12 +133,12 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    public void PlayerAttacked(Vector2 _target)
+    public void PlayerAttacked(Vector2 _target, int damage)
     {
         if (!isInvulnerable)
         {
-            
             rb.AddForce(new Vector2(_target.x > transform.position.x ? -100 : 100, 150));
+            PlayerStats.instance.playerHealth -= damage;
             SetState(new PlayerAttacked(this));
         }
     }

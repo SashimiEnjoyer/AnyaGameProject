@@ -15,7 +15,7 @@ public class PlayerAttacked : CharacterState
         _player.invulnerableCount = 0;
         _player.isInvulnerable = true;
         _player.isGetHitByEnemy = true;
-        PlayerStats.instance.playerHealth -= 1;
+        //PlayerStats.instance.playerHealth -= 1;
 
         if (PlayerStats.instance.playerHealth <= 0)
             _player.SetState(new PlayerDie(_player));

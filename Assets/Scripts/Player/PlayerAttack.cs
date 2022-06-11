@@ -12,34 +12,34 @@ public class PlayerAttack : CharacterState
 
     public override void EnterState()
     {
-        _player.anim.SetTrigger("Attack");
-        _player.attackAudio.PlayOneShot(_player.attackClip[Random.Range(0, 5)]);
+        character.anim.SetTrigger("Attack");
+        character.attackAudio.PlayOneShot(character.attackClip[Random.Range(0, 5)]);
     }
 
     public override void Tick()
     {
         time += Time.deltaTime;
 
-        if (time < _player.AnimationLength("Anya_Attack1"))
+        if (time < character.AnimationLength("Anya_Attack1"))
         {
-            for (int i = 0; i < _player.PlayerTouchEnemy(_player.isFacingRight).Length; i++)
+            for (int i = 0; i < character.PlayerTouchEnemy(character.isFacingRight).Length; i++)
             {
-                if (_player.listOfEnemies.Contains(_player.PlayerTouchEnemy(_player.isFacingRight)[i].collider))
+                if (character.listOfEnemies.Contains(character.PlayerTouchEnemy(character.isFacingRight)[i].collider))
                     continue;
                 else
                 {
-                    _player.listOfEnemies.Add(_player.PlayerTouchEnemy(_player.isFacingRight)[i].collider);
+                    character.listOfEnemies.Add(character.PlayerTouchEnemy(character.isFacingRight)[i].collider);
 
-                    foreach (var enemy in _player.PlayerTouchEnemy(_player.isFacingRight)[i].collider.GetComponents<IEnemy>())
-                        enemy.EnemyAttacked(_player.transform.position);
+                    foreach (var enemy in character.PlayerTouchEnemy(character.isFacingRight)[i].collider.GetComponents<IEnemy>())
+                        enemy.EnemyAttacked(character.transform.position);
 
                 }
             }
         }
         else
         {
-            time = _player.AnimationLength("Anya_Attack1");
-            _player.SetState(new PlayerLocomotion(_player));
+            time = character.AnimationLength("Anya_Attack1");
+            character.SetState(new PlayerLocomotion(character));
         }
 
                 
@@ -47,7 +47,7 @@ public class PlayerAttack : CharacterState
 
     public override void ExitState()
     {
-        _player.EmptyEnemyList();
+        character.EmptyEnemyList();
         time = 0;
     }
 }

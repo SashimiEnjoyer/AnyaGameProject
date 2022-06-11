@@ -12,19 +12,19 @@ public class PlayerLocomotion : CharacterState
 
     public override void Tick()
     {
-        if (_player.isDashing)
+        if (character.isDashing)
             return;
 
         horizontal = Input.GetAxisRaw("Horizontal");
 
-        if (_player.PlayerTouchGround(Vector2.down))
-            _player.anim.SetFloat("Speed", Mathf.Abs(horizontal));
+        if (character.PlayerTouchGround(Vector2.down))
+            character.anim.SetFloat("Speed", Mathf.Abs(horizontal));
         else
-            _player.anim.SetFloat("Speed", 0);
+            character.anim.SetFloat("Speed", 0);
 
-        if (!_player.isFacingRight && horizontal > 0)
+        if (!character.isFacingRight && horizontal > 0)
             Flip();
-        if (_player.isFacingRight && horizontal < 0)
+        if (character.isFacingRight && horizontal < 0)
             Flip();
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -33,12 +33,12 @@ public class PlayerLocomotion : CharacterState
         }
 
         if (Input.GetKeyDown(KeyCode.C))
-             _player.SetState(new PlayerDash(_player));
+             character.SetState(new PlayerDash(character));
 
         
 
         if (Input.GetKeyDown(KeyCode.X))
-             _player.SetState(new PlayerAttack(_player));
+             character.SetState(new PlayerAttack(character));
 
 
         if (Input.GetKeyDown(KeyCode.Z))
@@ -49,39 +49,39 @@ public class PlayerLocomotion : CharacterState
 
     public override void PhysicTick()
     {
-        _player.rb.velocity = new Vector2(horizontal * _player.speed * Time.deltaTime, _player.rb.velocity.y);
+        character.rb.velocity = new Vector2(horizontal * character.speed * Time.deltaTime, character.rb.velocity.y);
     }
 
     void Flip()
     {
-        if (_player.isFacingRight)
+        if (character.isFacingRight)
         {
-            _player.isFacingRight = false;
-            _player.transform.Rotate(0, 180f, 0);
+            character.isFacingRight = false;
+            character.transform.Rotate(0, 180f, 0);
         }
         else
         {
-            _player.isFacingRight = true;
-            _player.transform.Rotate(0, 180f, 0);
+            character.isFacingRight = true;
+            character.transform.Rotate(0, 180f, 0);
         }
     }
 
     public override void ExitState()
     {
-        _player.anim.SetFloat("Speed", 0);
+        character.anim.SetFloat("Speed", 0);
     }
 
     void PlayerJumping()
     {
-        if (_player.jumpCounter <= 0)
+        if (character.jumpCounter <= 0)
             return;
 
-        _player.anim.SetTrigger("Jump");
-        _player.jumpCounter -= 1;
+        character.anim.SetTrigger("Jump");
+        character.jumpCounter -= 1;
 
-        if (_player.jumpCounter >= 1)
-            _player.rb.AddForce(Vector2.up * _player.jumpPower, ForceMode2D.Force);
-        else if (_player.jumpCounter < 1)
-            _player.rb.AddForce(Vector2.up * _player.jumpPower * 1.3f, ForceMode2D.Force);
+        if (character.jumpCounter >= 1)
+            character.rb.AddForce(Vector2.up * character.jumpPower, ForceMode2D.Force);
+        else if (character.jumpCounter < 1)
+            character.rb.AddForce(Vector2.up * character.jumpPower * 1.3f, ForceMode2D.Force);
     }
 }

@@ -1,10 +1,16 @@
 public abstract class CharacterState
 {
-    protected PlayerController _player;
+    protected PlayerController character;
+    protected EnemyController enemy;
 
-    public CharacterState(PlayerController player)
+    public CharacterState(PlayerController _character)
     {
-        _player = player;
+        character = _character;
+    }
+
+    public CharacterState(EnemyController _enemy)
+    {
+        enemy = _enemy;
     }
 
     public virtual void EnterState()

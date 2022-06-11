@@ -12,13 +12,13 @@ public class PlayerAttacked : CharacterState
     {
         Debug.Log("Player Hit");
 
-        _player.invulnerableCount = 0;
-        _player.isInvulnerable = true;
-        _player.isGetHitByEnemy = true;
+        character.invulnerableCount = 0;
+        character.isInvulnerable = true;
+        character.isGetHitByEnemy = true;
         //PlayerStats.instance.playerHealth -= 1;
 
         if (PlayerStats.instance.playerHealth <= 0)
-            _player.SetState(new PlayerDie(_player));
+            character.SetState(new PlayerDie(character));
     }
 
     public override void Tick()
@@ -30,13 +30,13 @@ public class PlayerAttacked : CharacterState
         }else
         {
             timer = 1;
-            _player.SetState(new PlayerLocomotion(_player));
+            character.SetState(new PlayerLocomotion(character));
         }    
     }
 
     public override void ExitState()
     {
         if (PlayerStats.instance.playerHealth > 0)
-            _player.isGetHitByEnemy = false;
+            character.isGetHitByEnemy = false;
     }
 }

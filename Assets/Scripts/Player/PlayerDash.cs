@@ -12,30 +12,30 @@ public class PlayerDash : CharacterState
 
     public override void EnterState()
     {
-        _player.isDashing = true;
-        _player.anim.SetTrigger("Dashing");
+        character.isDashing = true;
+        character.anim.SetTrigger("Dashing");
     }
 
     public override void PhysicTick()
     {
         dashCounter += Time.deltaTime;
 
-        if (dashCounter < _player.dashTime)
+        if (dashCounter < character.dashTime)
         {
-            _player.rb.velocity = new Vector2((_player.isFacingRight ? 1 : -1) * _player.dashSpeed * Time.deltaTime, 1);
+            character.rb.velocity = new Vector2((character.isFacingRight ? 1 : -1) * character.dashSpeed * Time.deltaTime, 1);
         }
         else
         {
-            _player.rb.velocity = new Vector2((_player.isFacingRight ? 1 : -1) * (_player.dashSpeed * 0.25f) * Time.deltaTime, _player.rb.velocity.y);
+            character.rb.velocity = new Vector2((character.isFacingRight ? 1 : -1) * (character.dashSpeed * 0.25f) * Time.deltaTime, character.rb.velocity.y);
 
-            if (_player.rb.velocity.x < 0)
-                _player.rb.velocity = new Vector2(_player.rb.velocity.x + Time.deltaTime, _player.rb.velocity.y);
+            if (character.rb.velocity.x < 0)
+                character.rb.velocity = new Vector2(character.rb.velocity.x + Time.deltaTime, character.rb.velocity.y);
             else
-                _player.rb.velocity = new Vector2(_player.rb.velocity.x - Time.deltaTime, _player.rb.velocity.y);
+                character.rb.velocity = new Vector2(character.rb.velocity.x - Time.deltaTime, character.rb.velocity.y);
 
-            if (dashCounter >= _player.dashTime + _player.dashCooldown)
+            if (dashCounter >= character.dashTime + character.dashCooldown)
             {
-                _player.SetState(new PlayerLocomotion(_player));
+                character.SetState(new PlayerLocomotion(character));
             }
         }
         
@@ -43,7 +43,7 @@ public class PlayerDash : CharacterState
 
     public override void ExitState()
     {
-        _player.isDashing = false;
+        character.isDashing = false;
         dashCounter = 0;
 
     }

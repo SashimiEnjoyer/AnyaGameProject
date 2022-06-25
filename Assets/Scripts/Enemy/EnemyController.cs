@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum EnemyType { PatrolOnly, Projectile, ChasePlayer, ChaseAttack}
 public class EnemyController : MonoBehaviour, IEnemy
 {
     public float health = 100;
@@ -10,18 +9,15 @@ public class EnemyController : MonoBehaviour, IEnemy
     public Rigidbody2D rb;
     public bool getHit = false;
     public bool isFacingRight = true;
-    public EnemyType enemyType;
     public GameObject afterHitEffect;
     public Transform leftBorder;
     public Transform righttBorder;
     public LayerMask playerMask;
 
-    CapsuleCollider2D boxCollider;
-    CapsuleCollider2D playerCollider;
+    public CapsuleCollider2D enemyCollider;
     CharacterState currState;
 
     float timer;
-
 
     public void SetState(CharacterState state)
     {
@@ -33,19 +29,22 @@ public class EnemyController : MonoBehaviour, IEnemy
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        boxCollider = GetComponent<CapsuleCollider2D>();
+        enemyCollider = GetComponent<CapsuleCollider2D>();
+        
     }
 
     private void Update()
     {
+        currState.Tick();
+    }
 
-        SwitchEnemyType(enemyType);
-
-        EnemyAttacking();
+    private void FixedUpdate()
+    {
+        currState.PhysicTick();   
     }
 
 
-    public void EnemyAttacked(Vector2 _target)
+    public void EnemyHurted(Vector2 _target)
     {
         getHit = true;
         rb.AddForce(new Vector2 (_target.x > transform.position.x ? -350 : 350, 100));
@@ -64,42 +63,15 @@ public class EnemyController : MonoBehaviour, IEnemy
         Destroy(go, 3f);
     }
 
-    void SwitchEnemyType(EnemyType type)
+    public virtual void EnemyAttacking() { } 
+
+    public void move()
     {
-
-        if (getHit)
-        {
-            if (timer < 1)
-                timer += Time.deltaTime;
-            else
-            {
-                timer = 1;
-                getHit = false;
-                timer = 0;
-            }
-            return;
-        }
-
-        switch (type)
-        {
-            case EnemyType.PatrolOnly :
-                move();
-            break;
-            case EnemyType.Projectile :
-
-                break;
-        }
+        if(rb != null)
+            rb.velocity = new Vector2(isFacingRight ? movementSpeed : -movementSpeed, rb.velocity.y);
     }
 
-    void EnemyAttacking()
-    {
-        if (EnemyTouchPlayer(isFacingRight))
-        {
-            EnemyTouchPlayer(isFacingRight).collider.GetComponent<PlayerController>().PlayerAttacked(transform.position, 1);
-        }
-    }
-
-    void Flip()
+    public void Flip()
     {
         if (isFacingRight)
         {
@@ -113,26 +85,10 @@ public class EnemyController : MonoBehaviour, IEnemy
         }
     }
 
-    void move()
+    public RaycastHit2D player()
     {
-        if(rb != null)
-            rb.velocity = new Vector2(isFacingRight ? movementSpeed : -movementSpeed, rb.velocity.y);
-    } 
-
-    public RaycastHit2D EnemyTouchPlayer(bool _isFacingRight)
-    {
-        return Physics2D.CapsuleCast(boxCollider.bounds.center, boxCollider.size, CapsuleDirection2D.Horizontal, 0, _isFacingRight ? Vector2.right : Vector2.left, 0.3f, playerMask);
+        return EnemyAttackExtension.EnemyTouchPlayer(enemyCollider, playerMask, isFacingRight);
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Border") && !getHit)
-        {
-            Flip();
-        }
-        if (other.CompareTag("Player") && !getHit && enemyType == EnemyType.PatrolOnly)
-        {
-            other.GetComponent<PlayerController>().PlayerAttacked(gameObject.transform.position, 1);   
-        }
-    }
+   
 }

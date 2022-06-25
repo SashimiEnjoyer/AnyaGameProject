@@ -31,7 +31,7 @@ public class PlayerAttack : CharacterState
                     character.listOfEnemies.Add(character.PlayerTouchEnemy(character.isFacingRight)[i].collider);
 
                     foreach (var enemy in character.PlayerTouchEnemy(character.isFacingRight)[i].collider.GetComponents<IEnemy>())
-                        enemy.EnemyAttacked(character.transform.position);
+                        enemy.EnemyHurted(character.transform.position);
 
                 }
             }

@@ -139,7 +139,7 @@ public class PlayerController : MonoBehaviour
         {
             rb.AddForce(new Vector2(_target.x > transform.position.x ? -100 : 100, 150));
             PlayerStats.instance.playerHealth -= damage;
-            SetState(new PlayerAttacked(this));
+            SetState(new PlayerHurt(this));
         }
     }
 

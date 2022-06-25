@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IEnemy
 {
-    public void EnemyAttacked(Vector2 _target);
+    public void EnemyHurted(Vector2 _target);
 }

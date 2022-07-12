@@ -63,13 +63,8 @@ public class EnemyController : MonoBehaviour, IEnemy
         Destroy(go, 3f);
     }
 
-    public virtual void EnemyAttacking() { } 
-
-    public void move()
-    {
-        if(rb != null)
-            rb.velocity = new Vector2(isFacingRight ? movementSpeed : -movementSpeed, rb.velocity.y);
-    }
+    public virtual void EnemyAttacking() { }
+    public virtual void Move() { }
 
     public void Flip()
     {
@@ -90,5 +85,4 @@ public class EnemyController : MonoBehaviour, IEnemy
         return EnemyAttackExtension.EnemyTouchPlayer(enemyCollider, playerMask, isFacingRight);
     }
 
-   
 }

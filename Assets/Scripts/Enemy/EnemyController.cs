@@ -13,6 +13,7 @@ public class EnemyController : MonoBehaviour, IEnemy
     public Transform leftBorder;
     public Transform righttBorder;
     public LayerMask playerMask;
+    public Animator anim;
 
     public CapsuleCollider2D enemyCollider;
     CharacterState currState;
@@ -30,12 +31,15 @@ public class EnemyController : MonoBehaviour, IEnemy
     {
         rb = GetComponent<Rigidbody2D>();
         enemyCollider = GetComponent<CapsuleCollider2D>();
+        anim = GetComponent<Animator>();
         
     }
 
     private void Update()
     {
         currState.Tick();
+        move();
+        anim.SetBool("EnemyHurt", false);
     }
 
     private void FixedUpdate()
@@ -49,6 +53,7 @@ public class EnemyController : MonoBehaviour, IEnemy
         getHit = true;
         rb.AddForce(new Vector2 (_target.x > transform.position.x ? -350 : 350, 100));
         health -= 10;
+        anim.SetBool("EnemyHurt", true);
 
         if (health <= 0)
             Destroy(transform.parent.gameObject, 1f);
@@ -60,11 +65,24 @@ public class EnemyController : MonoBehaviour, IEnemy
         }
 
         GameObject go = Instantiate(afterHitEffect, transform.position, Quaternion.identity);
-        Destroy(go, 3f);
+ 
     }
 
-    public virtual void EnemyAttacking() { }
-    public virtual void Move() { }
+    public virtual void EnemyAttacking() { } 
+
+    public void move()
+    {
+        if (isFacingRight)
+        {
+            rb.velocity = new Vector2(movementSpeed, rb.velocity.y);
+        }
+
+        else
+        {
+            rb.velocity = new Vector2(-movementSpeed, rb.velocity.y);
+        }
+
+    }
 
     public void Flip()
     {
@@ -85,4 +103,5 @@ public class EnemyController : MonoBehaviour, IEnemy
         return EnemyAttackExtension.EnemyTouchPlayer(enemyCollider, playerMask, isFacingRight);
     }
 
+   
 }

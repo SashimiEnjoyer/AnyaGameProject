@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public struct EnemyData
 {
@@ -15,7 +16,7 @@ public class PlayerController : MonoBehaviour
     public float speed;
     public float dashSpeed = 50f;
     public float dashTime = 0.5f;
-    public float dashCooldown = 0.5f;
+    public float dashCooldown = 10;
     public float dash = 0f;
     
     [Header("Jump Setting")]
@@ -51,6 +52,8 @@ public class PlayerController : MonoBehaviour
     CharacterState currState;
     public float invulnerableCount = 0;
 
+    
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -72,6 +75,8 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        
+
         if (InGameTracker.instance.isPause)
             return;
 
@@ -79,12 +84,31 @@ public class PlayerController : MonoBehaviour
 
         anim.SetBool("IsJump", !PlayerTouchGround(Vector2.down));
 
+        if (!PlayerTouchGround2(Vector2.down))
+        anim.SetTrigger("Falling");
+
         if (Input.GetKeyDown(KeyCode.E))
         {
             if (PlayerTouchEntity(dialogueEntity, Vector2.right))
                 PlayerTouchEntity(dialogueEntity, Vector2.right).collider.GetComponent<IInteractable>().ExecuteInteractable();        
             
         }
+        
+        // Manual Respawn System, to change detection system change only "Input.GetKeyDown(KeyCode.R)".
+        if (Input.GetKeyDown(KeyCode.R) && PlayerStats.instance.playerHealth <= 0)
+        {
+            transform.position = new Vector3(-140f, 3f, 0);
+            SetState(new PlayerLocomotion(this));
+            anim.SetBool("Dead", false);
+            PlayerStats.instance.playerHealth = 3;
+        }
+
+        // Manual Level Reset.
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            ResetGame();
+        }
+
 
 
         if (PlayerTouchGround(Vector2.down) && jumpCounter <= 0)
@@ -114,6 +138,12 @@ public class PlayerController : MonoBehaviour
         currState?.PhysicTick();
     }
 
+    public void ResetGame()
+    {
+        SceneManager.LoadScene("Level 1");
+    }
+
+
     RaycastHit2D PlayerTouchEntity(LayerMask _entityLayer, Vector2 _detectionDirection)
     {
         return Physics2D.CapsuleCast(playerCollider.bounds.center, playerCollider.size, CapsuleDirection2D.Horizontal, 0.5f, _detectionDirection, 0.5f, _entityLayer);
@@ -123,7 +153,13 @@ public class PlayerController : MonoBehaviour
     public RaycastHit2D PlayerTouchGround(Vector2 _detectionDirection)
     {
         //return Physics2D.CircleCast(playerCollider.bounds.center, playerCollider.radius, _detectionDirection, radiusDetection, groundLayer);
-        return Physics2D.CapsuleCast(playerCollider.bounds.center, playerCollider.size,CapsuleDirection2D.Vertical, 0.5f, _detectionDirection, 0.8f, groundLayer);
+        return Physics2D.CapsuleCast(playerCollider.bounds.center, playerCollider.size,CapsuleDirection2D.Vertical, 0.1f, _detectionDirection, 0.1f, groundLayer);
+    }
+
+    public RaycastHit2D PlayerTouchGround2(Vector2 _detectionDirection)
+    {
+        //return Physics2D.CircleCast(playerCollider.bounds.center, playerCollider.radius, _detectionDirection, radiusDetection, groundLayer);
+        return Physics2D.CapsuleCast(playerCollider.bounds.center, playerCollider.size,CapsuleDirection2D.Vertical, 1f, _detectionDirection, 1f, groundLayer);
     }
 
     public RaycastHit2D[] PlayerTouchEnemy(bool _isFacingRight)
@@ -133,13 +169,16 @@ public class PlayerController : MonoBehaviour
     }
 
 
+
     public void PlayerAttacked(Vector2 _target, int damage)
     {
-        if (!isInvulnerable)
+        if (!isInvulnerable && PlayerStats.instance.playerHealth != 0)
         {
+
             rb.AddForce(new Vector2(_target.x > transform.position.x ? -100 : 100, 150));
             PlayerStats.instance.playerHealth -= damage;
             SetState(new PlayerHurt(this));
+
         }
     }
 

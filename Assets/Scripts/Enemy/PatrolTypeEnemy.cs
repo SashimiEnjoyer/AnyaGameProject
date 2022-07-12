@@ -6,7 +6,7 @@ public class PatrolTypeEnemy : EnemyController
 {
     private void Start()
     {
-        SetState(new PatrolEnemyAttackState(this));
+        SetState(new EnemyAttackState(this));
     }
 
     public override void EnemyAttacking()
@@ -18,15 +18,9 @@ public class PatrolTypeEnemy : EnemyController
 
     }
 
-    public override void Move()
-    {
-        if (rb != null)
-            rb.velocity = new Vector2(isFacingRight ? movementSpeed : -movementSpeed, rb.velocity.y);
-    }
-
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Border") && !getHit)
+        if (other.CompareTag("Border"))
         {
             Flip();
         }

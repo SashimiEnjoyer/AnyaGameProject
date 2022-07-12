@@ -15,6 +15,7 @@ public class PlayerStats : MonoBehaviour, ISaveSystem
     }
 
     public float playerHealth;
+    public Transform currentCheckpoint;
 
     public bool playerIsDie
     {
@@ -34,7 +35,6 @@ public class PlayerStats : MonoBehaviour, ISaveSystem
     public void RestoreSavedData(object _savedData)
     {
         var saveData = (SaveData) _savedData;
-
         playerHealth = saveData.saveHealth;
     }
 

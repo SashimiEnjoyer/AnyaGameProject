@@ -52,6 +52,7 @@ public class PlayerController : MonoBehaviour
     CharacterState currState;
     public float invulnerableCount = 0;
 
+
     
 
     void Awake()

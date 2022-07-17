@@ -31,9 +31,11 @@ public class DashUI : MonoBehaviour
         {
             dashcooldown -= dashtime;
             DashReadyImage.fillAmount = dashcooldown * 1.25f;
+        }
 
-            
-
+        if (dashcooldown <= -0.1f)
+        {
+            dashcooldown = 0;
         }
         
     }   

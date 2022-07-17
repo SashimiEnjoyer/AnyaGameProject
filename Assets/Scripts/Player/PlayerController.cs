@@ -51,9 +51,7 @@ public class PlayerController : MonoBehaviour
     CapsuleCollider2D playerCollider;
     CharacterState currState;
     public float invulnerableCount = 0;
-
-
-    
+  
 
     void Awake()
     {
@@ -76,7 +74,6 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        
 
         if (InGameTracker.instance.isPause)
             return;
@@ -110,11 +107,12 @@ public class PlayerController : MonoBehaviour
             ResetGame();
         }
 
-
-
         if (PlayerTouchGround(Vector2.down) && jumpCounter <= 0)
+        {
             jumpCounter = 2;
-
+                    
+        }
+        
         if (PlayerTouchEntity(movingPlatform, Vector2.down))
             transform.SetParent(PlayerTouchEntity(movingPlatform, Vector2.down).transform);
         else

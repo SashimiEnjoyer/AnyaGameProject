@@ -5,11 +5,12 @@ using UnityEngine;
 public class PlayerLocomotion : CharacterState
 {
     PlayerController playerController;
+    
 
     public PlayerLocomotion(PlayerController player) : base(player)
     {
     }
-    private float nextDashTime = 0.3f;
+    public float nextDashTime = 0.3f;
     public float cooldownTimer = 0;
     public float dashhCooldown = 0;
 
@@ -48,6 +49,7 @@ public class PlayerLocomotion : CharacterState
                 
                 
                 character.SetState(new PlayerDash(character));
+                
                 
             }
             
@@ -89,7 +91,7 @@ public class PlayerLocomotion : CharacterState
 
     public override void ExitState()
     {
-        character.anim.SetFloat("Speed", 0);
+        character.anim.SetFloat("Speed", Mathf.Abs(horizontal));
 
     }
 

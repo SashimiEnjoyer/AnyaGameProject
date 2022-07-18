@@ -9,16 +9,20 @@ public class EnemyController : MonoBehaviour, IEnemy
     public Rigidbody2D rb;
     public bool getHit = false;
     public bool isFacingRight = true;
+    public bool PatrolAttack = true;
+    public bool CanAttack = true;
     public GameObject afterHitEffect;
     public Transform leftBorder;
     public Transform righttBorder;
     public LayerMask playerMask;
     public Animator anim;
+    public float AttackAnimLength = 0.01f;
 
     public CapsuleCollider2D enemyCollider;
     CharacterState currState;
 
     float timer;
+    float time;
 
     public void SetState(CharacterState state)
     {
@@ -37,23 +41,45 @@ public class EnemyController : MonoBehaviour, IEnemy
 
     private void Update()
     {
-        currState.Tick();
+
         move();
+        time += Time.deltaTime;
         anim.SetBool("EnemyHurt", false);
+
+        if (player() && !getHit && CanAttack == true)
+        {
+            player().collider.GetComponent<PlayerController>().PlayerAttacked(transform.position, 1);
+            time += Time.deltaTime;
+            CanAttack = false;
+
+            if (time < 0.2f)
+            {
+                anim.SetTrigger("EnemyAttack2");
+            }    
+        }
+
+        if (time > AttackAnimLength)
+            {
+                time = 0;
+                CanAttack = true;
+            }
+
+        if (movementSpeed > 0)
+            anim.SetFloat("EnemySpeed", movementSpeed);
+        if (movementSpeed <= 0)
+            anim.SetFloat("EnemySpeed", 0);
+        
     }
 
-    private void FixedUpdate()
-    {
-        currState.PhysicTick();   
-    }
+
 
 
     public void EnemyHurted(Vector2 _target)
     {
         getHit = true;
         rb.AddForce(new Vector2 (_target.x > transform.position.x ? -350 : 350, 100));
-        health -= 10;
-        anim.SetBool("EnemyHurt", true);
+        health -= 1;
+        anim.SetTrigger("EnemyHurt2");
 
         if (health <= 0)
             Destroy(transform.parent.gameObject, 1f);
@@ -102,6 +128,4 @@ public class EnemyController : MonoBehaviour, IEnemy
     {
         return EnemyAttackExtension.EnemyTouchPlayer(enemyCollider, playerMask, isFacingRight);
     }
-
-   
 }

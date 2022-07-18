@@ -6,14 +6,15 @@ public class PatrolTypeEnemy : EnemyController
 {
     private void Start()
     {
-        SetState(new EnemyAttackState(this));
+
     }
 
     public override void EnemyAttacking()
     {
-        if (player() && !getHit)
+        if (player() && !getHit && PatrolAttack == true)
         {
             player().collider.GetComponent<PlayerController>().PlayerAttacked(transform.position, 1);
+
         }
 
     }

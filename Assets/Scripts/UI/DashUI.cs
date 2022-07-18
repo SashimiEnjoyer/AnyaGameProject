@@ -7,7 +7,8 @@ public class DashUI : MonoBehaviour
 { 
     [SerializeField] private Image DashReadyImage;
     [SerializeField] private float dashcooldown;
-    private float dashtime;
+    [SerializeField] PlayerController playerController;
+    private float dashtimeUI;
  
     
     
@@ -19,21 +20,21 @@ public class DashUI : MonoBehaviour
 
     public void Update()
     {
-        dashtime = Time.deltaTime;
+        dashtimeUI = Time.deltaTime;
 
-        if (Input.GetKeyDown(KeyCode.C) && dashcooldown <= 0)
+        if (playerController.isDashing == true)
         {
-            dashcooldown = 0.8f;
-            dashtime = 0;
+            dashcooldown = 0.4f;
+            dashtimeUI = 0;
         }
 
         if (dashcooldown <= 0.8f)
         {
-            dashcooldown -= dashtime;
-            DashReadyImage.fillAmount = dashcooldown * 1.25f;
+            dashcooldown -= dashtimeUI;
+            DashReadyImage.fillAmount = dashcooldown * 2.5f;
         }
 
-        if (dashcooldown <= -0.1f)
+        if (dashcooldown <= -0.001f)
         {
             dashcooldown = 0;
         }

@@ -13,12 +13,21 @@ struct DialogueData
 
 public class DialogueController : MonoBehaviour, IInteractable
 {
-    [SerializeField] DialogueData[] dialogues;
-    [SerializeField] GameObject dialogueModalUIPrefab;
-    GameObject dialogueObject;
-    DialogueModalUI dialogueUI;
-    bool isOpen = false;
-    int dialogueIndex = 0;
+    [SerializeField] private DialogueData[] dialogues;
+    [SerializeField] private GameObject dialogueModalUIPrefab;
+    private GameObject dialogueObject;
+    private DialogueModalUI dialogueUI;
+    private bool isOpen = false;
+    private int dialogueIndex = 0;
+    private bool ObjectDestroyed = false;
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Return) && isOpen == true && ObjectDestroyed == false)
+        {
+            NextDialogue();
+        }
+    }
 
     public void ExecuteInteractable()
     {
@@ -30,10 +39,11 @@ public class DialogueController : MonoBehaviour, IInteractable
             dialogueUI = dialogueObject.GetComponent<DialogueModalUI>();
             dialogueUI.SetDialogueUI(dialogues[0].characterName, dialogues[0].characterDialogue, dialogues[0].characterImage);
             dialogueUI.OnNextDialogueButtonPressed += NextDialogue;
+            InGameTracker.instance.isPause = true;
         }
     }
 
-    public void NextDialogue()
+    private void NextDialogue()
     {
         dialogueIndex += 1;
 
@@ -42,7 +52,15 @@ public class DialogueController : MonoBehaviour, IInteractable
         else
         {
             dialogueUI.OnNextDialogueButtonPressed -= NextDialogue;
-            Destroy(dialogueObject);
+            EndDialogue();
+            InGameTracker.instance.isPause = false;
+            dialogueIndex = 0;
         }
+    }
+
+    private void EndDialogue()
+    {
+        Destroy(dialogueObject);
+        ObjectDestroyed = true;
     }
 }

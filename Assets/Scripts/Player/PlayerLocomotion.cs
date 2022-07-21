@@ -72,7 +72,14 @@ public class PlayerLocomotion : CharacterState
 
     public override void PhysicTick()
     {
+        if (!InGameTracker.instance.isPause)
         character.rb.velocity = new Vector2(horizontal * character.speed * Time.deltaTime, character.rb.velocity.y);
+        else
+        {
+            character.rb.velocity = Vector2.zero;
+            character.anim.SetFloat("Speed", 0);
+        }
+
     }
 
     void Flip()

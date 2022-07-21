@@ -18,6 +18,8 @@ public class EnemyController : MonoBehaviour, IEnemy
     public Animator anim;
     public float AttackAnimLength = 0.01f;
 
+    [SerializeField] GameObject enemyDialogue;
+
     public CapsuleCollider2D enemyCollider;
     CharacterState currState;
 
@@ -116,11 +118,13 @@ public class EnemyController : MonoBehaviour, IEnemy
         {
             isFacingRight = false;
             transform.Rotate(0, 180f, 0);
+            enemyDialogue.transform.Rotate(0, 180f, 0);
         }
         else
         {
             isFacingRight = true;
             transform.Rotate(0, 180f, 0);
+            enemyDialogue.transform.Rotate(0, 180f, 0);
         }
     }
 

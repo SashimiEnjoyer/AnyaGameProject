@@ -21,9 +21,7 @@ public class PlayerHurt : CharacterState
         if (PlayerStats.instance.playerHealth <= 0)
             {
             character.SetState(new PlayerDie(character));
-            rb.AddForce(new Vector2(0, 0));
-            
-
+            character.rb.velocity = Vector2.zero;
             }
 
             

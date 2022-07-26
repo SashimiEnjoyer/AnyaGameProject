@@ -88,7 +88,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             //if (PlayerTouchEntity(dialogueEntity, Vector2.right))
-                //PlayerTouchEntity(dialogueEntity, Vector2.right).collider.GetComponent<IInteractable>().ExecuteInteractable();        
+            PlayerTouchEntity(dialogueEntity, Vector2.right).collider.GetComponent<IInteractable>().ExecuteInteractable();        
             
         }
         
@@ -98,9 +98,8 @@ public class PlayerController : MonoBehaviour
             transform.position = new Vector3(-140f, 3f, 0);
             SetState(new PlayerLocomotion(this));
             anim.SetBool("Dead", false);
-
         }
-
+        
         // Manual Level Reset.
         if (Input.GetKeyDown(KeyCode.T))
         {

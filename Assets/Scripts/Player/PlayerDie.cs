@@ -10,6 +10,5 @@ public class PlayerDie : CharacterState
     {
         Debug.Log("Died!");
         character.anim.SetBool("Dead", true);
-        character.rb.velocity = Vector2.zero;
     }
 }

@@ -4,14 +4,23 @@ using UnityEngine;
 
 public class PlayerLocomotion : CharacterState
 {
+    PlayerController playerController;
+    
+
     public PlayerLocomotion(PlayerController player) : base(player)
     {
     }
+    public float nextDashTime = 0.3f;
+    public float cooldownTimer = 0;
+    public float dashhCooldown = 0;
+
 
     float horizontal;
 
     public override void Tick()
     {
+        cooldownTimer += Time.deltaTime;
+
         if (character.isDashing)
             return;
 
@@ -33,8 +42,18 @@ public class PlayerLocomotion : CharacterState
         }
 
         if (Input.GetKeyDown(KeyCode.C))
-             character.SetState(new PlayerDash(character));
-
+        {
+            
+            if (cooldownTimer > nextDashTime)
+            {
+                
+                
+                character.SetState(new PlayerDash(character));
+                
+                
+            }
+            
+        }
         
 
         if (Input.GetKeyDown(KeyCode.X))
@@ -47,9 +66,20 @@ public class PlayerLocomotion : CharacterState
         }
     }
 
+    
+        
+    
+
     public override void PhysicTick()
     {
+        if (!InGameTracker.instance.isPause)
         character.rb.velocity = new Vector2(horizontal * character.speed * Time.deltaTime, character.rb.velocity.y);
+        else
+        {
+            character.rb.velocity = Vector2.zero;
+            character.anim.SetFloat("Speed", 0);
+        }
+
     }
 
     void Flip()
@@ -68,7 +98,8 @@ public class PlayerLocomotion : CharacterState
 
     public override void ExitState()
     {
-        character.anim.SetFloat("Speed", 0);
+        character.anim.SetFloat("Speed", Mathf.Abs(horizontal));
+
     }
 
     void PlayerJumping()
@@ -80,8 +111,8 @@ public class PlayerLocomotion : CharacterState
         character.jumpCounter -= 1;
 
         if (character.jumpCounter >= 1)
-            character.rb.AddForce(Vector2.up * character.jumpPower, ForceMode2D.Force);
+            character.rb.velocity = new Vector2(character.rb.velocity.x, character.jumpPower*0.04f);
         else if (character.jumpCounter < 1)
-            character.rb.AddForce(Vector2.up * character.jumpPower * 1.3f, ForceMode2D.Force);
+            character.rb.velocity = new Vector2(character.rb.velocity.x, character.jumpPower*0.04f);
     }
 }

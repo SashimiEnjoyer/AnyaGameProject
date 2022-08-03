@@ -12,6 +12,7 @@ public class PlayerAttack : CharacterState
 
     public override void EnterState()
     {
+        character.anim.SetBool("Attack2", true);
         character.anim.SetTrigger("Attack");
         character.attackAudio.PlayOneShot(character.attackClip[Random.Range(0, 5)]);
     }
@@ -32,12 +33,14 @@ public class PlayerAttack : CharacterState
 
                     foreach (var enemy in character.PlayerTouchEnemy(character.isFacingRight)[i].collider.GetComponents<IEnemy>())
                         enemy.EnemyHurted(character.transform.position);
+                        
 
                 }
             }
         }
         else
         {
+            character.anim.SetBool("Attack2", false);
             time = character.AnimationLength("Anya_Attack1");
             character.SetState(new PlayerLocomotion(character));
         }
@@ -47,6 +50,7 @@ public class PlayerAttack : CharacterState
 
     public override void ExitState()
     {
+
         character.EmptyEnemyList();
         time = 0;
     }

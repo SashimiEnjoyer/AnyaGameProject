@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class TrapObject : MonoBehaviour
 {
-    [SerializeField]
-    int damage;
+    [SerializeField] int damage;
+    [SerializeField] EnemyController enemyController;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Player") && enemyController.CanAttack == true)
         {
             collision.GetComponent<PlayerController>().PlayerAttacked(transform.position, damage);
+            
         }
     }
+    
 
 }

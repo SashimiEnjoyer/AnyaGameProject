@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class PlayerDie : CharacterState
 {
-   public PlayerDie(PlayerController player) : base(player) { }
+    public PlayerDie(PlayerController player) : base(player) { }
 
     public override void EnterState()
     {
         Debug.Log("Died!");
+        character.anim.SetBool("Dead", true);
     }
 }

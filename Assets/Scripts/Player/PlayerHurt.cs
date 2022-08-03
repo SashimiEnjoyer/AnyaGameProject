@@ -5,20 +5,26 @@ using UnityEngine;
 public class PlayerHurt : CharacterState
 {
     public PlayerHurt(PlayerController player) : base(player) { }
-
+    public Rigidbody2D rb;
     float timer = 0;
 
     public override void EnterState()
     {
         Debug.Log("Player Hit");
+        character.anim.SetTrigger("Hurt");
 
         character.invulnerableCount = 0;
         character.isInvulnerable = true;
         character.isGetHitByEnemy = true;
-        //PlayerStats.instance.playerHealth -= 1;
+        PlayerStats.instance.playerHealth -= 0;
 
         if (PlayerStats.instance.playerHealth <= 0)
+            {
             character.SetState(new PlayerDie(character));
+            character.rb.velocity = Vector2.zero;
+            }
+
+            
     }
 
     public override void Tick()

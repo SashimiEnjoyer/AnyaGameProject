@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ItemType { Collection, Health, Door}
+public enum ItemType { Collection, Health, Door, EnemyMassageBox}
 public class InteractableObject : MonoBehaviour
 {
     [SerializeField] protected GameObject uiPopUp;

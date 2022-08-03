@@ -51,13 +51,15 @@ public class PlayerController : MonoBehaviour
     CapsuleCollider2D playerCollider;
     CharacterState currState;
     public float invulnerableCount = 0;
-  
+
+    private Vector3 SpawnPos;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         playerCollider = GetComponent<CapsuleCollider2D>();
         anim = GetComponent<Animator>();
+        SpawnPos = transform.position;
     }
     
     public void SetState(CharacterState state)
@@ -95,9 +97,10 @@ public class PlayerController : MonoBehaviour
         // Manual Respawn System, to change detection system change only "Input.GetKeyDown(KeyCode.R)".
         if (Input.GetKeyDown(KeyCode.R) && PlayerStats.instance.playerHealth <= 0)
         {
-            transform.position = new Vector3(-140f, 3f, 0);
+            transform.position = SpawnPos;
             SetState(new PlayerLocomotion(this));
             anim.SetBool("Dead", false);
+            PlayerStats.instance.playerHealth = 3;
         }
         
         // Manual Level Reset.

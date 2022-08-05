@@ -8,8 +8,6 @@ TagManager:
   - Border
   - Enemy Hit Box
   - Ground
-  - ItemTriggerPoint
-  - ItemTriggerPoint2
   layers:
   - Default
   - TransparentFX

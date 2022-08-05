@@ -16,6 +16,7 @@ public class ItemExecuteAction : MonoBehaviour
     [Header("Objects to Teleport")]
     public GameObject objectTeleport;
     public GameObject objectTeleportLocation;
+    public bool teleportTransition = false;
 
     private void Update()
     {
@@ -28,7 +29,10 @@ public class ItemExecuteAction : MonoBehaviour
             objectAppear.transform.position += new Vector3(0, yAxisTransform, 0);
 
             if (objectTeleport != null && objectTeleportLocation != null)
+            {
+            teleportTransition = true;
             objectTeleport.transform.position = objectTeleportLocation.transform.position;
+            }
         }
     }
 }

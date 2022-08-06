@@ -40,6 +40,7 @@ public class PlayerController : MonoBehaviour
     public bool isFacingRight = true;
     public bool isGetHitByEnemy = false;
     public bool isInvulnerable = false;
+    public bool isDead = false;
 
     [Header("Effect")]
     [SerializeField] HitEffect hitEffect;
@@ -51,7 +52,8 @@ public class PlayerController : MonoBehaviour
     CapsuleCollider2D playerCollider;
     CharacterState currState;
     public float invulnerableCount = 0;
-
+    private float commontime;
+    public float respawndelay = 2f;
     private Vector3 SpawnPos;
 
     void Awake()
@@ -94,13 +96,20 @@ public class PlayerController : MonoBehaviour
             
         }
         
-        // Manual Respawn System, to change detection system change only "Input.GetKeyDown(KeyCode.R)".
-        if (Input.GetKeyDown(KeyCode.R) && PlayerStats.instance.playerHealth <= 0)
+        if (PlayerStats.instance.playerHealth <= 0)
         {
-            transform.position = SpawnPos;
-            SetState(new PlayerLocomotion(this));
-            anim.SetBool("Dead", false);
-            PlayerStats.instance.playerHealth = 3;
+            commontime += Time.deltaTime;
+            isDead = true;
+
+            if (commontime >= respawndelay)
+            {
+                transform.position = SpawnPos;
+                SetState(new PlayerLocomotion(this));
+                anim.SetBool("Dead", false);
+                PlayerStats.instance.playerHealth = 3;
+                isDead = false;
+                commontime = 0;
+            }
         }
         
         // Manual Level Reset.

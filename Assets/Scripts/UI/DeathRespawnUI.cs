@@ -6,15 +6,18 @@ using UnityEngine.UI;
 public class DeathRespawnUI : MonoBehaviour
 {
     public GameObject blackOutSquare;
+    public PlayerController playerController;
 
     public void Update()
     {
-        if(PlayerStats.instance.playerHealth <= 0)
+
+
+        if(playerController.isDead == true)
         {
             StartCoroutine(FadeBlackOutSquare());
         }
 
-        if(Input.GetKeyDown(KeyCode.R) && PlayerStats.instance.playerHealth <= 0)
+        if(playerController.isDead == false)
         {
             StartCoroutine(FadeBlackOutSquare(false));
         }

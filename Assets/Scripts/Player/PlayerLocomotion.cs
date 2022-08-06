@@ -82,7 +82,7 @@ public class PlayerLocomotion : CharacterState
 
     }
 
-    void Flip()
+    public void Flip()
     {
         if (character.isFacingRight)
         {
@@ -114,5 +114,10 @@ public class PlayerLocomotion : CharacterState
             character.rb.velocity = new Vector2(character.rb.velocity.x, character.jumpPower*0.04f);
         else if (character.jumpCounter < 1)
             character.rb.velocity = new Vector2(character.rb.velocity.x, character.jumpPower*0.04f);
+    }
+
+    public void Dash()
+    {
+        character.SetState(new PlayerDash(character));
     }
 }

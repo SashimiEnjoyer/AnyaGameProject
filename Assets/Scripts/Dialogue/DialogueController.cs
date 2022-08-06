@@ -17,7 +17,7 @@ public class DialogueController : MonoBehaviour, IInteractable
     [SerializeField] private GameObject dialogueModalUIPrefab;
     private GameObject dialogueObject;
     private DialogueModalUI dialogueUI;
-    private bool isOpen = false;
+    public bool isOpen = false;
     private int dialogueIndex = 0;
     public bool ObjectDestroyed = false;
     public bool DialogueEnd = false;

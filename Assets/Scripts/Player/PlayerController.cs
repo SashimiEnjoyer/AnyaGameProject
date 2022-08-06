@@ -223,4 +223,13 @@ public class PlayerController : MonoBehaviour
     //    //izmos.DrawWireSphere(playerCollider.bounds.center, playerCollider.radius + 0.5f);
     //}
 
+    public void Dash()
+    {
+        GetComponent<PlayerLocomotion>().Dash();
+    }
+
+    public void Flip()
+    {
+        GetComponent<PlayerLocomotion>().Flip();
+    }
 }

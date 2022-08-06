@@ -2,6 +2,7 @@ public abstract class CharacterState
 {
     protected PlayerController character;
     protected EnemyController enemy;
+    protected EventController player;
 
     public CharacterState(PlayerController _character)
     {
@@ -11,6 +12,11 @@ public abstract class CharacterState
     public CharacterState(EnemyController _enemy)
     {
         enemy = _enemy;
+    }
+
+    public CharacterState(EventController _character)
+    {
+        player = _character;
     }
 
     public virtual void EnterState()

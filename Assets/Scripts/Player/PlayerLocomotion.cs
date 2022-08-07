@@ -62,7 +62,7 @@ public class PlayerLocomotion : CharacterState
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
-
+            
         }
     }
 

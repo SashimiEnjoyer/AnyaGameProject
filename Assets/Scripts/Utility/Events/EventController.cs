@@ -8,6 +8,6 @@ public class EventController : MonoBehaviour
 
     void Update()
     {
-        
+
     }
 }

@@ -225,11 +225,20 @@ public class PlayerController : MonoBehaviour
 
     public void Dash()
     {
-        GetComponent<PlayerLocomotion>().Dash();
+        SetState(new PlayerDash(this));
     }
 
     public void Flip()
     {
-        GetComponent<PlayerLocomotion>().Flip();
+        if (isFacingRight)
+        {
+            isFacingRight = false;
+            transform.Rotate(0, 180f, 0);
+        }
+        else
+        {
+            isFacingRight = true;
+            transform.Rotate(0, 180f, 0);
+        }
     }
 }

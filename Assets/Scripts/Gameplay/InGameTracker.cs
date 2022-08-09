@@ -1,11 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+
+public enum GameplayState { Playing, Pause, Dialogue, Died}
 
 public class InGameTracker : MonoBehaviour, ISaveSystem
 {
     public static InGameTracker instance;
-    public bool isPause;
+
+    public Action<GameplayState> onGameStateChange;
+
+    private GameplayState _gameState;
+
+    public GameplayState gameState
+    {
+        set 
+        {
+            if (value == _gameState)
+                return;
+            
+            _gameState = value;
+            onGameStateChange?.Invoke(value);
+        }
+
+        get
+        {
+            return _gameState;
+        }
+    }
 
     private void Awake()
     {
@@ -13,6 +36,7 @@ public class InGameTracker : MonoBehaviour, ISaveSystem
             instance = this;
         else
             Destroy(this.gameObject);
+
     }
 
     public object CaptureSavedData()

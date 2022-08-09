@@ -43,18 +43,8 @@ public class PlayerLocomotion : CharacterState
 
         if (Input.GetKeyDown(KeyCode.C))
         {
-            
-            if (cooldownTimer > nextDashTime)
-            {
-                
-                
-                character.SetState(new PlayerDash(character));
-                
-                
-            }
-            
+            DashKeyPressed();
         }
-        
 
         if (Input.GetKeyDown(KeyCode.X))
              character.SetState(new PlayerAttack(character));
@@ -66,20 +56,9 @@ public class PlayerLocomotion : CharacterState
         }
     }
 
-    
-        
-    
-
     public override void PhysicTick()
     {
-        if (!InGameTracker.instance.isPause)
         character.rb.velocity = new Vector2(horizontal * character.speed * Time.deltaTime, character.rb.velocity.y);
-        else
-        {
-            character.rb.velocity = Vector2.zero;
-            character.anim.SetFloat("Speed", 0);
-        }
-
     }
 
     void Flip()
@@ -114,5 +93,25 @@ public class PlayerLocomotion : CharacterState
             character.rb.velocity = new Vector2(character.rb.velocity.x, character.jumpPower*0.04f);
         else if (character.jumpCounter < 1)
             character.rb.velocity = new Vector2(character.rb.velocity.x, character.jumpPower*0.04f);
+    }
+
+
+    void AttackKeyPressed()
+    {
+
+    }
+
+    void JumpKeyPressed()
+    {
+
+    }
+
+    void DashKeyPressed()
+    {
+        if (cooldownTimer > nextDashTime)
+        {
+            character.SetState(new PlayerDash(character));
+
+        }
     }
 }

@@ -34,8 +34,8 @@ public class TransitionScreen : MonoBehaviour
         if (!isStarting)
             isStarting = true;
 
-        if (InGameTracker.instance != null && !InGameTracker.instance.isPause)
-            InGameTracker.instance.isPause = true;
+        if (InGameTracker.instance != null && InGameTracker.instance.gameState != GameplayState.Pause)
+            InGameTracker.instance.gameState = GameplayState.Pause;
 
         transitionPos = _transitionPos;
         transitionTimer = _transitionTimer;
@@ -69,7 +69,7 @@ public class TransitionScreen : MonoBehaviour
                 {
                     isStarting = false;
                     OnFinishedStartTransition?.Invoke();
-                    InGameTracker.instance.isPause = false;
+                    InGameTracker.instance.gameState = GameplayState.Playing;
                     //gameObject.SetActive(false);
                     Destroy(gameObject);    // Destroy when done transitioning 
                 }
@@ -85,7 +85,7 @@ public class TransitionScreen : MonoBehaviour
                 {
                     isStarting = false;
                     OnFinishedEndTransition?.Invoke();
-                    InGameTracker.instance.isPause = false;
+                    InGameTracker.instance.gameState = GameplayState.Playing;
                     //Destroy(this.gameObject);
                 }
                 break;

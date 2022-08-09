@@ -13,7 +13,7 @@ public class PatrolTypeEnemy : EnemyController
     {
         if (player() && !getHit && PatrolAttack == true)
         {
-            player().collider.GetComponent<PlayerController>().PlayerAttacked(transform.position, 1);
+            player().collider.GetComponent<PlayerController>().PlayerHurt(transform.position, 1);
 
         }
 

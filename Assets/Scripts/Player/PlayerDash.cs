@@ -10,9 +10,6 @@ public class PlayerDash : CharacterState
     }
 
 
-    float dashCounter;
-    
-
     public override void EnterState()
     {
         character.isDashing = true;
@@ -20,13 +17,17 @@ public class PlayerDash : CharacterState
         character.anim.SetTrigger("Dashing");
     }
 
+    public override void Tick()
+    {
+        character.dashCounter += Time.deltaTime;
+
+        character.dashCounter = Mathf.Clamp(character.dashCounter, 0, character.dashTime + character.dashCooldown);
+    }
+
     public override void PhysicTick()
     {
-        dashCounter += Time.deltaTime;
         
-
-        
-        if (dashCounter < character.dashTime)
+        if (character.dashCounter < character.dashTime)
         {
             character.rb.velocity = new Vector2((character.isFacingRight ? 1 : -1) * character.dashSpeed * Time.deltaTime, 1);
         }
@@ -41,11 +42,11 @@ public class PlayerDash : CharacterState
             
             
 
-            if (dashCounter >= character.dashTime + character.dashCooldown)
-                {
-                    character.anim.SetBool("Dashing2", false);
-                    character.SetState(new PlayerLocomotion(character));
-                }
+            if (character.dashCounter >= character.dashTime + character.dashCooldown)
+            {
+                character.anim.SetBool("Dashing2", false);
+                character.SetState(new PlayerLocomotion(character));
+            }
                 
         }
         
@@ -54,7 +55,7 @@ public class PlayerDash : CharacterState
     public override void ExitState()
     {
         character.isDashing = false;
-        dashCounter = 0;
+        character.dashCounter = 0;
 
     }
 }

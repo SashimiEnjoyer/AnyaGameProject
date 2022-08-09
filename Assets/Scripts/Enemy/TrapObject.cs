@@ -11,7 +11,7 @@ public class TrapObject : MonoBehaviour
     {
         if (collision.CompareTag("Player") && enemyController.CanAttack == true)
         {
-            collision.GetComponent<PlayerController>().PlayerAttacked(transform.position, damage);
+            collision.GetComponent<PlayerController>().PlayerHurt(transform.position, damage);
             
         }
     }

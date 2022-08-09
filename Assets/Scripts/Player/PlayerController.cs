@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,12 +10,17 @@ public struct EnemyData
     public bool isAttacked;
 }
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : CharacterStateManager
 {
+
+    public Action OnDashKeyPressed;
+    public Action OnJumpKeyPressed;
+    public Action OnAttackKeyPressed;
 
     [Header("Run Setting")]
     public float speed;
     public float dashSpeed = 50f;
+    public float dashCounter = 0f;
     public float dashTime = 0.5f;
     public float dashCooldown = 10;
     public float dash = 0f;
@@ -49,8 +55,8 @@ public class PlayerController : MonoBehaviour
     public List<Collider2D> listOfEnemies = new List<Collider2D>();
 
     CapsuleCollider2D playerCollider;
-    CharacterState currState;
     public float invulnerableCount = 0;
+    [SerializeField] bool isStop = false;
 
     private Vector3 SpawnPos;
 
@@ -61,23 +67,21 @@ public class PlayerController : MonoBehaviour
         anim = GetComponent<Animator>();
         SpawnPos = transform.position;
     }
-    
-    public void SetState(CharacterState state)
+
+    private void OnDestroy()
     {
-        currState?.ExitState();
-        currState = state;
-        currState?.EnterState();
+        InGameTracker.instance.onGameStateChange -= SwitchGameState;
     }
 
     private void Start()
     {
+        InGameTracker.instance.onGameStateChange += SwitchGameState;
         SetState(new PlayerLocomotion(this));
     }
 
     void Update()
     {
-
-        if (InGameTracker.instance.isPause)
+        if (isStop)
             return;
 
         currState?.Tick();
@@ -136,7 +140,30 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if(isStop)
+        {
+            rb.velocity = Vector2.zero;
+            anim.SetFloat("Speed", rb.velocity.x);
+            return;
+        }
+
         currState?.PhysicTick();
+    }
+
+
+    public void SwitchGameState(GameplayState state)
+    {
+        switch (state)
+        {
+            case GameplayState.Pause:
+            case GameplayState.Dialogue:
+                isStop = true;
+                SetState(new PlayerLocomotion(this));
+                break;
+            case GameplayState.Playing:
+                isStop = false;
+                break;
+        }
     }
 
     public void ResetGame()
@@ -144,34 +171,27 @@ public class PlayerController : MonoBehaviour
         SceneManager.LoadScene("Level 1");
     }
 
-
     RaycastHit2D PlayerTouchEntity(LayerMask _entityLayer, Vector2 _detectionDirection)
     {
         return Physics2D.CapsuleCast(playerCollider.bounds.center, playerCollider.size, CapsuleDirection2D.Horizontal, 0.5f, _detectionDirection, 0.5f, _entityLayer);
-        //return Physics2D.CircleCast(playerCollider.bounds.center, playerCollider.radius, _detectionDirection, radiusDetection, _entityLayer);
     }
 
     public RaycastHit2D PlayerTouchGround(Vector2 _detectionDirection)
     {
-        //return Physics2D.CircleCast(playerCollider.bounds.center, playerCollider.radius, _detectionDirection, radiusDetection, groundLayer);
         return Physics2D.CapsuleCast(playerCollider.bounds.center, playerCollider.size,CapsuleDirection2D.Vertical, 0.1f, _detectionDirection, 0.1f, groundLayer);
     }
 
     public RaycastHit2D PlayerTouchGround2(Vector2 _detectionDirection)
     {
-        //return Physics2D.CircleCast(playerCollider.bounds.center, playerCollider.radius, _detectionDirection, radiusDetection, groundLayer);
         return Physics2D.CapsuleCast(playerCollider.bounds.center, playerCollider.size,CapsuleDirection2D.Vertical, 1f, _detectionDirection, 1f, groundLayer);
     }
 
     public RaycastHit2D[] PlayerTouchEnemy(bool _isFacingRight)
     {
         return Physics2D.CapsuleCastAll(playerCollider.bounds.center, playerCollider.size, CapsuleDirection2D.Horizontal, 0, _isFacingRight ? Vector2.right : Vector2.left, 1f, enemyEntity);
-        //return Physics2D.CircleCastAll(playerCollider.bounds.center, playerCollider.radius, _isFacingRight? Vector2.right : Vector2.left, radiusDetection, enemyEntity);
     }
 
-
-
-    public void PlayerAttacked(Vector2 _target, int damage)
+    public void PlayerHurt(Vector2 _target, int damage)
     {
         if (!isInvulnerable && PlayerStats.instance.playerHealth != 0)
         {
@@ -203,15 +223,5 @@ public class PlayerController : MonoBehaviour
         }
         return time;
     }
-    public void TriggerEffect()
-    {
-
-    }
-
-    //private void OnDrawGizmos()
-    //{
-    //    Gizmos.DrawWireSphere(playerCollider.bounds.center, playerCollider.size.x + 0.5f);
-    //    //izmos.DrawWireSphere(playerCollider.bounds.center, playerCollider.radius + 0.5f);
-    //}
 
 }

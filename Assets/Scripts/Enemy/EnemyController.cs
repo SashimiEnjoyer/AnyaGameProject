@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour, IEnemy
+public class EnemyController : CharacterStateManager, IEnemy
 {
     public float health = 100;
     public float movementSpeed = 3f;
@@ -21,17 +21,9 @@ public class EnemyController : MonoBehaviour, IEnemy
     [SerializeField] GameObject enemyDialogue;
 
     public CapsuleCollider2D enemyCollider;
-    CharacterState currState;
 
     float timer;
     float time;
-
-    public void SetState(CharacterState state)
-    {
-        currState?.ExitState();
-        currState = state;
-        currState?.EnterState();
-    }
 
     private void Awake()
     {
@@ -43,14 +35,13 @@ public class EnemyController : MonoBehaviour, IEnemy
 
     private void Update()
     {
-
         move();
         time += Time.deltaTime;
         anim.SetBool("EnemyHurt", false);
 
         if (player() && !getHit && CanAttack == true)
         {
-            player().collider.GetComponent<PlayerController>().PlayerAttacked(transform.position, 1);
+            player().collider.GetComponent<PlayerController>().PlayerHurt(transform.position, 1);
             time += Time.deltaTime;
             CanAttack = false;
 
@@ -72,9 +63,6 @@ public class EnemyController : MonoBehaviour, IEnemy
             anim.SetFloat("EnemySpeed", 0);
         
     }
-
-
-
 
     public void EnemyHurted(Vector2 _target)
     {

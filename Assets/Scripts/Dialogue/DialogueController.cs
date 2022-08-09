@@ -21,6 +21,16 @@ public class DialogueController : MonoBehaviour, IInteractable
     private int dialogueIndex = 0;
     private bool ObjectDestroyed = false;
 
+    private void Start()
+    {
+        InGameTracker.instance.onGameStateChange += TestChange;
+    }
+
+    private void OnDestroy()
+    {
+        InGameTracker.instance.onGameStateChange -= TestChange;
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Return) && isOpen == true && ObjectDestroyed == false)
@@ -39,7 +49,7 @@ public class DialogueController : MonoBehaviour, IInteractable
             dialogueUI = dialogueObject.GetComponent<DialogueModalUI>();
             dialogueUI.SetDialogueUI(dialogues[0].characterName, dialogues[0].characterDialogue, dialogues[0].characterImage);
             dialogueUI.OnNextDialogueButtonPressed += NextDialogue;
-            InGameTracker.instance.isPause = true;
+            InGameTracker.instance.gameState = GameplayState.Dialogue;
         }
     }
 
@@ -53,7 +63,7 @@ public class DialogueController : MonoBehaviour, IInteractable
         {
             dialogueUI.OnNextDialogueButtonPressed -= NextDialogue;
             EndDialogue();
-            InGameTracker.instance.isPause = false;
+            InGameTracker.instance.gameState = GameplayState.Playing;
             dialogueIndex = 0;
         }
     }
@@ -63,4 +73,10 @@ public class DialogueController : MonoBehaviour, IInteractable
         Destroy(dialogueObject);
         ObjectDestroyed = true;
     }
+
+    public void TestChange(GameplayState state)
+    {
+        Debug.Log("State: " + state);
+    }
+
 }

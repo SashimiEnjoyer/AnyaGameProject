@@ -1,13 +1,12 @@
 using System;
 using UnityEngine;
 
- public enum TransitionPosition { Start, End}
+ public enum TransitionPosition { FromBlack, ToBlack, Full}
 
 public class TransitionScreen : MonoBehaviour
 {
     public static TransitionScreen instance;
-    public Action OnFinishedStartTransition;
-    public Action OnFinishedEndTransition;
+    public Action OnFinished;
 
     public TransitionPosition transitionPos;
     [SerializeField] CanvasGroup canvasGroup;
@@ -15,6 +14,7 @@ public class TransitionScreen : MonoBehaviour
     bool isStarting = false;
     float transitionTimer = 1f;
     float counter = 0f;
+    bool reverse = false;
 
     private void Awake()
     {
@@ -29,26 +29,28 @@ public class TransitionScreen : MonoBehaviour
     /// </summary>
     /// <param name="_transitionPos"> Type of transition</param>
     /// <param name="_transitionTimer"> How long transition last</param>
-    public void StartingTransition(TransitionPosition _transitionPos, float _transitionTimer)
+    public void StartingTransition(TransitionPosition _transitionPos, float _transitionTimer, Action _OnFinished)
     {
-        if (!isStarting)
-            isStarting = true;
-
-        if (InGameTracker.instance != null && InGameTracker.instance.gameState != GameplayState.Pause)
-            InGameTracker.instance.gameState = GameplayState.Pause;
+        OnFinished = _OnFinished;
+        if (InGameTracker.instance != null && InGameTracker.instance.gameState != GameplayState.Stop)
+            InGameTracker.instance.gameState = GameplayState.Stop;
 
         transitionPos = _transitionPos;
         transitionTimer = _transitionTimer;
 
         switch (_transitionPos)
         {
-            case TransitionPosition.Start:
+            case TransitionPosition.FromBlack:
                 canvasGroup.alpha = 1f;
                 break;
-            case TransitionPosition.End:
+            case TransitionPosition.ToBlack:
+            case TransitionPosition.Full:
                 canvasGroup.alpha = 0;
                 break;
         }
+
+        if (!isStarting)
+            isStarting = true;
     }
 
     // Update is called once per frame
@@ -59,7 +61,7 @@ public class TransitionScreen : MonoBehaviour
 
         switch (transitionPos)
         {
-            case TransitionPosition.Start:
+            case TransitionPosition.FromBlack:
                 
                 transitionTimer -= Time.deltaTime;
 
@@ -68,14 +70,12 @@ public class TransitionScreen : MonoBehaviour
                 if (transitionTimer <= 0)
                 {
                     isStarting = false;
-                    OnFinishedStartTransition?.Invoke();
-                    InGameTracker.instance.gameState = GameplayState.Playing;
-                    //gameObject.SetActive(false);
+                    OnFinished?.Invoke();
                     Destroy(gameObject);    // Destroy when done transitioning 
                 }
                 break;
 
-            case TransitionPosition.End:
+            case TransitionPosition.ToBlack:
                 
                 counter += Time.deltaTime;
 
@@ -84,12 +84,40 @@ public class TransitionScreen : MonoBehaviour
                 if (counter >= transitionTimer)
                 {
                     isStarting = false;
-                    OnFinishedEndTransition?.Invoke();
-                    InGameTracker.instance.gameState = GameplayState.Playing;
+                    OnFinished?.Invoke();
                     //Destroy(this.gameObject);
                 }
                 break;
+
+            case TransitionPosition.Full:
+
+
+                if(!reverse)
+                    counter += Time.deltaTime;
+                else
+                    counter -= Time.deltaTime;
+
+                canvasGroup.alpha = counter;
+
+                if(counter >= transitionTimer + 2)
+                {
+                    reverse = true;
+                }
+
+                if(counter <= 0 && reverse)
+                {
+                    isStarting = false;
+                    OnFinished?.Invoke();
+                    Destroy(gameObject);
+                }
+
+                break;
         }
+    }
+
+    private void OnDestroy()
+    {
+        OnFinished = null;
     }
 
 }

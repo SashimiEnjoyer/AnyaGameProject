@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public enum GameplayState { Playing, Pause, Dialogue, Died}
+public enum GameplayState { Playing, Pause, Dialogue, Stop}
 
 public class InGameTracker : MonoBehaviour, ISaveSystem
 {
@@ -22,6 +22,7 @@ public class InGameTracker : MonoBehaviour, ISaveSystem
             
             _gameState = value;
             onGameStateChange?.Invoke(value);
+            Debug.Log("Game State: " + _gameState);
         }
 
         get

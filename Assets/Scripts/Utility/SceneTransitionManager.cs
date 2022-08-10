@@ -1,51 +1,57 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.SceneManagement;
+using TMPro;
+
 
 public class SceneTransitionManager : MonoBehaviour
 {
     [SerializeField] GameObject transitionScreenPrefab;
     [SerializeField] AudioSource mainBGM;
-    [SerializeField] UnityEvent StartSceneEvent;
+    [SerializeField] GameObject loadingUIPrefab;
+    GameObject loadingUI;
+    TMP_Text loadingProgressText;
 
     private string nextSceneName;
 
     private void Start()
     {
         GameObject go = Instantiate(transitionScreenPrefab);
-        TransitionScreen.instance.OnFinishedStartTransition += FinishedTransition;
-        TransitionScreen.instance.StartingTransition(TransitionPosition.Start, 3f);
+        TransitionScreen.instance.StartingTransition(TransitionPosition.FromBlack, 3f, FinishedFirstTransition);
     }
 
-    [ContextMenu("Test Move Scene")]
     public void StartMoveScene(string sceneName)
     {
         nextSceneName = sceneName;
         GameObject go = Instantiate(transitionScreenPrefab);
-        TransitionScreen.instance.OnFinishedEndTransition += GoToNextScene;
-        TransitionScreen.instance.StartingTransition(TransitionPosition.End, 5f);
+        TransitionScreen.instance.StartingTransition(TransitionPosition.ToBlack, 2f, GoToNextScene);
         SoundsOnSceneManager.instance.AllAudioFadeOut();
     }
 
-    void FinishedTransition()
+    void FinishedFirstTransition()
     {
 
         if(mainBGM != null)
         mainBGM.Play();
 
-        StartSceneEvent?.Invoke();
+        InGameTracker.instance.gameState = GameplayState.Playing;
     }
 
     void GoToNextScene()
     {
-        SceneManager.LoadSceneAsync(nextSceneName);
+        SceneLoader.LoadScene(nextSceneName, LoadingStart, LoadingProgress);
     }
 
-    private void OnDestroy()
+    void LoadingStart()
     {
-        TransitionScreen.instance.OnFinishedEndTransition -= FinishedTransition;
-        TransitionScreen.instance.OnFinishedEndTransition -= GoToNextScene;
+        if (loadingUI == null)
+            loadingUI = Instantiate(loadingUIPrefab);
+
+        loadingProgressText = loadingUI.GetComponentInChildren<TMP_Text>();  
     }
+
+    void LoadingProgress(int progress)
+    {
+        loadingProgressText.text = "Loading... " + progress.ToString() + "%";
+    }
+
 }

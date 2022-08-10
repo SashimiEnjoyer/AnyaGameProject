@@ -6,11 +6,13 @@ using UnityEngine.Events;
 
 public class Door : InteractableObject, IInteractable
 {
-    [SerializeField] UnityEvent EventsExecuted;
+    [Header ("Door Settings")]
+    [SerializeField] string nextScene;
+    [SerializeField] SceneTransitionManager transitionManager;
 
     public void ExecuteInteractable()
     {
-        EventsExecuted?.Invoke();
+        transitionManager.StartMoveScene(nextScene);
     }
 
 }

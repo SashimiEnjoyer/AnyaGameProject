@@ -79,12 +79,12 @@ public class PlayerController : CharacterStateManager
         SetState(new PlayerLocomotion(this));
     }
 
-    void Update()
+    protected override void Update()
     {
         if (isStop)
             return;
 
-        currState?.Tick();
+        base.Update();
 
         anim.SetBool("IsJump", !PlayerTouchGround(Vector2.down));
 
@@ -113,7 +113,7 @@ public class PlayerController : CharacterStateManager
             ResetGame();
         }
 
-        if (PlayerTouchGround(Vector2.down) && jumpCounter <= 0)
+        if (PlayerTouchGround(Vector2.down))
         {
             jumpCounter = 2;
                     
@@ -138,7 +138,7 @@ public class PlayerController : CharacterStateManager
 
     }
 
-    private void FixedUpdate()
+    protected override void FixedUpdate()
     {
         if(isStop)
         {
@@ -147,7 +147,7 @@ public class PlayerController : CharacterStateManager
             return;
         }
 
-        currState?.PhysicTick();
+        base.FixedUpdate();
     }
 
 
@@ -160,6 +160,11 @@ public class PlayerController : CharacterStateManager
                 isStop = true;
                 SetState(new PlayerLocomotion(this));
                 break;
+            case GameplayState.Stop:
+                isStop = true;
+                if(PlayerStats.instance.playerHealth > 0)
+                    SetState(new PlayerLocomotion(this));
+                break; 
             case GameplayState.Playing:
                 isStop = false;
                 break;

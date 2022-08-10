@@ -13,4 +13,16 @@ public class CharacterStateManager : MonoBehaviour
         currState?.EnterState();
     }
 
+    protected virtual void Update()
+    {
+        if(currState != null)
+            currState.Tick();
+    }
+
+    protected virtual void FixedUpdate()
+    {
+        if (currState != null)
+            currState.PhysicTick();
+    }
+
 }

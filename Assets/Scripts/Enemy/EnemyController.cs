@@ -24,6 +24,7 @@ public class EnemyController : CharacterStateManager, IEnemy
 
     float timer;
     float time;
+    bool isStop = false;
 
     private void Awake()
     {
@@ -33,8 +34,11 @@ public class EnemyController : CharacterStateManager, IEnemy
         
     }
 
-    private void Update()
+    protected override void Update()
     {
+        if (isStop)
+            return;
+
         move();
         time += Time.deltaTime;
         anim.SetBool("EnemyHurt", false);

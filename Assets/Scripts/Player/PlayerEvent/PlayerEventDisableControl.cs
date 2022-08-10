@@ -14,10 +14,10 @@ public class PlayerEventDisableControl : MonoBehaviour
         if (eventController.EventStart == true)
         {
             commontime += Time.deltaTime;
+            playerController.keyboardInput = false;
 
             if (commontime >= eventdelay)
-            {
-                //InputSystem.DisableDevice(Keyboard.current);
+            { 
                 EventEnd();
             } 
         }
@@ -25,7 +25,7 @@ public class PlayerEventDisableControl : MonoBehaviour
 
     private void EventEnd()
     {
-        //InputSystem.EnableDevice(Keyboard.current);
+        playerController.keyboardInput = true;
         Destroy(this);
     }
     

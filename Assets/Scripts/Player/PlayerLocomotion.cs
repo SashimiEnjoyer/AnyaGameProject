@@ -21,48 +21,51 @@ public class PlayerLocomotion : CharacterState
     {
         cooldownTimer += Time.deltaTime;
 
-        if (character.isDashing)
-            return;
-
-        horizontal = Input.GetAxisRaw("Horizontal");
-
-        if (character.PlayerTouchGround(Vector2.down))
-            character.anim.SetFloat("Speed", Mathf.Abs(horizontal));
-        else
-            character.anim.SetFloat("Speed", 0);
-
-        if (!character.isFacingRight && horizontal > 0)
-            Flip();
-        if (character.isFacingRight && horizontal < 0)
-            Flip();
-
-        if (Input.GetKeyDown(KeyCode.Space))
+        if(character.keyboardInput == true)
         {
-            PlayerJumping();
-        }
+            if (character.isDashing)
+                return;
 
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            
-            if (cooldownTimer > nextDashTime)
+            horizontal = Input.GetAxisRaw("Horizontal");
+
+            if (character.PlayerTouchGround(Vector2.down))
+                character.anim.SetFloat("Speed", Mathf.Abs(horizontal));
+            else
+                character.anim.SetFloat("Speed", 0);
+
+            if (!character.isFacingRight && horizontal > 0)
+                Flip();
+            if (character.isFacingRight && horizontal < 0)
+                Flip();
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                PlayerJumping();
+            }
+
+            if (Input.GetKeyDown(KeyCode.C))
             {
                 
-                
-                character.SetState(new PlayerDash(character));
-                
+                if (cooldownTimer > nextDashTime)
+                {
+                    
+                    
+                    character.SetState(new PlayerDash(character));
+                    
+                    
+                }
                 
             }
             
-        }
-        
 
-        if (Input.GetKeyDown(KeyCode.X))
-             character.SetState(new PlayerAttack(character));
+            if (Input.GetKeyDown(KeyCode.X))
+                character.SetState(new PlayerAttack(character));
 
 
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            
+            if (Input.GetKeyDown(KeyCode.Z))
+            {
+                
+            }
         }
     }
 
@@ -72,14 +75,16 @@ public class PlayerLocomotion : CharacterState
 
     public override void PhysicTick()
     {
-        if (!InGameTracker.instance.isPause)
-        character.rb.velocity = new Vector2(horizontal * character.speed * Time.deltaTime, character.rb.velocity.y);
-        else
+        if (character.keyboardInput == true)
         {
-            character.rb.velocity = Vector2.zero;
-            character.anim.SetFloat("Speed", 0);
+            if (!InGameTracker.instance.isPause)
+            character.rb.velocity = new Vector2(horizontal * character.speed * Time.deltaTime, character.rb.velocity.y);
+            else
+            {
+                character.rb.velocity = Vector2.zero;
+                character.anim.SetFloat("Speed", 0);
+            }
         }
-
     }
 
     public void Flip()
@@ -104,16 +109,19 @@ public class PlayerLocomotion : CharacterState
 
     void PlayerJumping()
     {
-        if (character.jumpCounter <= 0)
-            return;
+        if(character.keyboardInput == true)
+        {
+            if (character.jumpCounter <= 0)
+                return;
 
-        character.anim.SetTrigger("Jump");
-        character.jumpCounter -= 1;
+            character.anim.SetTrigger("Jump");
+            character.jumpCounter -= 1;
 
-        if (character.jumpCounter >= 1)
-            character.rb.velocity = new Vector2(character.rb.velocity.x, character.jumpPower*0.04f);
-        else if (character.jumpCounter < 1)
-            character.rb.velocity = new Vector2(character.rb.velocity.x, character.jumpPower*0.04f);
+            if (character.jumpCounter >= 1)
+                character.rb.velocity = new Vector2(character.rb.velocity.x, character.jumpPower*0.04f);
+            else if (character.jumpCounter < 1)
+                character.rb.velocity = new Vector2(character.rb.velocity.x, character.jumpPower*0.04f);
+        }
     }
 
     public void Dash()

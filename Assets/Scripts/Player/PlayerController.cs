@@ -55,6 +55,7 @@ public class PlayerController : MonoBehaviour
     private float commontime;
     public float respawndelay = 2f;
     private Vector3 SpawnPos;
+    public bool keyboardInput = true;
 
     void Awake()
     {

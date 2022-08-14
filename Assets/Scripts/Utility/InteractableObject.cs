@@ -8,7 +8,8 @@ public class InteractableObject : MonoBehaviour, IInteractable
 {
 
     [Header("Pop Up Settings")]
-    [Tooltip ("If Ui PopUp prefab is null, this game object will be floating")]
+    [Tooltip("If Ui PopUp prefab is null, this game object will be floating")]
+    [SerializeField] bool isFloating;
     [SerializeField] protected GameObject uiPopUp;
 
     [SerializeField] float floatingHeight = 0.4f;
@@ -24,10 +25,13 @@ public class InteractableObject : MonoBehaviour, IInteractable
     private void Awake()
     {
         startingPosition = uiPopUp != null? uiPopUp.transform.position : transform.position;
+        movingPosition = startingPosition;
     }
 
     private void Update()
     {
+        if (!isFloating)
+            return;
 
         PopUpFloating();
         floatingValue += Time.deltaTime;
@@ -68,7 +72,7 @@ public class InteractableObject : MonoBehaviour, IInteractable
     void PopUpFloating()
     {
         movingPosition.y = (Mathf.Sin(floatingValue * floatingFreq) * floatingHeight) + startingPosition.y;
-        
+
         if (uiPopUp != null)
             uiPopUp.transform.position = movingPosition;
         else

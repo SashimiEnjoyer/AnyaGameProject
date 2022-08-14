@@ -209,6 +209,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92e3dbcaa4c11d9438eee837d8c2e1db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isFloating: 0
+  uiPopUp: {fileID: 0}
+  floatingHeight: 0.4
+  floatingFreq: 1
+  onInteracting:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &5395004
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3545,6 +3552,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92e3dbcaa4c11d9438eee837d8c2e1db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isFloating: 0
+  uiPopUp: {fileID: 0}
+  floatingHeight: 0.4
+  floatingFreq: 1
+  onInteracting:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &439108860
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3741,8 +3755,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a0f8d3be21cf1a4d9e4b8341ddd3dbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DashReadyImage: {fileID: 1010131478}
-  dashcooldown: 0
+  slider: {fileID: 0}
   playerController: {fileID: 1297424285}
 --- !u!1 &509454283
 GameObject:
@@ -4049,7 +4062,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7781754, y: 1}
+    m_SensorSize: {x: 1.7785349, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -4263,7 +4276,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17afbaf886078c34fbff754f797bdb6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isFloating: 0
   uiPopUp: {fileID: 957685877}
+  floatingHeight: 0.4
+  floatingFreq: 1
+  onInteracting:
+    m_PersistentCalls:
+      m_Calls: []
   EventsExecuted:
     m_PersistentCalls:
       m_Calls: []
@@ -4664,6 +4683,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92e3dbcaa4c11d9438eee837d8c2e1db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isFloating: 0
+  uiPopUp: {fileID: 0}
+  floatingHeight: 0.4
+  floatingFreq: 1
+  onInteracting:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &644772477
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32171,22 +32197,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca422200ce6167b47ae538a80d9d94e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isFloating: 0
   uiPopUp: {fileID: 627138376}
-  EventsExecuted:
+  floatingHeight: 0.4
+  floatingFreq: 1
+  onInteracting:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2069976844}
-        m_TargetAssemblyTypeName: SceneTransitionManager, Assembly-CSharp
-        m_MethodName: StartMoveScene
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Level 2
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!61 &948148781
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -40618,7 +40635,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7781754, y: 1}
+    m_SensorSize: {x: 1.7785349, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -41177,6 +41194,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 250
   dashSpeed: 1000
+  dashCounter: 0
   dashTime: 0.3
   dashCooldown: 0.15
   dash: 0
@@ -41214,6 +41232,7 @@ MonoBehaviour:
   anim: {fileID: 1297424281}
   listOfEnemies: []
   invulnerableCount: 0
+  isStop: 0
   respawndelay: 1
   keyboardInput: 1
 --- !u!114 &1297424286
@@ -41334,6 +41353,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92e3dbcaa4c11d9438eee837d8c2e1db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isFloating: 0
+  uiPopUp: {fileID: 0}
+  floatingHeight: 0.4
+  floatingFreq: 1
+  onInteracting:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!61 &1300271604
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -41435,7 +41461,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20c9f280d0e0bd74280d1a895e527178, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPause: 0
 --- !u!4 &1305367485
 Transform:
   m_ObjectHideFlags: 0
@@ -41957,7 +41982,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17afbaf886078c34fbff754f797bdb6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isFloating: 0
   uiPopUp: {fileID: 280360333}
+  floatingHeight: 0.4
+  floatingFreq: 1
+  onInteracting:
+    m_PersistentCalls:
+      m_Calls: []
   EventsExecuted:
     m_PersistentCalls:
       m_Calls: []
@@ -42780,6 +42811,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92e3dbcaa4c11d9438eee837d8c2e1db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isFloating: 0
+  uiPopUp: {fileID: 0}
+  floatingHeight: 0.4
+  floatingFreq: 1
+  onInteracting:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!61 &1662564994
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -43110,7 +43148,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7781754, y: 1}
+    m_SensorSize: {x: 1.7785349, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -44222,9 +44260,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transitionScreenPrefab: {fileID: 6072758048436949697, guid: 5973532ede90d074b918f152a71b5566, type: 3}
   mainBGM: {fileID: 0}
-  StartSceneEvent:
-    m_PersistentCalls:
-      m_Calls: []
+  loadingUIPrefab: {fileID: 0}
 --- !u!4 &2069976845
 Transform:
   m_ObjectHideFlags: 0

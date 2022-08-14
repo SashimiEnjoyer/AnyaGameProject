@@ -19,7 +19,7 @@ public class SceneTransitionManager : MonoBehaviour
         TransitionScreen.instance.StartingTransition(TransitionPosition.FromBlack, 3f, FinishedFirstTransition);
     }
 
-    public void StartMoveScene(string sceneName)
+    public void MoveScene(string sceneName)
     {
         nextSceneName = sceneName;
         GameObject go = Instantiate(transitionScreenPrefab);

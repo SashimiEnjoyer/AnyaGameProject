@@ -1,41 +1,49 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public enum ItemType { Collection, Health, Door, EnemyMassageBox}
-public class InteractableObject : MonoBehaviour
+public class InteractableObject : MonoBehaviour, IInteractable
 {
+
     [Header("Pop Up Settings")]
+    [Tooltip ("If Ui PopUp prefab is null, this game object will be floating")]
     [SerializeField] protected GameObject uiPopUp;
+
     [SerializeField] float floatingHeight = 0.4f;
     [SerializeField] float floatingFreq = 1f;
 
-    Vector2 popUpStartingPosition;
-    Vector2 popUpMovingPosition;
+    [Header("Custom Event")]
+    public UnityEvent onInteracting;
 
+    Vector2 startingPosition;
+    Vector2 movingPosition;
     float floatingValue;
-    float persistentPopUpHeight;
 
     private void Awake()
     {
-        popUpStartingPosition = uiPopUp.transform.position;
+        startingPosition = uiPopUp != null? uiPopUp.transform.position : transform.position;
     }
+
     private void Update()
     {
-        if (uiPopUp.activeInHierarchy)
-        {
-            PopUpFloating();
-            floatingValue += Time.deltaTime;
-            floatingValue %= (2 * 3.14f);
-        }
+
+        PopUpFloating();
+        floatingValue += Time.deltaTime;
+        floatingValue %= (2 * 3.14f);
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            uiPopUp.SetActive(true);
-            popUpMovingPosition = popUpStartingPosition;    
+            if (uiPopUp != null)
+            {
+                uiPopUp.SetActive(true);
+                movingPosition = startingPosition;
+            }
         }
             
     }
@@ -44,14 +52,31 @@ public class InteractableObject : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            uiPopUp.SetActive(false);
-            floatingValue = 0;
+            if (uiPopUp != null)
+            {
+                uiPopUp.SetActive(false);
+                floatingValue = 0;
+            }
         }
+    }
+
+    protected void ExecuteInteractableEvent()
+    {
+        onInteracting?.Invoke();
     }
 
     void PopUpFloating()
     {
-        popUpMovingPosition.y = (Mathf.Sin(floatingValue * floatingFreq) * floatingHeight) + popUpStartingPosition.y;
-        uiPopUp.transform.position = popUpMovingPosition;
+        movingPosition.y = (Mathf.Sin(floatingValue * floatingFreq) * floatingHeight) + startingPosition.y;
+        
+        if (uiPopUp != null)
+            uiPopUp.transform.position = movingPosition;
+        else
+            transform.position = movingPosition;
+    }
+
+    public void ExecuteInteractable()
+    {
+        ExecuteInteractableEvent();
     }
 }

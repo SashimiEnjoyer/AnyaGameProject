@@ -20,7 +20,7 @@ public class DialogueModalUI : MonoBehaviour
         foreach (GameObject g in images)
             g.SetActive(false);
         
-        for (int i = 0; i < _dialogueimage.Length; i++)
+        for (int i = 0; i <= _dialogueimage.Length - 1; i++)
         {
             images[i].SetActive(true);
             images[i].GetComponentInChildren<Image>().sprite = _dialogueimage[i];

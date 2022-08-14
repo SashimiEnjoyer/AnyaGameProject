@@ -17,9 +17,10 @@ public class DialogueController : MonoBehaviour, IInteractable
     [SerializeField] private GameObject dialogueModalUIPrefab;
     private GameObject dialogueObject;
     private DialogueModalUI dialogueUI;
-    private bool isOpen = false;
+    public bool isOpen = false;
     private int dialogueIndex = 0;
-    private bool ObjectDestroyed = false;
+    public bool ObjectDestroyed = false;
+    public bool DialogueEnd = false;
 
     private void Update()
     {
@@ -62,6 +63,7 @@ public class DialogueController : MonoBehaviour, IInteractable
     {
         Destroy(dialogueObject);
         ObjectDestroyed = true;
+        DialogueEnd = true;
     }
 
 }

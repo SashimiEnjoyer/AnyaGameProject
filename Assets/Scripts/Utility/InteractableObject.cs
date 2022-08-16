@@ -9,7 +9,7 @@ public class InteractableObject : MonoBehaviour, IInteractable
 
     [Header("Pop Up Settings")]
     [Tooltip("If Ui PopUp prefab is null, this game object will be floating")]
-    [SerializeField] bool isFloating;
+    [SerializeField] public bool isFloating;
     [SerializeField] protected GameObject uiPopUp;
 
     [SerializeField] float floatingHeight = 0.4f;

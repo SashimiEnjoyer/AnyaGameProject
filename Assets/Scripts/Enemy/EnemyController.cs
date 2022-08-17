@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour, IEnemy
+public class EnemyController : CharacterStateManager, IEnemy
 {
     public float health = 100;
     public float movementSpeed = 3f;
@@ -21,36 +21,31 @@ public class EnemyController : MonoBehaviour, IEnemy
     [SerializeField] GameObject enemyDialogue;
 
     public CapsuleCollider2D enemyCollider;
-    CharacterState currState;
+    private EnemyAnimations enemyAnimations;
 
     float timer;
     float time;
-
-    public void SetState(CharacterState state)
-    {
-        currState?.ExitState();
-        currState = state;
-        currState?.EnterState();
-    }
+    bool isStop = false;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         enemyCollider = GetComponent<CapsuleCollider2D>();
         anim = GetComponent<Animator>();
-        
+        enemyAnimations = GetComponent<EnemyAnimations>();
     }
 
-    private void Update()
+    protected override void Update()
     {
+        if (isStop)
+            return;
 
         move();
         time += Time.deltaTime;
-        anim.SetBool("EnemyHurt", false);
 
         if (player() && !getHit && CanAttack == true)
         {
-            player().collider.GetComponent<PlayerController>().PlayerAttacked(transform.position, 1);
+            player().collider.GetComponent<PlayerController>().PlayerHurt(transform.position, 1);
             time += Time.deltaTime;
             CanAttack = false;
 
@@ -73,18 +68,15 @@ public class EnemyController : MonoBehaviour, IEnemy
         
     }
 
-
-
-
     public void EnemyHurted(Vector2 _target)
     {
         getHit = true;
         rb.AddForce(new Vector2 (_target.x > transform.position.x ? -350 : 350, 100));
         health -= 1;
-        anim.SetTrigger("EnemyHurt2");
+        enemyAnimations.PlayEnemyAnimationHurt();
 
         if (health <= 0)
-            Destroy(transform.parent.gameObject, 1f);
+            Destroy(transform.parent.gameObject, 0.5f);
         
         if(afterHitEffect == null)
         {
@@ -131,5 +123,20 @@ public class EnemyController : MonoBehaviour, IEnemy
     public RaycastHit2D player()
     {
         return EnemyAttackExtension.EnemyTouchPlayer(enemyCollider, playerMask, isFacingRight);
+    }
+
+    public float AnimationLength(string animationName)
+    {
+        float time = 0;
+        RuntimeAnimatorController ra = anim.runtimeAnimatorController;
+
+        for (int i = 0; i < ra.animationClips.Length; i++)
+        {
+            if(ra.animationClips[i].name == animationName)
+            {
+                time = ra.animationClips[i].length;
+            }
+        }
+        return time;
     }
 }

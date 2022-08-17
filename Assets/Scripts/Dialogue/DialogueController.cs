@@ -40,7 +40,7 @@ public class DialogueController : MonoBehaviour, IInteractable
             dialogueUI = dialogueObject.GetComponent<DialogueModalUI>();
             dialogueUI.SetDialogueUI(dialogues[0].characterName, dialogues[0].characterDialogue, dialogues[0].characterImage);
             dialogueUI.OnNextDialogueButtonPressed += NextDialogue;
-            InGameTracker.instance.isPause = true;
+            InGameTracker.instance.gameState = GameplayState.Dialogue;
         }
     }
 
@@ -54,7 +54,7 @@ public class DialogueController : MonoBehaviour, IInteractable
         {
             dialogueUI.OnNextDialogueButtonPressed -= NextDialogue;
             EndDialogue();
-            InGameTracker.instance.isPause = false;
+            InGameTracker.instance.gameState = GameplayState.Playing;
             dialogueIndex = 0;
         }
     }
@@ -65,4 +65,5 @@ public class DialogueController : MonoBehaviour, IInteractable
         ObjectDestroyed = true;
         DialogueEnd = true;
     }
+
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,12 +10,16 @@ public struct EnemyData
     public bool isAttacked;
 }
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : CharacterStateManager
 {
+    public Action OnDashKeyPressed;
+    public Action OnJumpKeyPressed;
+    public Action OnAttackKeyPressed;
 
     [Header("Run Setting")]
     public float speed;
     public float dashSpeed = 50f;
+    public float dashCounter = 0f;
     public float dashTime = 0.5f;
     public float dashCooldown = 10;
     public float dash = 0f;
@@ -41,6 +46,8 @@ public class PlayerController : MonoBehaviour
     public bool isGetHitByEnemy = false;
     public bool isInvulnerable = false;
     public bool isDead = false;
+    public bool isAttacking = false;
+    public bool isJumping = false;
 
     [Header("Effect")]
     [SerializeField] HitEffect hitEffect;
@@ -50,12 +57,15 @@ public class PlayerController : MonoBehaviour
     public List<Collider2D> listOfEnemies = new List<Collider2D>();
 
     CapsuleCollider2D playerCollider;
-    CharacterState currState;
     public float invulnerableCount = 0;
+    [SerializeField] bool isStop = false;
+
     private float commontime;
-    public float respawndelay = 2f;
     private Vector3 SpawnPos;
     public bool keyboardInput = true;
+    private PlayerAnimations playerAnimations;
+
+    private float commontimejumping;
 
     void Awake()
     {
@@ -63,32 +73,43 @@ public class PlayerController : MonoBehaviour
         playerCollider = GetComponent<CapsuleCollider2D>();
         anim = GetComponent<Animator>();
         SpawnPos = transform.position;
+        playerAnimations = GetComponent<PlayerAnimations>();
     }
-    
-    public void SetState(CharacterState state)
+
+    private void OnDestroy()
     {
-        currState?.ExitState();
-        currState = state;
-        currState?.EnterState();
+        InGameTracker.instance.onGameStateChange -= SwitchGameState;
     }
 
     private void Start()
     {
+        InGameTracker.instance.onGameStateChange += SwitchGameState;
         SetState(new PlayerLocomotion(this));
     }
 
-    void Update()
+    protected override void Update()
     {
+        
 
-        if (InGameTracker.instance.isPause)
+        if (isStop)
             return;
 
-        currState?.Tick();
+        base.Update();
 
-        anim.SetBool("IsJump", !PlayerTouchGround(Vector2.down));
+        if (isJumping == true)
+        {
+            commontimejumping += Time.deltaTime;
 
-        if (!PlayerTouchGround2(Vector2.down))
-        anim.SetTrigger("Falling");
+            if (commontimejumping >= AnimationLength("Anya_JumpUp"))
+            {
+                isJumping = false;
+                commontimejumping = 0;
+            }
+        }
+
+
+        if (!PlayerTouchGround2(Vector2.down) && isAttacking == false && isJumping == false && isDashing == false && isDead == false && isGetHitByEnemy == false)
+        playerAnimations.PlayAnimationJumpGround();
 
         if (Input.GetKeyDown(KeyCode.E))
         {
@@ -102,11 +123,10 @@ public class PlayerController : MonoBehaviour
             commontime += Time.deltaTime;
             isDead = true;
 
-            if (commontime >= respawndelay)
+            if (commontime >= AnimationLength("Anya_Hurt"))
             {
                 transform.position = SpawnPos;
                 SetState(new PlayerLocomotion(this));
-                anim.SetBool("Dead", false);
                 PlayerStats.instance.playerHealth = 3;
                 isDead = false;
                 commontime = 0;
@@ -119,10 +139,9 @@ public class PlayerController : MonoBehaviour
             ResetGame();
         }
 
-        if (PlayerTouchGround(Vector2.down) && jumpCounter <= 0)
+        if (PlayerTouchGround(Vector2.down))
         {
             jumpCounter = 2;
-                    
         }
         
         if (PlayerTouchEntity(movingPlatform, Vector2.down))
@@ -132,7 +151,7 @@ public class PlayerController : MonoBehaviour
 
         if (isInvulnerable)
         {
-            if(invulnerableCount < 2)
+            if(invulnerableCount < AnimationLength("Anya_Hurt"))
             {
                 invulnerableCount += Time.deltaTime;
             }else
@@ -144,9 +163,37 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    private void FixedUpdate()
+    protected override void FixedUpdate()
     {
-        currState?.PhysicTick();
+        if(isStop)
+        {
+            rb.velocity = Vector2.zero;
+            anim.SetFloat("Speed", rb.velocity.x);
+            return;
+        }
+
+        base.FixedUpdate();
+    }
+
+
+    public void SwitchGameState(GameplayState state)
+    {
+        switch (state)
+        {
+            case GameplayState.Pause:
+            case GameplayState.Dialogue:
+                isStop = true;
+                SetState(new PlayerLocomotion(this));
+                break;
+            case GameplayState.Stop:
+                isStop = true;
+                if(PlayerStats.instance.playerHealth > 0)
+                    SetState(new PlayerLocomotion(this));
+                break; 
+            case GameplayState.Playing:
+                isStop = false;
+                break;
+        }
     }
 
     public void ResetGame()
@@ -154,34 +201,27 @@ public class PlayerController : MonoBehaviour
         SceneManager.LoadScene("Level 1");
     }
 
-
     RaycastHit2D PlayerTouchEntity(LayerMask _entityLayer, Vector2 _detectionDirection)
     {
         return Physics2D.CapsuleCast(playerCollider.bounds.center, playerCollider.size, CapsuleDirection2D.Horizontal, 0.5f, _detectionDirection, 0.5f, _entityLayer);
-        //return Physics2D.CircleCast(playerCollider.bounds.center, playerCollider.radius, _detectionDirection, radiusDetection, _entityLayer);
     }
 
     public RaycastHit2D PlayerTouchGround(Vector2 _detectionDirection)
     {
-        //return Physics2D.CircleCast(playerCollider.bounds.center, playerCollider.radius, _detectionDirection, radiusDetection, groundLayer);
-        return Physics2D.CapsuleCast(playerCollider.bounds.center, playerCollider.size,CapsuleDirection2D.Vertical, 0.1f, _detectionDirection, 0.1f, groundLayer);
+        return Physics2D.CapsuleCast(playerCollider.bounds.center, playerCollider.size,CapsuleDirection2D.Vertical, 0.01f, _detectionDirection, 0.01f, groundLayer);
     }
 
     public RaycastHit2D PlayerTouchGround2(Vector2 _detectionDirection)
     {
-        //return Physics2D.CircleCast(playerCollider.bounds.center, playerCollider.radius, _detectionDirection, radiusDetection, groundLayer);
-        return Physics2D.CapsuleCast(playerCollider.bounds.center, playerCollider.size,CapsuleDirection2D.Vertical, 1f, _detectionDirection, 1f, groundLayer);
+        return Physics2D.CapsuleCast(playerCollider.bounds.center, playerCollider.size,CapsuleDirection2D.Vertical, 0.1f, _detectionDirection, 0.1f, groundLayer);
     }
 
     public RaycastHit2D[] PlayerTouchEnemy(bool _isFacingRight)
     {
         return Physics2D.CapsuleCastAll(playerCollider.bounds.center, playerCollider.size, CapsuleDirection2D.Horizontal, 0, _isFacingRight ? Vector2.right : Vector2.left, 1f, enemyEntity);
-        //return Physics2D.CircleCastAll(playerCollider.bounds.center, playerCollider.radius, _isFacingRight? Vector2.right : Vector2.left, radiusDetection, enemyEntity);
     }
 
-
-
-    public void PlayerAttacked(Vector2 _target, int damage)
+    public void PlayerHurt(Vector2 _target, int damage)
     {
         if (!isInvulnerable && PlayerStats.instance.playerHealth != 0)
         {
@@ -213,16 +253,6 @@ public class PlayerController : MonoBehaviour
         }
         return time;
     }
-    public void TriggerEffect()
-    {
-
-    }
-
-    //private void OnDrawGizmos()
-    //{
-    //    Gizmos.DrawWireSphere(playerCollider.bounds.center, playerCollider.size.x + 0.5f);
-    //    //izmos.DrawWireSphere(playerCollider.bounds.center, playerCollider.radius + 0.5f);
-    //}
 
     public void Dash()
     {
@@ -241,5 +271,30 @@ public class PlayerController : MonoBehaviour
             isFacingRight = true;
             transform.Rotate(0, 180f, 0);
         }
+    }
+
+    public void PlayAnimationAttack()
+    {
+        playerAnimations.PlayAnimationAttack();
+    }
+
+    public void PlayAnimationJumpUp()
+    {
+        playerAnimations.PlayAnimationJumpUp();
+    }
+
+    public void PlayAnimationDash()
+    {
+        playerAnimations.PlayAnimationDash();
+    }
+
+    public void PlayAnimationHurt()
+    {
+        playerAnimations.PlayAnimationHurt();
+    }
+
+    public void PlayAnimationDied()
+    {
+        playerAnimations.PlayAnimationDied();
     }
 }

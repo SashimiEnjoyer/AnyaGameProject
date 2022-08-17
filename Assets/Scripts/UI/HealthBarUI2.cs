@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class HealthBarUI2 : MonoBehaviour
 {
 
-    [SerializeField] private Image HealthBarCurrent;
+    //[SerializeField] private Image HealthBarCurrent;
 
 
     void Start()
@@ -16,6 +16,6 @@ public class HealthBarUI2 : MonoBehaviour
 
     void Update()
     {
-        HealthBarCurrent.fillAmount = PlayerStats.instance.playerHealth / 3;
+       // HealthBarCurrent.fillAmount = PlayerStats.instance.playerHealth / 3;
     }
 }

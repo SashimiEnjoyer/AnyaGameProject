@@ -6,6 +6,7 @@ public class PlayerLocomotion : CharacterState
 {
     PlayerController playerController;
     
+    
 
     public PlayerLocomotion(PlayerController player) : base(player)
     {
@@ -26,16 +27,22 @@ public class PlayerLocomotion : CharacterState
             if (character.isDashing)
                 return;
 
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            DashKeyPressed();
-        }
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                DashKeyPressed();
+            }
+
             horizontal = Input.GetAxisRaw("Horizontal");
 
             if (character.PlayerTouchGround(Vector2.down))
+            {
                 character.anim.SetFloat("Speed", Mathf.Abs(horizontal));
+            }
+                
             else
+            {
                 character.anim.SetFloat("Speed", 0);
+            }   
 
             if (!character.isFacingRight && horizontal > 0)
                 Flip();
@@ -63,8 +70,11 @@ public class PlayerLocomotion : CharacterState
             
 
             if (Input.GetKeyDown(KeyCode.X))
+            {
                 character.SetState(new PlayerAttack(character));
-
+                //playerAnimations.PlayAnimationAttack();
+            }
+           
 
             if (Input.GetKeyDown(KeyCode.Z))
             {
@@ -95,7 +105,6 @@ public class PlayerLocomotion : CharacterState
     public override void ExitState()
     {
         character.anim.SetFloat("Speed", Mathf.Abs(horizontal));
-
     }
 
     void PlayerJumping()
@@ -105,8 +114,9 @@ public class PlayerLocomotion : CharacterState
             if (character.jumpCounter <= 0)
                 return;
 
-            character.anim.SetTrigger("Jump");
+            character.PlayAnimationJumpUp();
             character.jumpCounter -= 1;
+            character.isJumping = true;
 
             if (character.jumpCounter >= 1)
                 character.rb.velocity = new Vector2(character.rb.velocity.x, character.jumpPower*0.04f);

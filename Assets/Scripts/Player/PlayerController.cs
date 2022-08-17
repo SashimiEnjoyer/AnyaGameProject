@@ -12,6 +12,9 @@ public struct EnemyData
 
 public class PlayerController : CharacterStateManager
 {
+    public Action OnDashKeyPressed;
+    public Action OnJumpKeyPressed;
+    public Action OnAttackKeyPressed;
 
     public Action OnDashKeyPressed;
     public Action OnJumpKeyPressed;
@@ -47,6 +50,8 @@ public class PlayerController : CharacterStateManager
     public bool isGetHitByEnemy = false;
     public bool isInvulnerable = false;
     public bool isDead = false;
+    public bool isAttacking = false;
+    public bool isJumping = false;
 
     [Header("Effect")]
     [SerializeField] HitEffect hitEffect;
@@ -60,9 +65,11 @@ public class PlayerController : CharacterStateManager
     [SerializeField] bool isStop = false;
 
     private float commontime;
-    public float respawndelay = 2f;
     private Vector3 SpawnPos;
     public bool keyboardInput = true;
+    private PlayerAnimations playerAnimations;
+
+    private float commontimejumping;
 
     void Awake()
     {
@@ -70,6 +77,7 @@ public class PlayerController : CharacterStateManager
         playerCollider = GetComponent<CapsuleCollider2D>();
         anim = GetComponent<Animator>();
         SpawnPos = transform.position;
+        playerAnimations = GetComponent<PlayerAnimations>();
     }
 
     private void OnDestroy()
@@ -85,15 +93,26 @@ public class PlayerController : CharacterStateManager
 
     protected override void Update()
     {
+
         if (isStop)
             return;
 
         base.Update();
 
-        anim.SetBool("IsJump", !PlayerTouchGround(Vector2.down));
+        if (isJumping == true)
+        {
+            commontimejumping += Time.deltaTime;
 
-        if (!PlayerTouchGround2(Vector2.down))
-        anim.SetTrigger("Falling");
+            if (commontimejumping >= AnimationLength("Anya_JumpUp"))
+            {
+                isJumping = false;
+                commontimejumping = 0;
+            }
+        }
+
+
+        if (!PlayerTouchGround2(Vector2.down) && isAttacking == false && isJumping == false && isDashing == false && isDead == false && isGetHitByEnemy == false)
+        playerAnimations.PlayAnimationJumpGround();
 
         if (Input.GetKeyDown(KeyCode.E))
         {
@@ -107,11 +126,10 @@ public class PlayerController : CharacterStateManager
             commontime += Time.deltaTime;
             isDead = true;
 
-            if (commontime >= respawndelay)
+            if (commontime >= AnimationLength("Anya_Hurt"))
             {
                 transform.position = SpawnPos;
                 SetState(new PlayerLocomotion(this));
-                anim.SetBool("Dead", false);
                 PlayerStats.instance.playerHealth = 3;
                 isDead = false;
                 commontime = 0;
@@ -127,7 +145,6 @@ public class PlayerController : CharacterStateManager
         if (PlayerTouchGround(Vector2.down))
         {
             jumpCounter = 2;
-                    
         }
         
         if (PlayerTouchEntity(movingPlatform, Vector2.down))
@@ -137,7 +154,7 @@ public class PlayerController : CharacterStateManager
 
         if (isInvulnerable)
         {
-            if(invulnerableCount < 2)
+            if(invulnerableCount < AnimationLength("Anya_Hurt"))
             {
                 invulnerableCount += Time.deltaTime;
             }else
@@ -194,12 +211,12 @@ public class PlayerController : CharacterStateManager
 
     public RaycastHit2D PlayerTouchGround(Vector2 _detectionDirection)
     {
-        return Physics2D.CapsuleCast(playerCollider.bounds.center, playerCollider.size,CapsuleDirection2D.Vertical, 0.1f, _detectionDirection, 0.1f, groundLayer);
+        return Physics2D.CapsuleCast(playerCollider.bounds.center, playerCollider.size,CapsuleDirection2D.Vertical, 0.01f, _detectionDirection, 0.01f, groundLayer);
     }
 
     public RaycastHit2D PlayerTouchGround2(Vector2 _detectionDirection)
     {
-        return Physics2D.CapsuleCast(playerCollider.bounds.center, playerCollider.size,CapsuleDirection2D.Vertical, 1f, _detectionDirection, 1f, groundLayer);
+        return Physics2D.CapsuleCast(playerCollider.bounds.center, playerCollider.size,CapsuleDirection2D.Vertical, 0.1f, _detectionDirection, 0.1f, groundLayer);
     }
 
     public RaycastHit2D[] PlayerTouchEnemy(bool _isFacingRight)
@@ -257,5 +274,30 @@ public class PlayerController : CharacterStateManager
             isFacingRight = true;
             transform.Rotate(0, 180f, 0);
         }
+    }
+
+    public void PlayAnimationAttack()
+    {
+        playerAnimations.PlayAnimationAttack();
+    }
+
+    public void PlayAnimationJumpUp()
+    {
+        playerAnimations.PlayAnimationJumpUp();
+    }
+
+    public void PlayAnimationDash()
+    {
+        playerAnimations.PlayAnimationDash();
+    }
+
+    public void PlayAnimationHurt()
+    {
+        playerAnimations.PlayAnimationHurt();
+    }
+
+    public void PlayAnimationDied()
+    {
+        playerAnimations.PlayAnimationDied();
     }
 }

@@ -13,8 +13,14 @@ public class PlayerDash : CharacterState
     public override void EnterState()
     {
         character.isDashing = true;
-        character.anim.SetBool("Dashing2", true);
-        character.anim.SetTrigger("Dashing");
+        character.PlayAnimationDash();
+    }
+
+    public override void Tick()
+    {
+        character.dashCounter += Time.deltaTime;
+
+        character.dashCounter = Mathf.Clamp(character.dashCounter, 0, character.dashTime + character.dashCooldown);
     }
 
     public override void Tick()
@@ -44,7 +50,6 @@ public class PlayerDash : CharacterState
 
             if (character.dashCounter >= character.dashTime + character.dashCooldown)
             {
-                character.anim.SetBool("Dashing2", false);
                 character.SetState(new PlayerLocomotion(character));
             }
                 

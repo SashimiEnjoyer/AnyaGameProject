@@ -10,8 +10,8 @@ public class PlayerHurt : CharacterState
 
     public override void EnterState()
     {
-        character.anim.SetTrigger("Hurt");
 
+        character.PlayAnimationHurt();
         character.invulnerableCount = 0;
         character.isInvulnerable = true;
         character.isGetHitByEnemy = true;
@@ -26,7 +26,7 @@ public class PlayerHurt : CharacterState
     public override void Tick()
     {
 
-        if(timer < 1)
+        if(timer < character.AnimationLength("Anya_Hurt"))
         {
             timer += Time.deltaTime;
         }else

@@ -9,6 +9,6 @@ public class PlayerDie : CharacterState
     public override void EnterState()
     {
         Debug.Log("Died!");
-        character.anim.SetBool("Dead", true);
+        character.PlayAnimationDied();
     }
 }

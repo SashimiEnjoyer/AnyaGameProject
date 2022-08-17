@@ -21,6 +21,7 @@ public class EnemyController : CharacterStateManager, IEnemy
     [SerializeField] GameObject enemyDialogue;
 
     public CapsuleCollider2D enemyCollider;
+    private EnemyAnimations enemyAnimations;
 
     float timer;
     float time;
@@ -31,7 +32,7 @@ public class EnemyController : CharacterStateManager, IEnemy
         rb = GetComponent<Rigidbody2D>();
         enemyCollider = GetComponent<CapsuleCollider2D>();
         anim = GetComponent<Animator>();
-        
+        enemyAnimations = GetComponent<EnemyAnimations>();
     }
 
     protected override void Update()
@@ -41,7 +42,6 @@ public class EnemyController : CharacterStateManager, IEnemy
 
         move();
         time += Time.deltaTime;
-        anim.SetBool("EnemyHurt", false);
 
         if (player() && !getHit && CanAttack == true)
         {
@@ -73,10 +73,10 @@ public class EnemyController : CharacterStateManager, IEnemy
         getHit = true;
         rb.AddForce(new Vector2 (_target.x > transform.position.x ? -350 : 350, 100));
         health -= 1;
-        anim.SetTrigger("EnemyHurt2");
+        enemyAnimations.PlayEnemyAnimationHurt();
 
         if (health <= 0)
-            Destroy(transform.parent.gameObject, 1f);
+            Destroy(transform.parent.gameObject, 0.5f);
         
         if(afterHitEffect == null)
         {
@@ -123,5 +123,20 @@ public class EnemyController : CharacterStateManager, IEnemy
     public RaycastHit2D player()
     {
         return EnemyAttackExtension.EnemyTouchPlayer(enemyCollider, playerMask, isFacingRight);
+    }
+
+    public float AnimationLength(string animationName)
+    {
+        float time = 0;
+        RuntimeAnimatorController ra = anim.runtimeAnimatorController;
+
+        for (int i = 0; i < ra.animationClips.Length; i++)
+        {
+            if(ra.animationClips[i].name == animationName)
+            {
+                time = ra.animationClips[i].length;
+            }
+        }
+        return time;
     }
 }

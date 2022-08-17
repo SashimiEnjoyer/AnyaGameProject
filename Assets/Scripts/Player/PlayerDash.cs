@@ -23,12 +23,6 @@ public class PlayerDash : CharacterState
         character.dashCounter = Mathf.Clamp(character.dashCounter, 0, character.dashTime + character.dashCooldown);
     }
 
-    public override void Tick()
-    {
-        character.dashCounter += Time.deltaTime;
-
-        character.dashCounter = Mathf.Clamp(character.dashCounter, 0, character.dashTime + character.dashCooldown);
-    }
 
     public override void PhysicTick()
     {

@@ -16,10 +16,6 @@ public class PlayerController : CharacterStateManager
     public Action OnJumpKeyPressed;
     public Action OnAttackKeyPressed;
 
-    public Action OnDashKeyPressed;
-    public Action OnJumpKeyPressed;
-    public Action OnAttackKeyPressed;
-
     [Header("Run Setting")]
     public float speed;
     public float dashSpeed = 50f;

@@ -240,17 +240,17 @@ public class PlayerController : CharacterStateManager
 
     public float AnimationLength(string animationName)
     {
-        float time = 0;
         RuntimeAnimatorController ra = anim.runtimeAnimatorController;
 
         for (int i = 0; i < ra.animationClips.Length; i++)
         {
             if(ra.animationClips[i].name == animationName)
             {
-                time = ra.animationClips[i].length;
+                return ra.animationClips[i].length;
             }
         }
-        return time;
+        Debug.LogError("Animation Name not found!");
+        return 0;
     }
 
     public void Dash()

@@ -31,6 +31,14 @@ public class PlayerAnimations : MonoBehaviour
             PlayAnimationIdle();
         }
     }
+
+    public void PlayAnimation(string animationName)
+    {
+        animationisPlaying = true;
+        animator.Play("Base Layer." + animationName, 0, 0f);
+        commontime = 0f;
+        limitTime = playerController.AnimationLength(animationName);
+    }
     
     public void PlayAnimationAttack()
     {

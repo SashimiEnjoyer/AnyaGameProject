@@ -8,8 +8,8 @@ public class EnemyAnimations : MonoBehaviour
     private Animation anim;
     private EnemyController enemyController;
     public bool animationisPlaying = false;
-    public float commontime = 0f;
-    public float limitTime;
+    private float commontime = 0f;
+    private float limitTime;
 
     public void Awake()
     {
@@ -36,7 +36,7 @@ public class EnemyAnimations : MonoBehaviour
         animationisPlaying = true;
         animator.Play("Base Layer.Enemy_Hurt", 0, 0f);
         commontime = 0f;
-        limitTime = enemyController.AnimationLength("Enemy_Hurt");
+        limitTime = 0.417f; //enemyController.AnimationLength("Enemy_Hurt");
     }
 
     public void PlayEnemyAnimationIdle()

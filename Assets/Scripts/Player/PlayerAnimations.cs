@@ -8,8 +8,8 @@ public class PlayerAnimations : MonoBehaviour
     private Animation anim;
     private PlayerController playerController;
     public bool animationisPlaying = false;
-    public float commontime = 0f;
-    public float limitTime;
+    private float commontime = 0f;
+    private float limitTime;
 
     public void Awake()
     {

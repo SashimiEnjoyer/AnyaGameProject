@@ -70,10 +70,10 @@ public class EnemyController : CharacterStateManager, IEnemy
 
     public void EnemyHurted(Vector2 _target)
     {
+        enemyAnimations.PlayEnemyAnimationHurt();
         getHit = true;
         rb.AddForce(new Vector2 (_target.x > transform.position.x ? -350 : 350, 100));
         health -= 1;
-        enemyAnimations.PlayEnemyAnimationHurt();
 
         if (health <= 0)
             Destroy(transform.parent.gameObject, 0.5f);

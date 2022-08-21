@@ -66,6 +66,8 @@ public class PlayerController : CharacterStateManager
     private PlayerAnimations playerAnimations;
 
     private float commontimejumping;
+    private float commontimeplatfrom;
+    [SerializeField] private LayerMask layer;
 
     void Awake()
     {
@@ -89,8 +91,15 @@ public class PlayerController : CharacterStateManager
 
     protected override void Update()
     {
-        
+        commontimeplatfrom += Time.deltaTime;
 
+        if (commontimeplatfrom >= 0.5f)
+        {
+            commontimeplatfrom = 0;
+            gameObject.layer = LayerMask.NameToLayer("Player");
+        }
+        
+        
         if (isStop)
             return;
 
@@ -143,7 +152,14 @@ public class PlayerController : CharacterStateManager
         {
             jumpCounter = 2;
         }
-        
+
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            commontimeplatfrom = 0;
+            gameObject.layer = LayerMask.NameToLayer("Player Platform Fall");
+        }
+
+           
         if (PlayerTouchEntity(movingPlatform, Vector2.down))
             transform.SetParent(PlayerTouchEntity(movingPlatform, Vector2.down).transform);
         else

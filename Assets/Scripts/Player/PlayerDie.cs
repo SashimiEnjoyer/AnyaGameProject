@@ -8,7 +8,7 @@ public class PlayerDie : CharacterState
 
     public override void EnterState()
     {
-        Debug.Log("Died!");
-        character.PlayAnimationDied();
+        character.SetAnimatortate(character.anim, "Anya_hurt");
+        //character.PlayAnimationDied();
     }
 }

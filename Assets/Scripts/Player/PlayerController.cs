@@ -4,12 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public struct EnemyData
-{
-    public Collider2D enemy;
-    public bool isAttacked;
-}
-
 public class PlayerController : CharacterStateManager
 {
     public Action OnDashKeyPressed;
@@ -29,10 +23,10 @@ public class PlayerController : CharacterStateManager
     public int jumpCounter = 2;
 
     [Header("Define Interactable Entity")]
-    [SerializeField] LayerMask groundLayer;
-    [SerializeField] LayerMask dialogueEntity;
-    [SerializeField] LayerMask enemyEntity;
-    [SerializeField] LayerMask movingPlatform;
+    public LayerMask groundLayer;
+    public LayerMask dialogueEntity;
+    public LayerMask enemyEntity;
+    public LayerMask movingPlatform;
     [SerializeField] float radiusDetection = 0.5f;
 
     [Header("Audio Setting")]
@@ -47,7 +41,6 @@ public class PlayerController : CharacterStateManager
     public bool isInvulnerable = false;
     public bool isDead = false;
     public bool isAttacking = false;
-    public bool isJumping = false;
 
     [Header("Effect")]
     [SerializeField] HitEffect hitEffect;
@@ -63,9 +56,7 @@ public class PlayerController : CharacterStateManager
     private float commontime;
     private Vector3 SpawnPos;
     public bool keyboardInput = true;
-    private PlayerAnimations playerAnimations;
 
-    private float commontimejumping;
     private float commontimeplatfrom;
     [SerializeField] private LayerMask layer;
 
@@ -75,7 +66,6 @@ public class PlayerController : CharacterStateManager
         playerCollider = GetComponent<CapsuleCollider2D>();
         anim = GetComponent<Animator>();
         SpawnPos = transform.position;
-        playerAnimations = GetComponent<PlayerAnimations>();
     }
 
     private void OnDestroy()
@@ -91,40 +81,19 @@ public class PlayerController : CharacterStateManager
 
     protected override void Update()
     {
-        commontimeplatfrom += Time.deltaTime;
-        if (commontimeplatfrom >= 0.5f)
-        {
-            commontimeplatfrom = 0;
-            gameObject.layer = LayerMask.NameToLayer("Player");
-        }
-        
         
         if (isStop)
             return;
 
         base.Update();
 
-        if (isJumping == true)
+        commontimeplatfrom += Time.deltaTime;
+        if (commontimeplatfrom >= 0.5f)
         {
-            commontimejumping += Time.deltaTime;
-
-            if (commontimejumping >= AnimationLength("Anya_JumpUp"))
-            {
-                isJumping = false;
-                commontimejumping = 0;
-            }
+            commontimeplatfrom = 0;
+            gameObject.layer = LayerMask.NameToLayer("Player");
         }
 
-
-        if (!PlayerTouchGround2(Vector2.down) && isAttacking == false && isJumping == false && isDashing == false && isDead == false && isGetHitByEnemy == false)
-        playerAnimations.PlayAnimationJumpGround();
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            //if (PlayerTouchEntity(dialogueEntity, Vector2.right))
-            PlayerTouchEntity(dialogueEntity, Vector2.right).collider.GetComponent<IInteractable>().ExecuteInteractable();        
-            
-        }
         
         if (PlayerStats.instance.playerHealth <= 0)
         {
@@ -216,14 +185,14 @@ public class PlayerController : CharacterStateManager
         SceneManager.LoadScene("Level 1");
     }
 
-    RaycastHit2D PlayerTouchEntity(LayerMask _entityLayer, Vector2 _detectionDirection)
+    public RaycastHit2D PlayerTouchEntity(LayerMask _entityLayer, Vector2 _detectionDirection)
     {
         return Physics2D.CapsuleCast(playerCollider.bounds.center, playerCollider.size, CapsuleDirection2D.Horizontal, 0.5f, _detectionDirection, 0.5f, _entityLayer);
     }
 
     public RaycastHit2D PlayerTouchGround(Vector2 _detectionDirection)
     {
-        return Physics2D.CapsuleCast(playerCollider.bounds.center, playerCollider.size,CapsuleDirection2D.Vertical, 0.01f, _detectionDirection, 0.01f, groundLayer);
+        return Physics2D.CapsuleCast(playerCollider.bounds.center, playerCollider.size,CapsuleDirection2D.Vertical, 0.1f, _detectionDirection, 0.01f, groundLayer);
     }
 
     public RaycastHit2D PlayerTouchGround2(Vector2 _detectionDirection)
@@ -288,28 +257,4 @@ public class PlayerController : CharacterStateManager
         }
     }
 
-    public void PlayAnimationAttack()
-    {
-        playerAnimations.PlayAnimationAttack();
-    }
-
-    public void PlayAnimationJumpUp()
-    {
-        playerAnimations.PlayAnimationJumpUp();
-    }
-
-    public void PlayAnimationDash()
-    {
-        playerAnimations.PlayAnimationDash();
-    }
-
-    public void PlayAnimationHurt()
-    {
-        playerAnimations.PlayAnimationHurt();
-    }
-
-    public void PlayAnimationDied()
-    {
-        playerAnimations.PlayAnimationDied();
-    }
 }

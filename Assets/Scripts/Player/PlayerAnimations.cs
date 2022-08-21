@@ -28,7 +28,7 @@ public class PlayerAnimations : MonoBehaviour
         if (animationisPlaying == true && commontime >= limitTime)
         {
             animationisPlaying = false;
-            PlayAnimationIdle();
+            //PlayAnimationIdle();
         }
     }
 

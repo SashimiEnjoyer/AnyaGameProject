@@ -5,13 +5,12 @@ using UnityEngine;
 public class PlayerHurt : CharacterState
 {
     public PlayerHurt(PlayerController player) : base(player) { }
-    public Rigidbody2D rb;
     float timer = 0;
 
     public override void EnterState()
     {
 
-        character.PlayAnimationHurt();
+        character.SetAnimatortate(character.anim, "Anya_Hurt");
         character.invulnerableCount = 0;
         character.isInvulnerable = true;
         character.isGetHitByEnemy = true;

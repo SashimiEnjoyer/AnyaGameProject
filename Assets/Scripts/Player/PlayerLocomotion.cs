@@ -1,7 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Default State
+/// </summary>
 public class PlayerLocomotion : CharacterState
 {
 
@@ -12,8 +13,6 @@ public class PlayerLocomotion : CharacterState
     public float cooldownTimer = 0;
     public float dashhCooldown = 0;
 
-
-    float horizontal;
 
     public override void EnterState()
     {
@@ -30,7 +29,7 @@ public class PlayerLocomotion : CharacterState
             if (character.isDashing)
                 return;
 
-            horizontal = Input.GetAxisRaw("Horizontal");
+            character.horizontalInput = Input.GetAxisRaw("Horizontal");
             
             if (Input.GetKeyDown(KeyCode.C))
             {
@@ -39,7 +38,7 @@ public class PlayerLocomotion : CharacterState
 
             if (character.PlayerTouchGround(Vector2.down))
             {
-                character.anim.SetFloat("Speed", Mathf.Abs(horizontal));
+                character.anim.SetFloat("Speed", Mathf.Abs(character.horizontalInput));
             }
                 
             else
@@ -47,9 +46,9 @@ public class PlayerLocomotion : CharacterState
                 character.anim.SetFloat("Speed", 0);
             }   
 
-            if (!character.isFacingRight && horizontal > 0)
+            if (!character.isFacingRight && character.horizontalInput > 0)
                 Flip();
-            if (character.isFacingRight && horizontal < 0)
+            if (character.isFacingRight && character.horizontalInput < 0)
                 Flip();
 
 
@@ -87,7 +86,7 @@ public class PlayerLocomotion : CharacterState
 
     public override void PhysicTick()
     {
-        character.rb.velocity = new Vector2(horizontal * character.speed * Time.deltaTime, character.rb.velocity.y);
+        character.rb.velocity = new Vector2(character.horizontalInput * character.speed * Time.deltaTime, character.rb.velocity.y);
     }
 
     public void Flip()
@@ -106,7 +105,7 @@ public class PlayerLocomotion : CharacterState
 
     public override void ExitState()
     {
-        character.anim.SetFloat("Speed", Mathf.Abs(horizontal));
+        character.anim.SetFloat("Speed", Mathf.Abs(character.horizontalInput));
     }
 
     void PlayerJumping()

@@ -1,9 +1,12 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
+
+/// <summary>
+/// Set and Get Overall Conditions for Player 
+/// </summary>
 public class PlayerController : CharacterStateManager
 {
     public Action OnDashKeyPressed;
@@ -11,6 +14,7 @@ public class PlayerController : CharacterStateManager
     public Action OnAttackKeyPressed;
 
     [Header("Run Setting")]
+    public float horizontalInput = 0f;
     public float speed;
     public float dashSpeed = 50f;
     public float dashCounter = 0f;
@@ -41,6 +45,7 @@ public class PlayerController : CharacterStateManager
     public bool isInvulnerable = false;
     public bool isDead = false;
     public bool isAttacking = false;
+    public float invulnerableCount = 0;
 
     [Header("Effect")]
     [SerializeField] HitEffect hitEffect;
@@ -50,14 +55,11 @@ public class PlayerController : CharacterStateManager
     public List<Collider2D> listOfEnemies = new List<Collider2D>();
 
     CapsuleCollider2D playerCollider;
-    public float invulnerableCount = 0;
-    [SerializeField] bool isStop = false;
+    bool isStop = false;
 
-    private float commontime;
     private Vector3 SpawnPos;
     public bool keyboardInput = true;
 
-    private float commontimeplatfrom;
     [SerializeField] private LayerMask layer;
 
     void Awake()
@@ -86,29 +88,6 @@ public class PlayerController : CharacterStateManager
             return;
 
         base.Update();
-
-        commontimeplatfrom += Time.deltaTime;
-        if (commontimeplatfrom >= 0.5f)
-        {
-            commontimeplatfrom = 0;
-            gameObject.layer = LayerMask.NameToLayer("Player");
-        }
-
-        
-        if (PlayerStats.instance.playerHealth <= 0)
-        {
-            commontime += Time.deltaTime;
-            isDead = true;
-
-            if (commontime >= AnimationLength("Anya_Hurt"))
-            {
-                transform.position = SpawnPos;
-                SetState(new PlayerLocomotion(this));
-                PlayerStats.instance.playerHealth = 3;
-                isDead = false;
-                commontime = 0;
-            }
-        }
         
         // Manual Level Reset.
         if (Input.GetKeyDown(KeyCode.T))
@@ -120,13 +99,6 @@ public class PlayerController : CharacterStateManager
         {
             jumpCounter = 2;
         }
-
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            commontimeplatfrom = 0;
-            gameObject.layer = LayerMask.NameToLayer("Player Platform Fall");
-        }
-
            
         if (PlayerTouchEntity(movingPlatform, Vector2.down))
             transform.SetParent(PlayerTouchEntity(movingPlatform, Vector2.down).transform);
@@ -195,11 +167,6 @@ public class PlayerController : CharacterStateManager
         return Physics2D.CapsuleCast(playerCollider.bounds.center, playerCollider.size,CapsuleDirection2D.Vertical, 0.1f, _detectionDirection, 0.01f, groundLayer);
     }
 
-    public RaycastHit2D PlayerTouchGround2(Vector2 _detectionDirection)
-    {
-        return Physics2D.CapsuleCast(playerCollider.bounds.center, playerCollider.size,CapsuleDirection2D.Vertical, 0.1f, _detectionDirection, 0.1f, groundLayer);
-    }
-
     public RaycastHit2D[] PlayerTouchEnemy(bool _isFacingRight)
     {
         return Physics2D.CapsuleCastAll(playerCollider.bounds.center, playerCollider.size, CapsuleDirection2D.Horizontal, 0, _isFacingRight ? Vector2.right : Vector2.left, 1f, enemyEntity);
@@ -207,13 +174,12 @@ public class PlayerController : CharacterStateManager
 
     public void PlayerHurt(Vector2 _target, int damage)
     {
-        if (!isInvulnerable && PlayerStats.instance.playerHealth != 0)
+        if (!isInvulnerable && PlayerStats.instance.playerHealth > 0)
         {
-
             rb.AddForce(new Vector2(_target.x > transform.position.x ? -100 : 100, 150));
             PlayerStats.instance.playerHealth -= damage;
-            SetState(new PlayerHurt(this));
 
+            SetState(PlayerStats.instance.playerHealth > 0? new PlayerHurt(this) : new PlayerDie(this));
         }
     }
 

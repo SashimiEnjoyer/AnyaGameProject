@@ -11,7 +11,7 @@ public class InGameTracker : MonoBehaviour, ISaveSystem
 
     public Action<GameplayState> onGameStateChange;
 
-    private GameplayState _gameState;
+    [SerializeField] private GameplayState _gameState;
 
     public GameplayState gameState
     {
@@ -38,6 +38,12 @@ public class InGameTracker : MonoBehaviour, ISaveSystem
         else
             Destroy(this.gameObject);
 
+    }
+
+    [ContextMenu("Play")]
+    public void TestPlaying()
+    {
+        gameState = GameplayState.Playing;
     }
 
     public object CaptureSavedData()

@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using DG.Tweening;
 
  public enum TransitionPosition { FromBlack, ToBlack, Full}
 
@@ -11,10 +12,7 @@ public class TransitionScreen : MonoBehaviour
     public TransitionPosition transitionPos;
     [SerializeField] CanvasGroup canvasGroup;
 
-    bool isStarting = false;
     float transitionTimer = 1f;
-    float counter = 0f;
-    bool reverse = false;
 
     private void Awake()
     {
@@ -42,77 +40,18 @@ public class TransitionScreen : MonoBehaviour
         {
             case TransitionPosition.FromBlack:
                 canvasGroup.alpha = 1f;
+                DOTween.To(() => canvasGroup.alpha, x => canvasGroup.alpha = x, 0, transitionTimer).SetEase(Ease.InOutQuint).OnComplete(() => OnFinished?.Invoke());
                 break;
             case TransitionPosition.ToBlack:
+                canvasGroup.alpha = 0;
+                DOTween.To(() => canvasGroup.alpha, x => canvasGroup.alpha = x, 1, transitionTimer).SetEase(Ease.OutQuint).OnComplete(() => OnFinished?.Invoke());
+                break;
             case TransitionPosition.Full:
                 canvasGroup.alpha = 0;
                 break;
+
         }
 
-        if (!isStarting)
-            isStarting = true;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (!isStarting)
-            return;
-
-        switch (transitionPos)
-        {
-            case TransitionPosition.FromBlack:
-                
-                transitionTimer -= Time.deltaTime;
-
-                canvasGroup.alpha = transitionTimer;
-
-                if (transitionTimer <= 0)
-                {
-                    isStarting = false;
-                    OnFinished?.Invoke();
-                    Destroy(gameObject);    // Destroy when done transitioning 
-                }
-                break;
-
-            case TransitionPosition.ToBlack:
-                
-                counter += Time.deltaTime;
-
-                canvasGroup.alpha = counter;
-
-                if (counter >= transitionTimer)
-                {
-                    isStarting = false;
-                    OnFinished?.Invoke();
-                    //Destroy(this.gameObject);
-                }
-                break;
-
-            case TransitionPosition.Full:
-
-
-                if(!reverse)
-                    counter += Time.deltaTime;
-                else
-                    counter -= Time.deltaTime;
-
-                canvasGroup.alpha = counter;
-
-                if(counter >= transitionTimer + 2)
-                {
-                    reverse = true;
-                }
-
-                if(counter <= 0 && reverse)
-                {
-                    isStarting = false;
-                    OnFinished?.Invoke();
-                    Destroy(gameObject);
-                }
-
-                break;
-        }
     }
 
     private void OnDestroy()

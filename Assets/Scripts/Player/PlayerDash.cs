@@ -13,7 +13,7 @@ public class PlayerDash : CharacterState
     public override void EnterState()
     {
         character.isDashing = true;
-        character.SetAnimatortate(character.anim, "Anya_Dash");
+        character.SetAnimatorState(character.anim, "Anya_Dash");
     }
 
     public override void Tick()

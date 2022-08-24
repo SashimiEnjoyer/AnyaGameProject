@@ -14,14 +14,14 @@ public class CharacterStateManager : MonoBehaviour
         currState?.EnterState();
     }
 
-    public void SetAnimatortate(Animator animator, string animationName, bool canMultiple = false)
+    public void SetAnimatorState(Animator animator, string animationStateName, bool canMultiple = false)
     {
-        if (string.Equals(currentAnimationLayer, animationName) && !canMultiple)
+        if (string.Equals(currentAnimationLayer, animationStateName) && !canMultiple)
             return;
 
-        currentAnimationLayer = animationName;
+        currentAnimationLayer = animationStateName;
 
-        animator.Play(animationName, 0, 0);
+        animator.Play(animationStateName, 0, 0);
     }
 
     protected virtual void Update()

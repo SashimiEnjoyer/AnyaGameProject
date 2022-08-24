@@ -16,11 +16,11 @@ public class PlayerAttack : CharacterState
         if (character.PlayerTouchGround(Vector2.down))
         {
             if(Mathf.Abs(character.horizontalInput) > 0)
-                character.SetAnimatortate(character.anim, "Running_Attack_Ground");
+                character.SetAnimatorState(character.anim, "Running_Attack_Ground");
             else
-                character.SetAnimatortate(character.anim, "Attack_Ground");
+                character.SetAnimatorState(character.anim, "Attack_Ground");
         }else
-            character.SetAnimatortate(character.anim, "Attack_Ground");
+            character.SetAnimatorState(character.anim, "Attack_Ground");
 
         character.attackAudio.PlayOneShot(character.attackClip[Random.Range(0, character.attackClip.Length)]);
         character.isAttacking = true;

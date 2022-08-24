@@ -6,7 +6,7 @@ public class PlayerHurt : CharacterState
 
     public override void EnterState()
     {
-        character.SetAnimatortate(character.anim, "Anya_Hurt");
+        character.SetAnimatorState(character.anim, "Anya_Hurt");
         
         character.invulnerableCount = 0;
         character.isInvulnerable = true;

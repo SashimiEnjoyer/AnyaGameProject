@@ -16,7 +16,7 @@ public class PlayerLocomotion : CharacterState
 
     public override void EnterState()
     {
-        character.SetAnimatortate(character.anim, "Anya_Idle");
+        character.SetAnimatorState(character.anim, "Anya_Idle");
     }
 
     public override void Tick()

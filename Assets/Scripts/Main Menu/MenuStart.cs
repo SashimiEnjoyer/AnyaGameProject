@@ -5,22 +5,37 @@ using UnityEngine.UI;
 
 public class MenuStart : MonoBehaviour
 {
-    public Button button;
+    public Image highlighted;
     private ButtonFadeOut buttonFadeOut;
     private EventController eventController;
 
+
     void Start()
     {
-        button.onClick.AddListener(TaskOnClick);
-        buttonFadeOut = GetComponent<ButtonFadeOut>();
         eventController = GetComponent<EventController>();
+        var opacity = highlighted.color;
+        opacity.a = 0;
+        highlighted.color = opacity;
     }
 
 
-    void TaskOnClick()
+    public void TaskOnClick()
     {
         Debug.Log("Game Start");
-        buttonFadeOut.start = true;
         eventController.EventStart = true;
+    }
+
+    public void MouseOver()
+    {
+        var opacity = highlighted.color;
+        opacity.a = 1;
+        highlighted.color = opacity;
+    }
+
+    public void MouseExit()
+    {
+        var opacity = highlighted.color;
+        opacity.a = 0;
+        highlighted.color = opacity;
     }
 }

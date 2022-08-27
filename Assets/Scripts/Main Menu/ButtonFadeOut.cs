@@ -12,10 +12,14 @@ public class ButtonFadeOut : MonoBehaviour
     {
         if (start == true)
         {
-            image = GetComponent<Image>();
             var opacity = image.color;
             opacity.a -= Time.deltaTime * 2;
             image.color = opacity;
         }
+    }
+
+    public void EventStart()
+    {
+        start = true;
     }
 }

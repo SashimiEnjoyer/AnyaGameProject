@@ -13,7 +13,7 @@ public class PlayerDash : CharacterState
     public override void EnterState()
     {
         character.isDashing = true;
-        character.PlayAnimationDash();
+        character.SetAnimatorState(character.anim, "Anya_Dash");
     }
 
     public override void Tick()
@@ -22,6 +22,7 @@ public class PlayerDash : CharacterState
 
         character.dashCounter = Mathf.Clamp(character.dashCounter, 0, character.dashTime + character.dashCooldown);
     }
+
 
     public override void PhysicTick()
     {

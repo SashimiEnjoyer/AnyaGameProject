@@ -8,20 +8,32 @@ public class PlayerAttack : CharacterState
     {
     }
 
-    float time;
+    float animationTimer = 0f;
+    float time = 0f;
 
     public override void EnterState()
     {
-        character.attackAudio.PlayOneShot(character.attackClip[Random.Range(0, 5)]);
-        character.PlayAnimationAttack();
+        if (character.PlayerTouchGround(Vector2.down))
+        {
+            if(Mathf.Abs(character.horizontalInput) > 0)
+                character.SetAnimatorState(character.anim, "Running_Attack_Ground");
+            else
+                character.SetAnimatorState(character.anim, "Attack_Ground");
+        }else
+            character.SetAnimatorState(character.anim, "Attack_Ground");
+
+        character.attackAudio.PlayOneShot(character.attackClip[Random.Range(0, character.attackClip.Length)]);
         character.isAttacking = true;
     }
 
     public override void Tick()
     {
+        if (animationTimer <= 0f)
+            animationTimer = character.anim.GetCurrentAnimatorClipInfo(0)[0].clip.length;
+
         time += Time.deltaTime;
 
-        if (time < character.AnimationLength("Anya_Attack1"))
+        if (time < animationTimer)
         {
             for (int i = 0; i < character.PlayerTouchEnemy(character.isFacingRight).Length; i++)
             {
@@ -49,7 +61,6 @@ public class PlayerAttack : CharacterState
 
     public override void ExitState()
     {
-        
         character.EmptyEnemyList();
         time = 0;
     }

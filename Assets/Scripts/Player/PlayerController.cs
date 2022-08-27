@@ -1,15 +1,12 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
-public struct EnemyData
-{
-    public Collider2D enemy;
-    public bool isAttacked;
-}
 
+/// <summary>
+/// Set and Get Overall Conditions for Player 
+/// </summary>
 public class PlayerController : CharacterStateManager
 {
     public Action OnDashKeyPressed;
@@ -17,6 +14,7 @@ public class PlayerController : CharacterStateManager
     public Action OnAttackKeyPressed;
 
     [Header("Run Setting")]
+    public float horizontalInput = 0f;
     public float speed;
     public float dashSpeed = 50f;
     public float dashCounter = 0f;
@@ -29,10 +27,10 @@ public class PlayerController : CharacterStateManager
     public int jumpCounter = 2;
 
     [Header("Define Interactable Entity")]
-    [SerializeField] LayerMask groundLayer;
-    [SerializeField] LayerMask dialogueEntity;
-    [SerializeField] LayerMask enemyEntity;
-    [SerializeField] LayerMask movingPlatform;
+    public LayerMask groundLayer;
+    public LayerMask dialogueEntity;
+    public LayerMask enemyEntity;
+    public LayerMask movingPlatform;
     [SerializeField] float radiusDetection = 0.5f;
 
     [Header("Audio Setting")]
@@ -47,7 +45,7 @@ public class PlayerController : CharacterStateManager
     public bool isInvulnerable = false;
     public bool isDead = false;
     public bool isAttacking = false;
-    public bool isJumping = false;
+    public float invulnerableCount = 0;
 
     [Header("Effect")]
     [SerializeField] HitEffect hitEffect;
@@ -57,16 +55,11 @@ public class PlayerController : CharacterStateManager
     public List<Collider2D> listOfEnemies = new List<Collider2D>();
 
     CapsuleCollider2D playerCollider;
-    public float invulnerableCount = 0;
-    [SerializeField] bool isStop = false;
+    bool isStop = false;
 
-    private float commontime;
     private Vector3 SpawnPos;
     public bool keyboardInput = true;
-    private PlayerAnimations playerAnimations;
 
-    private float commontimejumping;
-    private float commontimeplatfrom;
     [SerializeField] private LayerMask layer;
 
     void Awake()
@@ -75,7 +68,6 @@ public class PlayerController : CharacterStateManager
         playerCollider = GetComponent<CapsuleCollider2D>();
         anim = GetComponent<Animator>();
         SpawnPos = transform.position;
-        playerAnimations = GetComponent<PlayerAnimations>();
     }
 
     private void OnDestroy()
@@ -91,56 +83,11 @@ public class PlayerController : CharacterStateManager
 
     protected override void Update()
     {
-        commontimeplatfrom += Time.deltaTime;
-
-        if (commontimeplatfrom >= 0.5f)
-        {
-            commontimeplatfrom = 0;
-            gameObject.layer = LayerMask.NameToLayer("Player");
-        }
-        
         
         if (isStop)
             return;
 
         base.Update();
-
-        if (isJumping == true)
-        {
-            commontimejumping += Time.deltaTime;
-
-            if (commontimejumping >= AnimationLength("Anya_JumpUp"))
-            {
-                isJumping = false;
-                commontimejumping = 0;
-            }
-        }
-
-
-        if (!PlayerTouchGround2(Vector2.down) && isAttacking == false && isJumping == false && isDashing == false && isDead == false && isGetHitByEnemy == false)
-        playerAnimations.PlayAnimationJumpGround();
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            //if (PlayerTouchEntity(dialogueEntity, Vector2.right))
-            PlayerTouchEntity(dialogueEntity, Vector2.right).collider.GetComponent<IInteractable>().ExecuteInteractable();        
-            
-        }
-        
-        if (PlayerStats.instance.playerHealth <= 0)
-        {
-            commontime += Time.deltaTime;
-            isDead = true;
-
-            if (commontime >= AnimationLength("Anya_Hurt"))
-            {
-                transform.position = SpawnPos;
-                SetState(new PlayerLocomotion(this));
-                PlayerStats.instance.playerHealth = 3;
-                isDead = false;
-                commontime = 0;
-            }
-        }
         
         // Manual Level Reset.
         if (Input.GetKeyDown(KeyCode.T))
@@ -152,13 +99,6 @@ public class PlayerController : CharacterStateManager
         {
             jumpCounter = 2;
         }
-
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            commontimeplatfrom = 0;
-            gameObject.layer = LayerMask.NameToLayer("Player Platform Fall");
-        }
-
            
         if (PlayerTouchEntity(movingPlatform, Vector2.down))
             transform.SetParent(PlayerTouchEntity(movingPlatform, Vector2.down).transform);
@@ -217,19 +157,14 @@ public class PlayerController : CharacterStateManager
         SceneManager.LoadScene("Level 1");
     }
 
-    RaycastHit2D PlayerTouchEntity(LayerMask _entityLayer, Vector2 _detectionDirection)
+    public RaycastHit2D PlayerTouchEntity(LayerMask _entityLayer, Vector2 _detectionDirection)
     {
         return Physics2D.CapsuleCast(playerCollider.bounds.center, playerCollider.size, CapsuleDirection2D.Horizontal, 0.5f, _detectionDirection, 0.5f, _entityLayer);
     }
 
     public RaycastHit2D PlayerTouchGround(Vector2 _detectionDirection)
     {
-        return Physics2D.CapsuleCast(playerCollider.bounds.center, playerCollider.size,CapsuleDirection2D.Vertical, 0.01f, _detectionDirection, 0.01f, groundLayer);
-    }
-
-    public RaycastHit2D PlayerTouchGround2(Vector2 _detectionDirection)
-    {
-        return Physics2D.CapsuleCast(playerCollider.bounds.center, playerCollider.size,CapsuleDirection2D.Vertical, 0.1f, _detectionDirection, 0.1f, groundLayer);
+        return Physics2D.CapsuleCast(playerCollider.bounds.center, playerCollider.size,CapsuleDirection2D.Vertical, 0.1f, _detectionDirection, 0.01f, groundLayer);
     }
 
     public RaycastHit2D[] PlayerTouchEnemy(bool _isFacingRight)
@@ -239,13 +174,12 @@ public class PlayerController : CharacterStateManager
 
     public void PlayerHurt(Vector2 _target, int damage)
     {
-        if (!isInvulnerable && PlayerStats.instance.playerHealth != 0)
+        if (!isInvulnerable && PlayerStats.instance.playerHealth > 0)
         {
-
             rb.AddForce(new Vector2(_target.x > transform.position.x ? -100 : 100, 150));
             PlayerStats.instance.playerHealth -= damage;
-            SetState(new PlayerHurt(this));
 
+            SetState(PlayerStats.instance.playerHealth > 0? new PlayerHurt(this) : new PlayerDie(this));
         }
     }
 
@@ -257,17 +191,17 @@ public class PlayerController : CharacterStateManager
 
     public float AnimationLength(string animationName)
     {
-        float time = 0;
         RuntimeAnimatorController ra = anim.runtimeAnimatorController;
 
         for (int i = 0; i < ra.animationClips.Length; i++)
         {
             if(ra.animationClips[i].name == animationName)
             {
-                time = ra.animationClips[i].length;
+                return ra.animationClips[i].length;
             }
         }
-        return time;
+        Debug.LogError("Animation Name not found!");
+        return 0;
     }
 
     public void Dash()
@@ -289,28 +223,4 @@ public class PlayerController : CharacterStateManager
         }
     }
 
-    public void PlayAnimationAttack()
-    {
-        playerAnimations.PlayAnimationAttack();
-    }
-
-    public void PlayAnimationJumpUp()
-    {
-        playerAnimations.PlayAnimationJumpUp();
-    }
-
-    public void PlayAnimationDash()
-    {
-        playerAnimations.PlayAnimationDash();
-    }
-
-    public void PlayAnimationHurt()
-    {
-        playerAnimations.PlayAnimationHurt();
-    }
-
-    public void PlayAnimationDied()
-    {
-        playerAnimations.PlayAnimationDied();
-    }
 }

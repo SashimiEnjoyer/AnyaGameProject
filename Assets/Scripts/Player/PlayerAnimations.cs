@@ -28,8 +28,16 @@ public class PlayerAnimations : MonoBehaviour
         if (animationisPlaying == true && commontime >= limitTime)
         {
             animationisPlaying = false;
-            PlayAnimationIdle();
+            //PlayAnimationIdle();
         }
+    }
+
+    public void PlayAnimation(string animationName)
+    {
+        animationisPlaying = true;
+        animator.Play("Base Layer." + animationName, 0, 0f);
+        commontime = 0f;
+        limitTime = playerController.AnimationLength(animationName);
     }
     
     public void PlayAnimationAttack()
@@ -85,6 +93,14 @@ public class PlayerAnimations : MonoBehaviour
         animationisPlaying = true;
         animator.Play("Base Layer.Anya_JumpGround", 0, 0f);
         limitTime = playerController.AnimationLength("Anya_JumpGround");
+    }
+
+    public void PlayAnimationWakeUp()
+    {
+        animationisPlaying = true;
+        animator.Play("Base Layer.Anya_WakeUp", 0, 0f);
+        commontime = 0f;
+        limitTime = playerController.AnimationLength("Anya_WakeUp");
     }
 
 }

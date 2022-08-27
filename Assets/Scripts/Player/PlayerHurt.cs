@@ -1,39 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+using Cysharp.Threading.Tasks;
 public class PlayerHurt : CharacterState
 {
     public PlayerHurt(PlayerController player) : base(player) { }
-    public Rigidbody2D rb;
     float timer = 0;
 
     public override void EnterState()
     {
-        character.PlayAnimationHurt();
-
+        character.SetAnimatorState(character.anim, "Anya_Hurt");
+        
         character.invulnerableCount = 0;
         character.isInvulnerable = true;
         character.isGetHitByEnemy = true;
-
-        if (PlayerStats.instance.playerHealth <= 0)
-        {
-            character.SetState(new PlayerDie(character));
-            character.rb.velocity = Vector2.zero;
-        }
+        
     }
 
-    public override void Tick()
+    public override async void Tick()
     {
-
-        if(timer < character.AnimationLength("Anya_Hurt"))
-        {
-            timer += Time.deltaTime;
-        }else
-        {
-            timer = 1;
-            character.SetState(new PlayerLocomotion(character));
-        }    
+        await UniTask.Delay(1000); // Wait 1 sec
+        
+        character.SetState(new PlayerLocomotion(character));    
     }
 
     public override void ExitState()

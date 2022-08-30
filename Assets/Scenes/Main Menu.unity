@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 133285107}
   - component: {fileID: 133285109}
   - component: {fileID: 133285108}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: settingimg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -448,7 +448,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 353693039}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Sound
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2594,7 +2594,7 @@ GameObject:
   - component: {fileID: 795325349}
   - component: {fileID: 795325351}
   - component: {fileID: 795325350}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: backimg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3155,7 +3155,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1033454783}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8ffd345fd0932c9478d353331857117b, type: 3}
   m_Name: 
@@ -3191,7 +3191,7 @@ GameObject:
   - component: {fileID: 1093458621}
   - component: {fileID: 1093458620}
   - component: {fileID: 1093458619}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: ButtonFade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4083,7 +4083,7 @@ GameObject:
   - component: {fileID: 1454526406}
   - component: {fileID: 1454526408}
   - component: {fileID: 1454526407}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: startimg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4159,7 +4159,7 @@ GameObject:
   - component: {fileID: 1493519224}
   - component: {fileID: 1493519226}
   - component: {fileID: 1493519225}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: englishimg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4235,7 +4235,7 @@ GameObject:
   - component: {fileID: 1571918725}
   - component: {fileID: 1571918727}
   - component: {fileID: 1571918726}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: japaneseimg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5043,7 +5043,7 @@ GameObject:
   - component: {fileID: 1737798970}
   - component: {fileID: 1737798972}
   - component: {fileID: 1737798971}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Settings Panel Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5385,6 +5385,7 @@ MonoBehaviour:
   panel: {fileID: 1999952562}
   locationTarget: {fileID: 1699986049}
   speed: 2
+  useEscapeKey: 0
 --- !u!114 &1798741979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5457,6 +5458,7 @@ MonoBehaviour:
   panel: {fileID: 1999952562}
   locationTarget: {fileID: 1654532384}
   speed: 1
+  useEscapeKey: 0
 --- !u!114 &1898482055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5742,7 +5744,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1932027485}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Buttons
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5778,7 +5780,7 @@ GameObject:
   - component: {fileID: 1958727018}
   - component: {fileID: 1958727020}
   - component: {fileID: 1958727019}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Language
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5891,7 +5893,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1999952562}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Settings Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}

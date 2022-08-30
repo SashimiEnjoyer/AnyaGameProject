@@ -9,6 +9,7 @@ TagManager:
   - Enemy Hit Box
   - Ground
   - SIplatfrom
+  - InGameTracker
   layers:
   - Default
   - TransparentFX

@@ -95,4 +95,12 @@ public class PlayerAnimations : MonoBehaviour
         limitTime = playerController.AnimationLength("Anya_JumpGround");
     }
 
+    public void PlayAnimationWakeUp()
+    {
+        animationisPlaying = true;
+        animator.Play("Base Layer.Anya_WakeUp", 0, 0f);
+        commontime = 0f;
+        limitTime = playerController.AnimationLength("Anya_WakeUp");
+    }
+
 }

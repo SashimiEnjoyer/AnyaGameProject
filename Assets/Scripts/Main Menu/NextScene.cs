@@ -16,9 +16,9 @@ public class NextScene : MonoBehaviour
         if (start == true)
         {
             var opacity = image.color;
-            opacity.a += Time.deltaTime * 2;
+            opacity.a += Time.unscaledDeltaTime * 2;
             image.color = opacity;
-            commontime += Time.deltaTime * 2;
+            commontime += Time.unscaledDeltaTime * 2;
 
             if (commontime >= 5f)
             {

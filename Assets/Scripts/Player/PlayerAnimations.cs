@@ -103,4 +103,8 @@ public class PlayerAnimations : MonoBehaviour
         limitTime = playerController.AnimationLength("Anya_WakeUp");
     }
 
+    public void PlayAnimationSleep()
+    {
+        animator.Play("Base Layer.Anya_Sleep", 0, 0f);
+    }
 }

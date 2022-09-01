@@ -8,13 +8,19 @@ public class SettingsData : MonoBehaviour
     public static float masterVolume;
     public static float soundEffect;
     public static float background;
-
-    public float test;
+    public static float lang;
 
     [Header("Sliders")]
     public GameObject sliderMasterVolume;
     public GameObject sliderSFX;
     public GameObject sliderBackground;
+
+    [Header("Language")]
+    public Image eN;
+    public Image jP;
+    public MenuSetting MsEN;
+    public MenuSetting MsJP;
+    public float test;
 
     private Slider sMV;
     private Slider sSFX;
@@ -29,6 +35,18 @@ public class SettingsData : MonoBehaviour
         sMV.value = masterVolume;
         sSFX.value = soundEffect;
         sB.value = background;
+
+        if (lang == 1)
+        {
+            MsEN.isActive = false;
+            MsJP.isActive = true;
+        }
+        
+        if (lang == 0)
+        {
+            MsEN.isActive = true;
+            MsJP.isActive = false;
+        }
     }
 
     void FixedUpdate()
@@ -37,6 +55,12 @@ public class SettingsData : MonoBehaviour
         soundEffect = sSFX.value;
         background = sB.value;
 
-        test = masterVolume;
+        if (jP.color.a == 1)
+        lang = 1;
+
+        if (eN.color.a == 1)
+        lang = 0;
+
+        test = lang;
     }
 }

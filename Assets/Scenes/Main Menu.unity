@@ -5385,7 +5385,8 @@ MonoBehaviour:
   panel: {fileID: 1999952562}
   locationTarget: {fileID: 1699986049}
   speed: 2
-  useEscapeKey: 0
+  backButton: 0
+  keyTrigger: {fileID: 0}
 --- !u!114 &1798741979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5458,7 +5459,8 @@ MonoBehaviour:
   panel: {fileID: 1999952562}
   locationTarget: {fileID: 1654532384}
   speed: 1
-  useEscapeKey: 0
+  backButton: 0
+  keyTrigger: {fileID: 0}
 --- !u!114 &1898482055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5893,6 +5895,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1999952562}
+  - component: {fileID: 1999952563}
   m_Layer: 5
   m_Name: Settings Panel
   m_TagString: Untagged
@@ -5919,6 +5922,22 @@ Transform:
   m_Father: {fileID: 1699986049}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1999952563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1999952561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a3947f5b89742f4384ddc86fe03c7b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  test: 0
+  sliderMasterVolume: {fileID: 962565443}
+  sliderSFX: {fileID: 1420867717}
+  sliderBackground: {fileID: 1654908859}
 --- !u!1 &2094734754
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,6 +10,7 @@ public class PlayerAttack : CharacterState
 
     float animationTimer = 0f;
     float time = 0f;
+    GameObject slashEffectObject;
 
     public override void EnterState()
     {
@@ -24,6 +25,9 @@ public class PlayerAttack : CharacterState
 
         character.attackAudio.PlayOneShot(character.attackClip[Random.Range(0, character.attackClip.Length)]);
         character.isAttacking = true;
+
+        slashEffectObject = GameObject.Instantiate(character.attackSlashEffectPrefab, character.transform.position + new Vector3( character.isFacingRight? 2 : -2, 0), Quaternion.identity);
+        slashEffectObject.transform.parent = character.transform;
     }
 
     public override void Tick()
@@ -63,5 +67,6 @@ public class PlayerAttack : CharacterState
     {
         character.EmptyEnemyList();
         time = 0;
+        GameObject.Destroy(slashEffectObject);
     }
 }

@@ -18,9 +18,10 @@ public class DialogueController : MonoBehaviour, IInteractable
     private GameObject dialogueObject;
     private DialogueModalUI dialogueUI;
     public bool isOpen = false;
-    private int dialogueIndex = 0;
+    public int dialogueIndex = 0;
     public bool ObjectDestroyed = false;
     public bool DialogueEnd = false;
+    public bool isActive = false;
 
     private void Update()
     {
@@ -35,6 +36,7 @@ public class DialogueController : MonoBehaviour, IInteractable
         if (!isOpen)
         {
             isOpen = true;
+            isActive = true;
 
             dialogueObject = Instantiate(dialogueModalUIPrefab);
             dialogueUI = dialogueObject.GetComponent<DialogueModalUI>();
@@ -56,6 +58,7 @@ public class DialogueController : MonoBehaviour, IInteractable
             EndDialogue();
             InGameTracker.instance.gameState = GameplayState.Playing;
             dialogueIndex = 0;
+            isActive = false;
         }
     }
 

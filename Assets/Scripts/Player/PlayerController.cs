@@ -21,6 +21,9 @@ public class PlayerController : CharacterStateManager
     public float dashTime = 0.5f;
     public float dashCooldown = 10;
     public float dash = 0f;
+
+    [Header("Attack Setting")]
+    public GameObject attackSlashEffectPrefab;
     
     [Header("Jump Setting")]
     public float jumpPower;

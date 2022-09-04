@@ -10,19 +10,24 @@ public class SceneTransitionManager : MonoBehaviour
     [SerializeField] GameObject loadingUIPrefab;
     GameObject loadingUI;
     TMP_Text loadingProgressText;
+    GameObject transistionObject;
 
     private string nextSceneName;
 
     private void Start()
     {
-        GameObject go = Instantiate(transitionScreenPrefab);
+        if(transistionObject == null)
+            transistionObject = Instantiate(transitionScreenPrefab);
+
         TransitionScreen.instance.StartingTransition(TransitionPosition.FromBlack, 3f, FinishedFirstTransition);
     }
 
     public void MoveScene(string sceneName)
     {
+        if (transistionObject == null)
+            transistionObject = Instantiate(transitionScreenPrefab);
+        
         nextSceneName = sceneName;
-        GameObject go = Instantiate(transitionScreenPrefab);
         TransitionScreen.instance.StartingTransition(TransitionPosition.ToBlack, 2f, GoToNextScene);
         SoundsOnSceneManager.instance.AllAudioFadeOut();
     }
@@ -34,6 +39,7 @@ public class SceneTransitionManager : MonoBehaviour
         mainBGM.Play();
 
         InGameTracker.instance.gameState = GameplayState.Playing;
+        Destroy(transistionObject);
     }
 
     void GoToNextScene()

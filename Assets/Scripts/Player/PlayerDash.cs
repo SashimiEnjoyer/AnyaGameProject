@@ -12,7 +12,6 @@ public class PlayerDash : CharacterState
 
     public override void EnterState()
     {
-        character.isDashing = true;
         character.SetAnimatorState(character.anim, "Anya_Dash");
     }
 
@@ -44,7 +43,7 @@ public class PlayerDash : CharacterState
 
             if (character.dashCounter >= character.dashTime + character.dashCooldown)
             {
-                character.SetState(new PlayerLocomotion(character));
+                character.SetState(character.playerLocomotionState);
             }
                 
         }
@@ -53,8 +52,9 @@ public class PlayerDash : CharacterState
 
     public override void ExitState()
     {
-        character.isDashing = false;
+        character.DashCooldown = true;
         character.dashCounter = 0;
+        character.WaitForDash();
 
     }
 }

@@ -24,9 +24,9 @@ public class PlayerAttack : CharacterState
             character.SetAnimatorState(character.anim, "Attack_Ground");
 
         character.attackAudio.PlayOneShot(character.attackClip[Random.Range(0, character.attackClip.Length)]);
-        character.isAttacking = true;
 
-        slashEffectObject = GameObject.Instantiate(character.attackSlashEffectPrefab, character.transform.position + new Vector3( character.isFacingRight? 2 : -2, 0), Quaternion.identity);
+        slashEffectObject = GameObject.Instantiate(character.attackSlashEffectPrefab, character.transform.position + (Vector3.right * (character.isFacingRight? 1 : -1)), Quaternion.identity);
+        slashEffectObject.transform.Rotate(Vector3.up * (character.isFacingRight ? 0 : 180));
         slashEffectObject.transform.parent = character.transform;
     }
 
@@ -47,24 +47,19 @@ public class PlayerAttack : CharacterState
                 {
                     character.listOfEnemies.Add(character.PlayerTouchEnemy(character.isFacingRight)[i].collider);
 
-                    // foreach (var enemy in character.PlayerTouchEnemy(character.isFacingRight)[i].collider.GetComponents<IEnemy>())
-                    //     enemy.EnemyHurted(character.transform.position);
+                    foreach (var enemy in character.PlayerTouchEnemy(character.isFacingRight)[i].collider.GetComponents<IEnemy>())
+                        enemy.EnemyHurted(character.transform.position);
 
-                    foreach (var enemy in character.PlayerTouchEnemy(character.isFacingRight)[i].collider.transform.GetComponents<Enemy>()){
-                        enemy.Hurt(character.transform.position);
-                    }
-                        
-
+                    //foreach (var enemy in character.PlayerTouchEnemy(character.isFacingRight)[i].collider.transform.GetComponents<Enemy>()){
+                    //    enemy.Hurt(character.transform.position);
+                    //}
                 }
             }
         }
         else
         {
-            character.SetState(new PlayerLocomotion(character));
-            character.isAttacking = false;
-        }
-
-                
+            character.SetState(character.playerLocomotionState);
+        }      
     }
 
     public override void ExitState()

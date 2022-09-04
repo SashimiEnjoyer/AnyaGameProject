@@ -1,8 +1,8 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Collections.Generic;
-
+using Cysharp.Threading.Tasks;
 
 /// <summary>
 /// Set and Get Overall Conditions for Player 
@@ -12,6 +12,12 @@ public class PlayerController : CharacterStateManager
     public Action OnDashKeyPressed;
     public Action OnJumpKeyPressed;
     public Action OnAttackKeyPressed;
+
+    public PlayerAttack playerAttackState;
+    public PlayerDash playerDashState;
+    public PlayerDie playerDieState;
+    public PlayerHurt playerHurtState;
+    public PlayerLocomotion playerLocomotionState;
 
     [Header("Run Setting")]
     public float horizontalInput = 0f;
@@ -42,12 +48,11 @@ public class PlayerController : CharacterStateManager
     public AudioClip[] attackClip;
 
     [Header("Conditions")]
-    public bool isDashing = false;
+    public bool DashCooldown = false;
     public bool isFacingRight = true;
     public bool isGetHitByEnemy = false;
     public bool isInvulnerable = false;
     public bool isDead = false;
-    public bool isAttacking = false;
     public float invulnerableCount = 0;
 
     [Header("Effect")]
@@ -70,7 +75,12 @@ public class PlayerController : CharacterStateManager
         rb = GetComponent<Rigidbody2D>();
         playerCollider = GetComponent<CapsuleCollider2D>();
         anim = GetComponent<Animator>();
-        SpawnPos = transform.position;
+
+        playerAttackState = new PlayerAttack(this);
+        playerDieState = new PlayerDie(this);
+        playerDashState =  new PlayerDash(this);
+        playerLocomotionState = new PlayerLocomotion(this);
+        playerHurtState = new PlayerHurt(this);
     }
 
     private void OnDestroy()
@@ -81,7 +91,8 @@ public class PlayerController : CharacterStateManager
     private void Start()
     {
         InGameTracker.instance.onGameStateChange += SwitchGameState;
-        SetState(new PlayerLocomotion(this));
+        SetState(playerLocomotionState);
+        SpawnPos = transform.position;
     }
 
     protected override void Update()
@@ -108,17 +119,8 @@ public class PlayerController : CharacterStateManager
         else
             transform.SetParent(null);
 
-        if (isInvulnerable)
-        {
-            if(invulnerableCount < AnimationLength("Anya_Hurt"))
-            {
-                invulnerableCount += Time.deltaTime;
-            }else
-            {
-                invulnerableCount = 2;
-                isInvulnerable = false;
-            }
-        }
+        if(PlayerStats.instance.playerHealth <= 0 && currState != playerDieState)
+            SetState(playerDieState);
 
     }
 
@@ -127,7 +129,7 @@ public class PlayerController : CharacterStateManager
         if(isStop)
         {
             rb.velocity = Vector2.zero;
-            anim.SetFloat("Speed", rb.velocity.x);
+            anim.SetFloat("Speed", 0);
             return;
         }
 
@@ -141,13 +143,13 @@ public class PlayerController : CharacterStateManager
         {
             case GameplayState.Pause:
             case GameplayState.Dialogue:
+                SetState(playerLocomotionState);
                 isStop = true;
-                SetState(new PlayerLocomotion(this));
                 break;
             case GameplayState.Stop:
-                isStop = true;
                 if(PlayerStats.instance.playerHealth > 0)
-                    SetState(new PlayerLocomotion(this));
+                    SetState(playerLocomotionState);
+                isStop = true;
                 break; 
             case GameplayState.Playing:
                 isStop = false;
@@ -182,8 +184,20 @@ public class PlayerController : CharacterStateManager
             rb.AddForce(new Vector2(_target.x > transform.position.x ? -100 : 100, 150));
             PlayerStats.instance.playerHealth -= damage;
 
-            SetState(PlayerStats.instance.playerHealth > 0? new PlayerHurt(this) : new PlayerDie(this));
+            SetState(PlayerStats.instance.playerHealth > 0? playerHurtState : playerDieState);
         }
+    }
+
+    public async void WaitForInvulnerability()
+    {
+        await UniTask.Delay(1000);
+        isInvulnerable = false;
+    }
+
+    public async void WaitForDash()
+    {
+        await UniTask.Delay(1000);
+        DashCooldown = false;
     }
 
     [ContextMenu("Remove All Enemies")]
@@ -209,7 +223,7 @@ public class PlayerController : CharacterStateManager
 
     public void Dash()
     {
-        SetState(new PlayerDash(this));
+        SetState(playerDashState);
     }
 
     public void Flip()

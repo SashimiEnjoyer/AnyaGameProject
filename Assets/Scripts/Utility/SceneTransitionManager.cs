@@ -52,12 +52,13 @@ public class SceneTransitionManager : MonoBehaviour
         if (loadingUI == null)
             loadingUI = Instantiate(loadingUIPrefab);
 
-        loadingProgressText = loadingUI.GetComponentInChildren<TMP_Text>();  
+        loadingProgressText = loadingUI.GetComponentInChildren<TMP_Text>();
     }
 
-    void LoadingProgress(int progress)
+    void LoadingProgress(float progress)
     {
         loadingProgressText.text = "Loading... " + progress.ToString() + "%";
+        Debug.Log(progress);
     }
 
 }

@@ -9,7 +9,7 @@ public class PlayerLocomotion : CharacterState
     public PlayerLocomotion(PlayerController player) : base(player)
     {
     }
-    public float nextDashTime = 0.3f;
+    //public float nextDashTime = 0.3f;
     public float cooldownTimer = 0;
     public float dashhCooldown = 0;
 
@@ -21,13 +21,10 @@ public class PlayerLocomotion : CharacterState
 
     public override void Tick()
     {
-        cooldownTimer += Time.deltaTime;
         character.anim.SetBool("Is Ground", character.PlayerTouchGround(Vector2.down));
 
         if (character.keyboardInput == true)
         {
-            if (character.isDashing)
-                return;
 
             character.horizontalInput = Input.GetAxisRaw("Horizontal");
             
@@ -62,20 +59,11 @@ public class PlayerLocomotion : CharacterState
                 PlayerJumping();
             }
 
-            if (Input.GetKeyDown(KeyCode.C))
-            { 
-                if (cooldownTimer > nextDashTime)
-                {
-                    character.SetState(new PlayerDash(character));
-                }
-            }
-
             if (Input.GetKeyDown(KeyCode.X))
             {
-                character.SetState(new PlayerAttack(character));
+                character.SetState(character.playerAttackState);
             }
            
-
             if (Input.GetKeyDown(KeyCode.Z))
             {
                 
@@ -126,7 +114,7 @@ public class PlayerLocomotion : CharacterState
 
     public void Dash()
     {
-        character.SetState(new PlayerDash(character));
+        character.SetState(character.playerDashState);
     }
 
 
@@ -142,9 +130,9 @@ public class PlayerLocomotion : CharacterState
 
     void DashKeyPressed()
     {
-        if (cooldownTimer > nextDashTime)
+        if (!character.DashCooldown)
         {
-            character.SetState(new PlayerDash(character));
+            character.SetState(character.playerDashState);
 
         }
     }

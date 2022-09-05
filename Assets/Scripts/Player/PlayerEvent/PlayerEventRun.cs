@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class PlayerEventRun : MonoBehaviour
 {
-    public PlayerController playerController;
+    public PlayerEventController playerEventController;
     public EventController eventController;
-    public Animator anim;
+    public Animator animator;
     private float commontime;
     public float eventdelay;
     public float eventenddelay;
@@ -20,8 +20,8 @@ public class PlayerEventRun : MonoBehaviour
 
             if (commontime >= eventdelay)
             {
-                playerController.horizontalInput = 1f * direction;
-                anim.SetFloat("Speed",1);
+                playerEventController.horizontalInput = 1f * direction;
+                animator.SetFloat("Speed",1);
                 
                 if (commontime >= eventenddelay)
                     {

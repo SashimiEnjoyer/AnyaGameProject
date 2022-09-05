@@ -2134,7 +2134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87c24536ba381ea4f98cd88a97adc095, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerAnimations: {fileID: 1315846855}
+  playerEventController: {fileID: 1315846857}
   eventController: {fileID: 595269295}
   eventdelay: 0
 --- !u!114 &595269297
@@ -2149,7 +2149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 595353385ea287c49a0e06fb4d75ca02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerAnimations: {fileID: 1315846855}
+  playerEventController: {fileID: 1315846857}
   eventController: {fileID: 595269295}
   eventdelay: 0.833
 --- !u!114 &595269298
@@ -2164,9 +2164,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 171197e9039610244b64f9e7b95d25ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerController: {fileID: 1315846850}
+  playerEventController: {fileID: 1315846857}
   eventController: {fileID: 595269295}
-  anim: {fileID: 1315846852}
+  animator: {fileID: 1315846852}
   eventdelay: 0.833
   eventenddelay: 10
   direction: 1
@@ -3546,10 +3546,9 @@ GameObject:
   - component: {fileID: 1315846854}
   - component: {fileID: 1315846853}
   - component: {fileID: 1315846852}
-  - component: {fileID: 1315846850}
+  - component: {fileID: 1315846857}
   - component: {fileID: 1315846849}
   - component: {fileID: 1315846847}
-  - component: {fileID: 1315846855}
   - component: {fileID: 1315846856}
   m_Layer: 11
   m_Name: Anya
@@ -3595,64 +3594,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &1315846850
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1315846846}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b9cfde8b218a6c4d99bf57875390501, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  horizontalInput: 0
-  speed: 250
-  dashSpeed: 1000
-  dashCounter: 0
-  dashTime: 0.3
-  dashCooldown: 0.15
-  dash: 0
-  jumpPower: 350
-  jumpCounter: 2
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 264
-  dialogueEntity:
-    serializedVersion: 2
-    m_Bits: 128
-  enemyEntity:
-    serializedVersion: 2
-    m_Bits: 64
-  movingPlatform:
-    serializedVersion: 2
-    m_Bits: 256
-  radiusDetection: 0.5
-  movementAudio: {fileID: 1604440373}
-  attackAudio: {fileID: 0}
-  attackClip:
-  - {fileID: 8300000, guid: b092803b4d5cd8d44a6e4a14c4fa136f, type: 3}
-  - {fileID: 8300000, guid: b092803b4d5cd8d44a6e4a14c4fa136f, type: 3}
-  - {fileID: 8300000, guid: b092803b4d5cd8d44a6e4a14c4fa136f, type: 3}
-  - {fileID: 8300000, guid: b092803b4d5cd8d44a6e4a14c4fa136f, type: 3}
-  - {fileID: 8300000, guid: b092803b4d5cd8d44a6e4a14c4fa136f, type: 3}
-  - {fileID: 8300000, guid: b092803b4d5cd8d44a6e4a14c4fa136f, type: 3}
-  isDashing: 0
-  isFacingRight: 1
-  isGetHitByEnemy: 0
-  isInvulnerable: 0
-  isDead: 0
-  isAttacking: 0
-  invulnerableCount: 0
-  hitEffect: {fileID: 0}
-  rb: {fileID: 1315846849}
-  anim: {fileID: 1315846852}
-  listOfEnemies: []
-  keyboardInput: 0
-  layer:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!95 &1315846852
 Animator:
   serializedVersion: 4
@@ -3663,7 +3604,7 @@ Animator:
   m_GameObject: {fileID: 1315846846}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 0480967828f51e54e8871fdf589888e3, type: 2}
+  m_Controller: {fileID: 9100000, guid: 9c3db6e85cf72b443a6706ea5535c2bf, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -3741,19 +3682,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1315846855
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1315846846}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 973ef70789b128e4d967ffab277c1fa7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animationisPlaying: 0
 --- !u!114 &1315846856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3769,9 +3697,9 @@ MonoBehaviour:
   onInteracting:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1315846855}
-        m_TargetAssemblyTypeName: PlayerAnimations, Assembly-CSharp
-        m_MethodName: PlayAnimationSleep
+      - m_Target: {fileID: 1315846857}
+        m_TargetAssemblyTypeName: PlayerEventController, Assembly-CSharp
+        m_MethodName: PlayAnimationIdle
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3781,6 +3709,23 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1315846857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1315846846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: daff1b5d674e4c64686aa5bfa1793f69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  horizontalInput: 0
+  speed: 250
+  animationisPlaying: 0
+  isFacingRight: 1
+  rb: {fileID: 0}
 --- !u!1 &1320842148
 GameObject:
   m_ObjectHideFlags: 0

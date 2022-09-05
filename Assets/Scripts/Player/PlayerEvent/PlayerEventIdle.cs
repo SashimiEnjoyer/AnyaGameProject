@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerEventIdle : MonoBehaviour
 {
-    public PlayerAnimations playerAnimations;
+    public PlayerEventController playerEventController;
     public EventController eventController;
     private float commontime;
     public float eventdelay;
@@ -17,7 +17,7 @@ public class PlayerEventIdle : MonoBehaviour
 
             if (commontime >= eventdelay)
             {
-                playerAnimations.PlayAnimationIdle();
+                playerEventController.PlayAnimationIdle();
                 EventEnd();
             } 
         }

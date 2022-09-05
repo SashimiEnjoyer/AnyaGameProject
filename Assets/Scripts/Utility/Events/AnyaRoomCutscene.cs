@@ -74,7 +74,7 @@ public class AnyaRoomCutscene : MonoBehaviour
 
     void Awake()
     {
-        player.GetComponent<PlayerAnimations>().PlayAnimationIdle();
+        player.GetComponent<PlayerEventController>().PlayAnimationIdle();
         liveanim.Play("Base Layer.Live1", 0, 0f);
     }
 
@@ -100,7 +100,12 @@ public class AnyaRoomCutscene : MonoBehaviour
         {
             if (time <= tanimation1 + 0.1f)
             {
-                player.GetComponent<PlayerAnimations>().PlayAnimationAttack();
+                player.GetComponent<PlayerEventController>().PlayAnimationAttack(); //anya smack toaster
+            }
+
+            if (time >= tanimation1 + 0.2f) //toaster smacked
+            {
+                if (time <= tanimation1 + 0.4f)
                 liveanim.Play("Base Layer.LiveSmack", 0, 0f);
             }
 
@@ -108,7 +113,7 @@ public class AnyaRoomCutscene : MonoBehaviour
             {
                 if (time <= tanimation1 + 0.7f)
                 {
-                    player.GetComponent<PlayerAnimations>().PlayAnimationIdle();
+                    player.GetComponent<PlayerEventController>().PlayAnimationIdle();
                 }
             }
         }
@@ -179,7 +184,7 @@ public class AnyaRoomCutscene : MonoBehaviour
             {
                 player.transform.position = location1.transform.position;
                 player.transform.localScale = new Vector3(1,1,1);
-                player.GetComponent<PlayerController>().isFacingRight = true;
+                player.GetComponent<PlayerEventController>().isFacingRight = true;
                 monitorOff.enabled = true;
                 monitorOn.enabled = false;
             }
@@ -200,14 +205,14 @@ public class AnyaRoomCutscene : MonoBehaviour
         {
             if (time <= tanimation2 + 0.2f)
             {
-                player.GetComponent<PlayerController>().horizontalInput = 1f;
+                player.GetComponent<PlayerEventController>().horizontalInput = 1f;
                 playeranim.SetFloat("Speed",1);
             }
         }
 
         if (player.transform.position.x >= location2.transform.position.x) //stop moving, idle
         {
-            player.GetComponent<PlayerController>().horizontalInput = 0;
+            player.GetComponent<PlayerEventController>().horizontalInput = 0;
             playeranim.SetFloat("Speed",0);
 
         }

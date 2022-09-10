@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum EnemyStateId {
+public enum EnemyStateId
+{
     Idle,
     Hit,
-    Patrol
+    Patrol,
+    Aggro
 }
 
 public interface EnemyState

@@ -11,11 +11,12 @@ public class EnemyIdleState : EnemyState
 
     public void Enter(Enemy enemy)
     {
-       Debug.Log("IDLE");
-       enemy.animator.SetBool("isWalking", false);
+        enemy.animator.SetBool("isWalking", false);
+        enemy.Stop();
     }
 
-    public void FixedUpdate(Enemy enemy){
+    public void FixedUpdate(Enemy enemy)
+    {
 
     }
 

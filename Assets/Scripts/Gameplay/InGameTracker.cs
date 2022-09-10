@@ -31,6 +31,11 @@ public class InGameTracker : MonoBehaviour, ISaveSystem
         }
     }
 
+    public void ChangeGameState(GameplayState state)
+    {
+        _gameState = state;
+    }
+
     private void Awake()
     {
         if (instance == null)

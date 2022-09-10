@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 [RequireComponent(typeof(AudioSource))]
 public class AudioUtility : MonoBehaviour
 {
     AudioSource source;
-    bool isStarting;
 
     private void Awake()
     {
@@ -21,30 +21,7 @@ public class AudioUtility : MonoBehaviour
     [ContextMenu("Fade Out Sound Test")]
     public void FadeOutSound()
     {
-        if (!isStarting)
-            isStarting = true;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (!isStarting)
-            return;
-
-        if(source.clip == null)
-        {
-            isStarting = false;
-            return;
-        }
-
-        if (source.volume > 0)
-            source.volume = Mathf.Lerp(source.volume, 0, Time.deltaTime * 1.7f);
-        else
-        {
-            source.volume = 0;
-            isStarting = false;
-        }
-
+        DOTweenModuleAudio.DOFade(source, 0, 1.7f);
     }
 
     private void OnDestroy()

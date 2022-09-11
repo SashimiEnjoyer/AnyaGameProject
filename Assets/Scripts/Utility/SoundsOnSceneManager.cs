@@ -1,12 +1,25 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class SoundsOnSceneManager : MonoBehaviour
 {
     public static SoundsOnSceneManager instance;
+    public static Action<float> OnVolumeChange;
+
     public List<AudioUtility> listOfSounds = new List<AudioUtility>();
-    [SerializeField] [Range(0, 1)] float volumeAudio = 0.5f;
+
+    [SerializeField]
+    private float globalVolume;
+    public float GlobalVolume
+    {
+        set 
+        {
+            globalVolume = value;
+            OnVolumeChange.Invoke(value);
+        }
+        get { return globalVolume; }
+    }
 
     private void Awake()
     {
@@ -19,12 +32,20 @@ public class SoundsOnSceneManager : MonoBehaviour
     public void AddSound(AudioUtility _audioUtility)
     {
         listOfSounds.Add(_audioUtility);
-        _audioUtility.GetComponent<AudioSource>().volume = volumeAudio;
+        _audioUtility.source.volume = _audioUtility.currentVolume = globalVolume;
     }
 
     public void RemoveSound(AudioUtility _audioUtility)
     {
         listOfSounds.Remove(_audioUtility);
+    }
+
+    public void AllAudioFadeIn()
+    {
+        foreach (AudioUtility s in listOfSounds)
+        {
+            s.FadeInSound(globalVolume);
+        }
     }
 
     public void AllAudioFadeOut()
@@ -33,5 +54,10 @@ public class SoundsOnSceneManager : MonoBehaviour
         {
             s.FadeOutSound();
         }
+    }
+
+    public void SetGlobalVolume(float volume)
+    {
+        GlobalVolume = volume;
     }
 }

@@ -1,12 +1,12 @@
 
 using UnityEngine;
 using TMPro;
-
+using DG.Tweening;
 
 public class SceneTransitionManager : MonoBehaviour
 {
     [SerializeField] GameObject transitionScreenPrefab;
-    [SerializeField] AudioSource mainBGM;
+    [SerializeField] AudioUtility mainBGM;
     [SerializeField] GameObject loadingUIPrefab;
     GameObject loadingUI;
     TMP_Text loadingProgressText;
@@ -16,10 +16,11 @@ public class SceneTransitionManager : MonoBehaviour
 
     private void Start()
     {
+        
         if(transistionObject == null)
             transistionObject = Instantiate(transitionScreenPrefab);
 
-        TransitionScreen.instance.StartingTransition(TransitionPosition.FromBlack, 3f, FinishedFirstTransition);
+        TransitionScreen.instance.StartingTransition(TransitionPosition.FromBlack, 1f, FinishedFirstTransition);
     }
 
     public void MoveScene(string sceneName)
@@ -34,10 +35,7 @@ public class SceneTransitionManager : MonoBehaviour
 
     void FinishedFirstTransition()
     {
-
-        if(mainBGM != null)
-        mainBGM.Play();
-
+        SoundsOnSceneManager.instance.AllAudioFadeIn();
         InGameTracker.instance.gameState = GameplayState.Playing;
         Destroy(transistionObject);
     }

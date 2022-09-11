@@ -40,7 +40,7 @@ public class TransitionScreen : MonoBehaviour
         {
             case TransitionPosition.FromBlack:
                 canvasGroup.alpha = 1f;
-                DOTween.To(() => canvasGroup.alpha, x => canvasGroup.alpha = x, 0, transitionTimer).SetEase(Ease.InOutQuint).OnComplete(() => OnFinished?.Invoke());
+                DOTween.To(() => canvasGroup.alpha, x => canvasGroup.alpha = x, 0, transitionTimer).SetEase(Ease.Linear).OnComplete(() => OnFinished?.Invoke());
                 break;
             case TransitionPosition.ToBlack:
                 canvasGroup.alpha = 0;

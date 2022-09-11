@@ -14,6 +14,8 @@ public class DialogueModalUI : MonoBehaviour
     [SerializeField] GameObject[] images;
     public void SetDialogueUI(string _nameText, string _dialogueText, Sprite[] _dialogueimage)
     {
+        nextButton.onClick.RemoveListener(NextDialogue);
+        nextButton.onClick.AddListener(NextDialogue);
         nameText.text = _nameText;
         dialogueText.text = _dialogueText;
 
@@ -26,7 +28,6 @@ public class DialogueModalUI : MonoBehaviour
             images[i].GetComponentInChildren<Image>().sprite = _dialogueimage[i];
         }
     }
-
 
     public void NextDialogue()
     {

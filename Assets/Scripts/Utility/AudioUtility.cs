@@ -45,7 +45,7 @@ public class AudioUtility : MonoBehaviour
     public void FadeOutSound()
     {
         if(source.volume > 0)
-            DOTween.To(() => source.volume, x => source.volume = x, 0, 5f);
+            DOTween.To(() => source.volume, x => source.volume = x, 0, 1.7f);
     }
 
     void SetVolumeSound(float volume)

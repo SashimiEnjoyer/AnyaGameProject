@@ -30,8 +30,6 @@ public class PlayerStats : MonoBehaviour, ISaveSystem
         };
     }
 
-
-
     public void RestoreSavedData(object _savedData)
     {
         var saveData = (SaveData) _savedData;

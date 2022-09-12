@@ -175,7 +175,7 @@ TextureImporter:
         width: 103
         height: 103
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -183,6 +183,69 @@ TextureImporter:
       bones: []
       spriteID: 82396d8cc7de8724495c852d8656fff7
       internalID: 1762600664
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Room wall tile_4
+      rect:
+        serializedVersion: 2
+        x: 472
+        y: 690
+        width: 103
+        height: 103
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 99deb4d5ed58df74098a1b1b2a193425
+      internalID: -1813711455
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Room wall tile_5
+      rect:
+        serializedVersion: 2
+        x: 580
+        y: 690
+        width: 103
+        height: 103
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: adf7c562b5c89dc44a112890c78fb662
+      internalID: 1058853793
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Room wall tile_6
+      rect:
+        serializedVersion: 2
+        x: 689
+        y: 690
+        width: 103
+        height: 103
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 880c32a350a6dc64a9098e83cf3bb50e
+      internalID: -171705461
       vertices: []
       indices: 
       edges: []
@@ -198,10 +261,13 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      Room wall tile_6: -171705461
       Room wall tile_1: -601527666
       Room wall tile_2: -964731395
       Room wall tile_3: 1762600664
+      Room wall tile_5: 1058853793
       Room wall tile_0: 750135663
+      Room wall tile_4: -1813711455
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

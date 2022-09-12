@@ -1826,9 +1826,7 @@ GameObject:
   - component: {fileID: 595269289}
   - component: {fileID: 595269294}
   - component: {fileID: 595269295}
-  - component: {fileID: 595269296}
-  - component: {fileID: 595269297}
-  - component: {fileID: 595269298}
+  - component: {fileID: 595269299}
   m_Layer: 5
   m_Name: Start
   m_TagString: Untagged
@@ -2122,7 +2120,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EventStart: 0
---- !u!114 &595269296
+--- !u!114 &595269299
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2131,43 +2129,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 595269284}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87c24536ba381ea4f98cd88a97adc095, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerEventController: {fileID: 1315846857}
-  eventController: {fileID: 595269295}
-  eventdelay: 0
---- !u!114 &595269297
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 595269284}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 595353385ea287c49a0e06fb4d75ca02, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerEventController: {fileID: 1315846857}
-  eventController: {fileID: 595269295}
-  eventdelay: 0.833
---- !u!114 &595269298
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 595269284}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 171197e9039610244b64f9e7b95d25ed, type: 3}
+  m_Script: {fileID: 11500000, guid: e8dddc0a354d60643b2973ce9bc41184, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   playerEventController: {fileID: 1315846857}
   eventController: {fileID: 595269295}
   animator: {fileID: 1315846852}
-  eventdelay: 0.833
+  eventdelay1: 0
+  eventdelay2: 0
+  eventdelay3: 0.833
   eventenddelay: 10
   direction: 1
 --- !u!1 &625166326

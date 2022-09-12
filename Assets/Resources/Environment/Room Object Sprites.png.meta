@@ -385,7 +385,7 @@ TextureImporter:
         width: 4
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -393,6 +393,27 @@ TextureImporter:
       bones: []
       spriteID: 6869a652a34cefe418754070ce1dba71
       internalID: 628591309
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Room Object Sprites_14
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 29
+        width: 87
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bcb1c026335faa744baeebff586cd965
+      internalID: -684866403
       vertices: []
       indices: 
       edges: []
@@ -409,6 +430,7 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       Room Object Sprites_6: 186221958
+      Room Object Sprites_14: -684866403
       Room Object Sprites_11: 977460033
       Room Object Sprites_13: 628591309
       Room Object Sprites_10: 1680613193

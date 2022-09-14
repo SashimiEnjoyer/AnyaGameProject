@@ -1,0 +1,552 @@
+fileFormatVersion: 2
+guid: acb8efdab1aa755479fc4e628d6fd8f6
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 30
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: gos_atk_2_sp_10
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 72
+        width: 27
+        height: 54
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 686a11ebc027243498038cab6925b761
+      internalID: -336051935
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gos_atk_2_sp_11
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 72
+        width: 48
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 151a2be19e177554ab1423055ce8e9cc
+      internalID: 779879939
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gos_atk_2_sp_13
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 72
+        width: 54
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6a4e7f0994a73ee408a1c2cca3f419ff
+      internalID: 1333152005
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gos_atk_2_sp_15
+      rect:
+        serializedVersion: 2
+        x: 388
+        y: 84
+        width: 57
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e41eb22d19f3dd42bfb4c63a608da5c
+      internalID: -758621537
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gos_atk_2_sp_16
+      rect:
+        serializedVersion: 2
+        x: 197
+        y: 66
+        width: 57
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 96204179583f61f40ba35c2de4481ec5
+      internalID: 1325268334
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gos_atk_2_sp_17
+      rect:
+        serializedVersion: 2
+        x: 261
+        y: 71
+        width: 57
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 996e562ddff9375458303807bcae3310
+      internalID: 1519151730
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gos_atk_2_sp_18
+      rect:
+        serializedVersion: 2
+        x: 325
+        y: 77
+        width: 57
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 666ef48f946d35744b65d8866fe86de0
+      internalID: 1091902645
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gos_atk_2_sp_19
+      rect:
+        serializedVersion: 2
+        x: 457
+        y: 85
+        width: 47
+        height: 23
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aec619ef1f37f2449b572756cf4d6199
+      internalID: -556037494
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gos_atk_2_sp_20
+      rect:
+        serializedVersion: 2
+        x: 525
+        y: 85
+        width: 38
+        height: 21
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e1c6eedd7f729634f9529cc6a030ac0f
+      internalID: -1595222224
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gos_atk_2_sp_21
+      rect:
+        serializedVersion: 2
+        x: 591
+        y: 85
+        width: 36
+        height: 19
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9dfcc065419d7504c937c14817df91ea
+      internalID: 1272298684
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gos_atk_2_sp_22
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 85
+        width: 24
+        height: 19
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2423dfd09009c7c45837128fe65508e9
+      internalID: 409702884
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gos_atk_2_sp_23
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 20
+        width: 20
+        height: 23
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9774f1b6bba666f46a4d179a9a66f6eb
+      internalID: 836935945
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gos_atk_2_sp_24
+      rect:
+        serializedVersion: 2
+        x: 88
+        y: 24
+        width: 17
+        height: 23
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0633afd0bcd31044aa5ec3f09618bbe2
+      internalID: -193967704
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gos_atk_2_sp_25
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 24
+        width: 29
+        height: 27
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 94a15be1e7fe38d46a782405a2caf1cd
+      internalID: -1815799681
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gos_atk_2_sp_26
+      rect:
+        serializedVersion: 2
+        x: 202
+        y: 21
+        width: 36
+        height: 33
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f812b3db1d7b6ce4fb66c9b14a12d114
+      internalID: -434336651
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gos_atk_2_sp_27
+      rect:
+        serializedVersion: 2
+        x: 266
+        y: 16
+        width: 35
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bbba62db91e071f4f8fedf07f7ea8315
+      internalID: -1489495470
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gos_atk_2_sp_28
+      rect:
+        serializedVersion: 2
+        x: 331
+        y: 17
+        width: 43
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6271aa1b6637ecf4482d35a6c89870f9
+      internalID: -1825740560
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gos_atk_2_sp_29
+      rect:
+        serializedVersion: 2
+        x: 387
+        y: 17
+        width: 48
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7384281173f6d1b458cc4e09be158d53
+      internalID: 550810718
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gos_atk_2_sp_30
+      rect:
+        serializedVersion: 2
+        x: 462
+        y: 7
+        width: 34
+        height: 53
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ba92b146dbd2c8c479a8dd042251c6a5
+      internalID: -1117369733
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      gos_atk_2_sp_10: -336051935
+      gos_atk_2_sp_24: -193967704
+      gos_atk_2_sp_1: 1626355778
+      gos_atk_2_sp_20: -1595222224
+      gos_atk_2_sp_25: -1815799681
+      gos_atk_2_sp_26: -434336651
+      gos_atk_2_sp_23: 836935945
+      gos_atk_2_sp_21: 1272298684
+      gos_atk_2_sp_9: -1920768966
+      gos_atk_2_sp_12: -207489606
+      gos_atk_2_sp_30: -1117369733
+      gos_atk_2_sp_13: 1333152005
+      gos_atk_2_sp_11: 779879939
+      gos_atk_2_sp_27: -1489495470
+      gos_atk_2_sp_3: 1139401196
+      gos_atk_2_sp_17: 1519151730
+      gos_atk_2_sp_22: 409702884
+      gos_atk_2_sp_0: 565642119
+      gos_atk_2_sp_6: 139058704
+      gos_atk_2_sp_15: -758621537
+      gos_atk_2_sp_14: 1346620451
+      gos_atk_2_sp_29: 550810718
+      gos_atk_2_sp_16: 1325268334
+      gos_atk_2_sp_4: 1141757038
+      gos_atk_2_sp_2: -472267555
+      gos_atk_2_sp_19: -556037494
+      gos_atk_2_sp_5: 1142463918
+      gos_atk_2_sp_8: 633847585
+      gos_atk_2_sp_28: -1825740560
+      gos_atk_2_sp_18: 1091902645
+      gos_atk_2_sp_7: 2060687998
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

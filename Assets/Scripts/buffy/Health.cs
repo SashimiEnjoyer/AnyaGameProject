@@ -19,15 +19,19 @@ public class Health : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
-    public void TakeDamage(float amount, Vector2 direction) {
+    public void TakeDamage(float amount, Vector2 direction)
+    {
         currentHealth -= amount;
-        if(currentHealth <= 0.0f){
+        if (currentHealth <= 0.0f)
+        {
             Debug.Log("Dead");
             Die(direction);
-        }else {
+        }
+        else
+        {
             Debug.Log($"Health: {currentHealth}");
             Hit(direction);
         }
@@ -40,6 +44,7 @@ public class Health : MonoBehaviour
 
     private void Hit(Vector2 direction)
     {
-        rb.AddForce(new Vector2 (direction.x > transform.position.x ? -350 : 350, 100), ForceMode2D.Force);
+        // Debug.Log("hit");
+        // rb.AddForce(new Vector2 (direction.x > transform.position.x ? -350 : 350, 100), ForceMode2D.Force);
     }
 }

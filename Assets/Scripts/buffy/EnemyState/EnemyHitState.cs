@@ -12,9 +12,9 @@ public class EnemyHitState : EnemyState
 
     public void Enter(Enemy enemy)
     {
-        Debug.Log("Hit!");
         enemy.animator.SetTrigger("Hurt");
-        enemy.stateMachine.ChangeState(EnemyStateId.Idle);
+        enemy.rb.AddForce(new Vector2(enemy.hitDirection.x > enemy.transform.position.x ? -100 : 100, 100), ForceMode2D.Force);
+        enemy.Stop();
     }
 
     public void FixedUpdate(Enemy enemy)

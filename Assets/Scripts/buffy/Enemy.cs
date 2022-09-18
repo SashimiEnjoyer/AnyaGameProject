@@ -13,16 +13,26 @@ public class Enemy : MonoBehaviour
     public Transform groundCheckPos;
     public Health health;
 
+    public Collider2D bodyCollider;
+    public Collider2D groundCollider;
+    public Transform player;
+
     public float movementSpeed;
+    public float jumpStrength;
     public bool facingRight = true;
 
-    [HideInInspector]
-    public Collider2D bodyCollider;
 
-    void Awake() 
+    [HideInInspector]
+    public Vector2 hitDirection;
+
+    [HideInInspector]
+    public EnemyStateId previousState;
+
+    void Awake()
     {
-        if(!facingRight){
-         Flip();
+        if (!facingRight)
+        {
+            Flip();
         }
     }
     // Start is called before the first frame update
@@ -32,10 +42,8 @@ public class Enemy : MonoBehaviour
         stateMachine.RegisterState(new EnemyIdleState());
         stateMachine.RegisterState(new EnemyPatrol_State());
         stateMachine.RegisterState(new EnemyHitState());
+        stateMachine.RegisterState(new EnemyAggroState());
         stateMachine.ChangeState(initialState);
-
-        BoxCollider2D[] colliders = gameObject.GetComponentsInChildren<BoxCollider2D>();
-        bodyCollider = colliders[0];
     }
 
     void FixedUpdate()
@@ -49,26 +57,63 @@ public class Enemy : MonoBehaviour
         stateMachine.Update();
     }
 
-    public void Flip() {
-        transform.localScale = new Vector2(transform.localScale.x* -1, transform.localScale.y);
+    public void Flip()
+    {
+        transform.localScale = new Vector2(transform.localScale.x * -1, transform.localScale.y);
         movementSpeed *= -1;
     }
 
-    public void Move() {
+    public void Move()
+    {
         rb.velocity = new Vector2(movementSpeed * Time.fixedDeltaTime, rb.velocity.y);
     }
 
-    public void Hurt(Vector2 direction) {
-        health.TakeDamage(1, direction);
-        stateMachine.ChangeState(EnemyStateId.Hit);
+    public void Stop()
+    {
+        rb.velocity = new Vector2(0.0f, rb.velocity.y);
     }
 
-    public bool isCollideWithWall() {
+    public void Jump()
+    {
+        if (isGrounded())
+        {
+            rb.velocity = new Vector2(rb.velocity.x, jumpStrength * Time.fixedDeltaTime);
+        }
+    }
+
+    public void Hurt(Vector2 direction)
+    {
+        health.TakeDamage(1, direction);
+        hitDirection = direction;
+        stateMachine.ChangeState(EnemyStateId.Hit);
+        StartCoroutine(HitLag());
+    }
+
+    public bool isCollideWithWall()
+    {
         return bodyCollider.IsTouchingLayers(platformLayer);
     }
 
-    public bool isCollideWithEnemyAnchor() {
+    public bool isCollideWithEnemyAnchor()
+    {
         return bodyCollider.IsTouchingLayers(enemyAnchor);
+    }
+
+    public bool isGrounded()
+    {
+        return groundCollider.IsTouchingLayers(platformLayer);
+    }
+
+
+    public Vector2 getPlayerDirection()
+    {
+        return (player.position - transform.position).normalized;
+    }
+
+    IEnumerator HitLag()
+    {
+        yield return new WaitForSeconds(0.5f);
+        stateMachine.ChangeState(EnemyStateId.Aggro);
     }
 
 }

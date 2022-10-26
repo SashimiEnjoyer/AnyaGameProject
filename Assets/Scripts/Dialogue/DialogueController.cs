@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 [System.Serializable] 
 struct DialogueData
@@ -6,6 +7,7 @@ struct DialogueData
     public Sprite[] characterImage;
     public string characterName;
     [TextArea(5,20)]public string characterDialogue;
+    public UnityEvent onCurrentDialogueEvent;
 };
 
 public class DialogueController : MonoBehaviour, IInteractable
@@ -54,11 +56,13 @@ public class DialogueController : MonoBehaviour, IInteractable
             InGameTracker.instance.gameState = GameplayState.Playing;
             dialogueIndex = 0;
         }
+
+        dialogues[dialogueIndex].onCurrentDialogueEvent?.Invoke();
     }
 
     private void EndDialogue()
     {
-        Destroy(dialogueObject);
+        dialogueObject.SetActive(false);    
         ObjectDestroyed = true;
         DialogueEnd = true;
     }

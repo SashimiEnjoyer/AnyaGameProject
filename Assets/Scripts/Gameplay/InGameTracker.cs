@@ -1,13 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System;
 
 public enum GameplayState { Playing, Pause, Dialogue, Stop}
 
+[Serializable]
+public struct InGameProgressTracker
+{
+    public GameObject[] hideShowObject;
+    public bool isDone;
+}
+
 public class InGameTracker : MonoBehaviour, ISaveSystem
 {
     public static InGameTracker instance;
+
+    public InGameProgressTracker[] progressTracker;
 
     public Action<GameplayState> onGameStateChange;
 
@@ -43,6 +50,22 @@ public class InGameTracker : MonoBehaviour, ISaveSystem
         else
             Destroy(this.gameObject);
 
+    }
+
+    public void ExecuteProgressEvent(int index)
+    {
+        if (progressTracker[index].isDone)
+            return;
+
+        if (progressTracker[index].hideShowObject != null)
+        {
+            foreach (var item in progressTracker[index].hideShowObject)
+            {
+                item.SetActive(false);
+            }
+        }
+
+        progressTracker[index].isDone = true;
     }
 
     [ContextMenu("Play")]

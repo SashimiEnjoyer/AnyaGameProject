@@ -104,6 +104,10 @@ public class Enemy : MonoBehaviour
         return groundCollider.IsTouchingLayers(platformLayer);
     }
 
+    public Vector2 GetPlayerPosition(Vector2 playerPos)
+    {
+        return player.position = playerPos;
+    }
 
     public Vector2 getPlayerDirection()
     {

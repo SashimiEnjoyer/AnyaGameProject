@@ -26,7 +26,7 @@ public class PlayerController : CharacterStateManager
     public float dashCounter = 0f;
     public float dashTime = 0.5f;
     public float dashCooldown = 10;
-    public float dash = 0f;
+    public float nextDashTiming = 0f;
 
     [Header("Attack Setting")]
     public GameObject attackSlashEffectPrefab;
@@ -48,7 +48,6 @@ public class PlayerController : CharacterStateManager
     public AudioClip[] attackClip;
 
     [Header("Conditions")]
-    public bool DashCooldown = false;
     public bool isFacingRight = true;
     public bool isGetHitByEnemy = false;
     public bool isInvulnerable = false;
@@ -60,7 +59,7 @@ public class PlayerController : CharacterStateManager
     
     public Rigidbody2D rb;
     public Animator anim;
-    public List<Collider2D> listOfEnemies = new List<Collider2D>();
+    public List<EnemyController> listOfEnemies = new List<EnemyController>();
 
     CapsuleCollider2D playerCollider;
     bool isStop = false;
@@ -136,7 +135,6 @@ public class PlayerController : CharacterStateManager
         base.FixedUpdate();
     }
 
-
     public void SwitchGameState(GameplayState state)
     {
         switch (state)
@@ -194,13 +192,11 @@ public class PlayerController : CharacterStateManager
         isInvulnerable = false;
     }
 
-    public async void WaitForDash()
+    public bool CanDash()
     {
-        await UniTask.Delay(1000);
-        DashCooldown = false;
+        return nextDashTiming <= Time.time;
     }
 
-    [ContextMenu("Remove All Enemies")]
     public void EmptyEnemyList()
     {
         listOfEnemies.Clear();

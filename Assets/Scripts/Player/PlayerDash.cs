@@ -52,9 +52,9 @@ public class PlayerDash : CharacterState
 
     public override void ExitState()
     {
-        character.DashCooldown = true;
+        //character.DashCooldown = true;
         character.dashCounter = 0;
-        character.WaitForDash();
+        character.nextDashTiming = Time.time + character.dashCooldown;
 
     }
 }

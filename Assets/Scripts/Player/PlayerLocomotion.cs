@@ -130,7 +130,7 @@ public class PlayerLocomotion : CharacterState
 
     void DashKeyPressed()
     {
-        if (!character.DashCooldown)
+        if (character.CanDash())
         {
             character.SetState(character.playerDashState);
 

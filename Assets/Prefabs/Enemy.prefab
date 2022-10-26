@@ -274,10 +274,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2789431745914781224}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da1a764d68018f7499e2d33d1d57b72f, type: 3}
+  m_Script: {fileID: 11500000, guid: e9932dada971e67428b3991b4e3ae652, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialState: 3
+  initialState: 0
   animator: {fileID: 2789431745914781233}
   rb: {fileID: 2789431745914781230}
   platformLayer:
@@ -305,10 +305,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2789431745914781224}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0dc60be26daf174c9558e68023b6aa9, type: 3}
+  m_Script: {fileID: 11500000, guid: 217c25d13c1f7c14cad385713549b4b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 3
+  maxHealth: 0
   rb: {fileID: 2789431745914781230}
   currentHealth: 0
 --- !u!1 &2789431746175569007

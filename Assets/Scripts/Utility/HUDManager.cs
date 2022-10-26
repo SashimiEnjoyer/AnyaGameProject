@@ -10,7 +10,7 @@ public class HUDManager : MonoBehaviour
     [SerializeField] Image HPImage;
     [SerializeField] PlayerController playerController;
 
-    [Header("Puase HUD Menu")]
+    [Header("Pause HUD Menu")]
     [SerializeField] Button pauseButton;
     [SerializeField] Button backGameButton;
 
@@ -33,7 +33,11 @@ public class HUDManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        dashSlider.value = (playerController.dashCounter / (playerController.dashTime + playerController.dashCooldown)) * 100;
+        if (playerController.CanDash())
+            dashSlider.value -= (playerController.dashCounter / (playerController.dashTime + playerController.dashCooldown)) * 100;
+        else
+            dashSlider.value += Time.deltaTime * 100;
+
         HPImage.fillAmount = PlayerStats.instance.playerHealth / 3;
     }
 

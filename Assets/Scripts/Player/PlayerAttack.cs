@@ -41,13 +41,13 @@ public class PlayerAttack : CharacterState
         {
             for (int i = 0; i < character.PlayerTouchEnemy(character.isFacingRight).Length; i++)
             {
-                if (character.listOfEnemies.Contains(character.PlayerTouchEnemy(character.isFacingRight)[i].collider))
+                if (character.listOfEnemies.Contains(character.PlayerTouchEnemy(character.isFacingRight)[i].collider.GetComponent<EnemyController>()))
                     continue;
                 else
                 {
-                    character.listOfEnemies.Add(character.PlayerTouchEnemy(character.isFacingRight)[i].collider);
+                    character.listOfEnemies.Add(character.PlayerTouchEnemy(character.isFacingRight)[i].collider.GetComponent<EnemyController>());
 
-                    foreach (var enemy in character.PlayerTouchEnemy(character.isFacingRight)[i].collider.GetComponents<IEnemy>())
+                    foreach (var enemy in character.listOfEnemies)
                         enemy.EnemyHurted(character.transform.position);
 
                     //foreach (var enemy in character.PlayerTouchEnemy(character.isFacingRight)[i].collider.transform.GetComponents<Enemy>()){
@@ -55,6 +55,7 @@ public class PlayerAttack : CharacterState
                     //}
                 }
             }
+
         }
         else
         {

@@ -23,7 +23,7 @@ public class EnemyAttackState : CharacterState
 
         }
 
-        enemy.EnemyAttacking();
+        enemy.EnemyDoAttack();
 
         if (time > enemy.AttackAnimLength)
         {

@@ -141,15 +141,21 @@ public class PlayerController : CharacterStateManager
         {
             case GameplayState.Pause:
             case GameplayState.Dialogue:
-                SetState(playerLocomotionState);
+                
+                if(currState != playerLocomotionState)
+                    SetState(playerLocomotionState);
+                
                 isStop = true;
                 break;
             case GameplayState.Stop:
+
                 if(PlayerStats.instance.playerHealth > 0)
                     SetState(playerLocomotionState);
+
                 isStop = true;
                 break; 
             case GameplayState.Playing:
+
                 isStop = false;
                 break;
         }

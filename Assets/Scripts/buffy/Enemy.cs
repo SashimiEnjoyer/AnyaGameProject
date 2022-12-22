@@ -1,7 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
 public class Enemy : MonoBehaviour
 {
     public EnemyStateMachine stateMachine;
@@ -20,7 +18,6 @@ public class Enemy : MonoBehaviour
     public float movementSpeed;
     public float jumpStrength;
     public bool facingRight = true;
-
 
     [HideInInspector]
     public Vector2 hitDirection;

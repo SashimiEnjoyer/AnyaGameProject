@@ -1,142 +1,53 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class EnemyController : CharacterStateManager, IEnemy
 {
+    [Header("Stats")]
     public float health = 100;
     public float movementSpeed = 3f;
+    public float AttackAnimLength = 0.01f;
+
+    [Header("Status")]
+    [HideInInspector] public bool getHit = false;
+    [HideInInspector] public bool isFacingRight = true;
+    [HideInInspector] public bool PatrolAttack = true;
+    [HideInInspector] public bool CanAttack = true;
+
+    [Header("References")]
     public Rigidbody2D rb;
-    public bool getHit = false;
-    public bool isFacingRight = true;
-    public bool PatrolAttack = true;
-    public bool CanAttack = true;
     public GameObject afterHitEffect;
     public Transform leftBorder;
     public Transform righttBorder;
     public LayerMask playerMask;
     public Animator anim;
-    public float AttackAnimLength = 0.01f;
+    public CapsuleCollider2D hitBox;
 
-    [SerializeField] GameObject enemyDialogue;
+    [Header("States")]
+    public CharacterState patrolState;
+    public CharacterState enemyHurted;
 
-    public CapsuleCollider2D enemyCollider;
-    private EnemyAnimations enemyAnimations;
-
-    float timer;
-    float time;
-    bool isStop = false;
+    [Header("Actions")]
+    public UnityAction onTouchBorder;
+    public UnityAction onEnemyDied;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        enemyCollider = GetComponent<CapsuleCollider2D>();
+        hitBox = GetComponent<CapsuleCollider2D>();
         anim = GetComponent<Animator>();
-        enemyAnimations = GetComponent<EnemyAnimations>();
     }
 
-    protected override void Update()
+    public virtual void EnemyHurted(Vector2 _target) { }
+
+    public virtual void EnemyDoAttack() { }
+
+    public virtual void move() { }
+    
+    public virtual void Flip() { }
+
+    public RaycastHit2D PlayerTouched()
     {
-        if (isStop)
-            return;
-
-        move();
-        time += Time.deltaTime;
-
-        if (player() && !getHit && CanAttack == true)
-        {
-            player().collider.GetComponent<PlayerController>().PlayerHurt(transform.position, 1);
-            time += Time.deltaTime;
-            CanAttack = false;
-
-            if (time < 0.2f)
-            {
-                anim.SetTrigger("EnemyAttack2");
-            }    
-        }
-
-        if (time > AttackAnimLength)
-            {
-                time = 0;
-                CanAttack = true;
-            }
-
-        if (movementSpeed > 0)
-            anim.SetFloat("EnemySpeed", movementSpeed);
-        if (movementSpeed <= 0)
-            anim.SetFloat("EnemySpeed", 0);
-        
-    }
-
-    public void EnemyHurted(Vector2 _target)
-    {
-        enemyAnimations.PlayEnemyAnimationHurt();
-        getHit = true;
-        rb.AddForce(new Vector2 (_target.x > transform.position.x ? -350 : 350, 100));
-        health -= 1;
-
-        if (health <= 0)
-            Destroy(transform.parent.gameObject, 0.5f);
-        
-        if(afterHitEffect == null)
-        {
-            Debug.LogWarning("No Effect Prefabs Assigned");
-            return;
-        }
-
-        GameObject go = Instantiate(afterHitEffect, transform.position, Quaternion.identity);
- 
-    }
-
-    public virtual void EnemyAttacking() { } 
-
-    public void move()
-    {
-        if (isFacingRight)
-        {
-            rb.velocity = new Vector2(movementSpeed, rb.velocity.y);
-        }
-
-        else
-        {
-            rb.velocity = new Vector2(-movementSpeed, rb.velocity.y);
-        }
-
-    }
-
-    public void Flip()
-    {
-        if (isFacingRight)
-        {
-            isFacingRight = false;
-            transform.Rotate(0, 180f, 0);
-            enemyDialogue.transform.Rotate(0, 180f, 0);
-        }
-        else
-        {
-            isFacingRight = true;
-            transform.Rotate(0, 180f, 0);
-            enemyDialogue.transform.Rotate(0, 180f, 0);
-        }
-    }
-
-    public RaycastHit2D player()
-    {
-        return EnemyAttackExtension.EnemyTouchPlayer(enemyCollider, playerMask, isFacingRight);
-    }
-
-    public float AnimationLength(string animationName)
-    {
-        float time = 0;
-        RuntimeAnimatorController ra = anim.runtimeAnimatorController;
-
-        for (int i = 0; i < ra.animationClips.Length; i++)
-        {
-            if(ra.animationClips[i].name == animationName)
-            {
-                time = ra.animationClips[i].length;
-            }
-        }
-        return time;
+        return EnemyAttackExtension.EnemyTouchPlayer(hitBox, playerMask, isFacingRight);
     }
 }

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerAttack : CharacterState
@@ -50,9 +48,6 @@ public class PlayerAttack : CharacterState
                     foreach (var enemy in character.listOfEnemies)
                         enemy.EnemyHurted(character.transform.position);
 
-                    //foreach (var enemy in character.PlayerTouchEnemy(character.isFacingRight)[i].collider.transform.GetComponents<Enemy>()){
-                    //    enemy.Hurt(character.transform.position);
-                    //}
                 }
             }
 

@@ -98,17 +98,18 @@ public class PlayerLocomotion : CharacterState
 
     void PlayerJumping()
     {
+
+        Vector3 vel = character.rb.velocity;
+
         if(character.keyboardInput == true)
         {
             if (character.jumpCounter <= 0)
                 return;
 
             character.jumpCounter -= 1;
+            vel.y += Mathf.Sqrt(-2f * Physics.gravity.y * character.jumpPower);
 
-            if (character.jumpCounter >= 1)
-                character.rb.velocity = new Vector2(character.rb.velocity.x, character.jumpPower*0.04f);
-            else if (character.jumpCounter < 1)
-                character.rb.velocity = new Vector2(character.rb.velocity.x, character.jumpPower*0.04f);
+            character.rb.velocity = vel;
         }
     }
 

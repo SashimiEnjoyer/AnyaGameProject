@@ -25,7 +25,7 @@ public class EnemyAttackState : CharacterState
 
         enemy.EnemyDoAttack();
 
-        if (time > enemy.AttackAnimLength)
+        if (time > enemy.attackAnimLength)
         {
             enemy.anim.SetBool("EnemyAttack", false);
             ExitState();

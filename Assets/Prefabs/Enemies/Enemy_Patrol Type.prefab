@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4132173773879422157
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3889187198315076732}
+  m_Layer: 6
+  m_Name: Ground Checker
+  m_TagString: Untagged
+  m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3889187198315076732
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4132173773879422157}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.82, y: 0.49, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6644157030018930669}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5577971430642403562
 GameObject:
   m_ObjectHideFlags: 0
@@ -121,7 +152,8 @@ Transform:
   m_LocalPosition: {x: 6.91, y: -0.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 0.5}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 3889187198315076732}
   m_Father: {fileID: 6644157030403915462}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -252,18 +284,24 @@ MonoBehaviour:
   maxDistanceBeforeDie: 25
   staggerTime: 1
   knockDistance: {x: 125, y: 100}
+  isGround: 0
   getHit: 0
   isFacingRight: 1
   PatrolAttack: 1
   CanAttack: 1
   rb: {fileID: 6644157030018930664}
+  anim: {fileID: 6644157030018930199}
   afterHitEffect: {fileID: 0}
   startingPoint: {fileID: 7545273402235464970}
+  groundChecker: {fileID: 3889187198315076732}
+  player: {fileID: 0}
+  hitBox: {fileID: 6644157030018930666}
   playerMask:
     serializedVersion: 2
     m_Bits: 2048
-  anim: {fileID: 6644157030018930199}
-  hitBox: {fileID: 6644157030018930666}
+  borderMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &6644157030112288171
 GameObject:
   m_ObjectHideFlags: 0

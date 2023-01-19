@@ -10,20 +10,25 @@ public class EnemyController : CharacterStateManager, IEnemy
     public float maxDistanceBeforeDie = 2f;
     public float staggerTime = 1f;
     public Vector2 knockDistance;
+    public bool isGround;
 
     [Header("Status")]
     [HideInInspector] public bool getHit = false;
     [HideInInspector] public bool isFacingRight = true;
     [HideInInspector] public bool PatrolAttack = true;
     [HideInInspector] public bool CanAttack = true;
+    [HideInInspector] public bool Resetting = false;
 
     [Header("References")]
     public Rigidbody2D rb;
+    public Animator anim;
     public GameObject afterHitEffect;
     public Transform startingPoint;
-    public LayerMask playerMask;
-    public Animator anim;
+    public Transform groundChecker;
+    public Transform player;
     public CapsuleCollider2D hitBox;
+    public LayerMask playerMask;
+    public LayerMask borderMask;
 
     [Header("States")]
     public CharacterState patrolState;
@@ -39,12 +44,20 @@ public class EnemyController : CharacterStateManager, IEnemy
     public virtual void EnemyDoAttack() { }
 
     public virtual void Move() { }
+
+    public virtual void StopMove() { }
     
     public virtual void Flip() { }
 
     public virtual void Died() { }
 
     public virtual void Knocked() { } 
+
+
+    public RaycastHit2D CheckMask(LayerMask mask) 
+    {
+        return Physics2D.Raycast(groundChecker.transform.position, Vector2.right, 0.4f,mask);
+    }
 
     public RaycastHit2D PlayerTouched()
     {

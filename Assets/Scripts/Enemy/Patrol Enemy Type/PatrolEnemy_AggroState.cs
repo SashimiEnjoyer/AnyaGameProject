@@ -1,16 +1,14 @@
-
 using UnityEngine;
 
-public class PatrolEnemy_PatrolState : CharacterState
+public class PatrolEnemy_AggroState : CharacterState
 {
-    public PatrolEnemy_PatrolState(EnemyController enemy) : base(enemy)
+    public PatrolEnemy_AggroState(PlayerController _character) : base(_character)
     {
     }
 
     public override void EnterState()
     {
-        //enemy.onTouchBorder += Flip;
-        enemy.SetAnimatorState(enemy.anim,"Enemy_Walk");
+        enemy.SetAnimatorState(enemy.anim,"Enemy_Attack");
     }
 
     public override void Tick()
@@ -21,22 +19,20 @@ public class PatrolEnemy_PatrolState : CharacterState
             enemy.SetState(enemy.enemyDied);
         }
 
-        enemy.EnemyDoAttack();
-
         if (enemy.CheckMask(enemy.borderMask) && !enemy.Resetting)
         {
-            enemy.Flip();
-            Debug.Log("Cliff!");
-        }else
+            enemy.StopMove();
+        }
+        else
         {
             enemy.Move();
-            Debug.Log("Ground!");
         }
+
+        enemy.EnemyDoAttack();
     }
 
     public override void ExitState()
     {
-        //enemy.onTouchBorder -= Flip;
+        enemy.Resetting = true;
     }
-
 }

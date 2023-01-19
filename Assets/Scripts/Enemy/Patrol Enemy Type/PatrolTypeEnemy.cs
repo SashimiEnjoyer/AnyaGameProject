@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class PatrolTypeEnemy : EnemyController
 {
-
     Vector2 playerPos;
 
     private void Awake()
@@ -14,6 +13,7 @@ public class PatrolTypeEnemy : EnemyController
         patrolState = new PatrolEnemy_PatrolState(this);
         enemyHurted = new EnemyHurt(this);
         enemyDied = new EnemyDied(this);
+;
     }
 
     private void Start()
@@ -35,6 +35,11 @@ public class PatrolTypeEnemy : EnemyController
         rb.velocity = new Vector2(isFacingRight? movementSpeed : -movementSpeed, rb.velocity.y);
     }
 
+    public override void StopMove()
+    {
+        rb.velocity = Vector2.zero;
+    }
+
     public override void Died()
     {
         Destroy(transform.parent.gameObject, 1f);
@@ -45,21 +50,14 @@ public class PatrolTypeEnemy : EnemyController
         if (getHit)
             return;
 
-        if (isFacingRight)
-        {
-            isFacingRight = false;
-            transform.Rotate(0, 180f, 0);
-        }
-        else
-        {
-            isFacingRight = true;
-            transform.Rotate(0, 180f, 0);
-        }
+        isFacingRight = !isFacingRight;
+        StopMove();
+        transform.Rotate(0, 180f, 0);
     }
 
     public override void Knocked()
     {
-        rb.velocity = Vector2.zero;
+        StopMove();
         rb.AddForce(new Vector2(playerPos.x > transform.position.x ? -knockDistance.x : knockDistance.x, knockDistance.y));
     }
 

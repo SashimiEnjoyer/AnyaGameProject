@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Cysharp.Threading.Tasks;
+using UnityEngine.InputSystem;
+using System.Collections;
+using UnityEngine.TextCore.Text;
 
 /// <summary>
 /// Set and Get Overall Conditions for Player 
@@ -77,19 +79,23 @@ public class PlayerController : CharacterStateManager
 
         playerAttackState = new PlayerAttack(this);
         playerDieState = new PlayerDie(this);
-        playerDashState =  new PlayerDash(this);
+        playerDashState = new PlayerDash(this);
         playerLocomotionState = new PlayerLocomotion(this);
         playerHurtState = new PlayerHurt(this);
     }
 
     private void OnDestroy()
     {
+        InGameInput.instance.onMovePressed -= GetMoveInput;
+        InGameInput.instance.onMoveStop -= GetMoveInput;
         InGameTracker.instance.onGameStateChange -= SwitchGameState;
     }
 
     private void Start()
     {
         InGameTracker.instance.onGameStateChange += SwitchGameState;
+        InGameInput.instance.onMovePressed += GetMoveInput;
+        InGameInput.instance.onMoveStop += GetMoveInput;
         SetState(playerLocomotionState);
         SpawnPos = transform.position;
     }
@@ -101,12 +107,6 @@ public class PlayerController : CharacterStateManager
             return;
 
         base.Update();
-        
-        // Manual Level Reset.
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            ResetGame();
-        }
 
         if (PlayerTouchGround(Vector2.down))
         {
@@ -127,7 +127,7 @@ public class PlayerController : CharacterStateManager
     {
         if(isStop)
         {
-            rb.velocity = Vector2.zero;
+            StopMove();
             anim.SetFloat("Speed", 0);
             return;
         }
@@ -161,11 +161,6 @@ public class PlayerController : CharacterStateManager
         }
     }
 
-    public void ResetGame()
-    {
-        SceneManager.LoadScene("Level 1");
-    }
-
     public RaycastHit2D PlayerTouchEntity(LayerMask _entityLayer, Vector2 _detectionDirection)
     {
         return Physics2D.CapsuleCast(playerCollider.bounds.center, playerCollider.size, CapsuleDirection2D.Horizontal, 0.5f, _detectionDirection, 0.5f, _entityLayer);
@@ -185,11 +180,22 @@ public class PlayerController : CharacterStateManager
     {
         if (!isInvulnerable && PlayerStats.instance.playerHealth > 0)
         {
+            StopMove();
             rb.AddForce(new Vector2(_target.x > transform.position.x ? -100 : 100, 150));
             PlayerStats.instance.playerHealth -= damage;
 
             SetState(PlayerStats.instance.playerHealth > 0? playerHurtState : playerDieState);
         }
+    }
+
+    public void StopMove()
+    {
+        rb.velocity = Vector2.zero;
+    }
+
+    void GetMoveInput(float input)
+    {
+        horizontalInput = input;
     }
 
     public async void WaitForInvulnerability()

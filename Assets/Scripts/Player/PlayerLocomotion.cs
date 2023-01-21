@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 /// <summary>
 /// Default State
@@ -16,84 +17,52 @@ public class PlayerLocomotion : CharacterState
 
     public override void EnterState()
     {
+        Debug.Log("Locomotion State!");
+        InGameInput.instance.onDashPressed += DashKeyPressed;
+        InGameInput.instance.onJumpPressed += PlayerJumping;
+        InGameInput.instance.onAttackPressed += AttackKeyPressed;
+        InGameInput.instance.onInteractPressed += InteractKeyPressed;
         character.SetAnimatorState(character.anim, "Anya_Idle");
+    }
+
+    public override void ExitState()
+    {
+        InGameInput.instance.onDashPressed -= DashKeyPressed;
+        InGameInput.instance.onJumpPressed -= PlayerJumping;
+        InGameInput.instance.onAttackPressed -= AttackKeyPressed;
+        InGameInput.instance.onInteractPressed -= InteractKeyPressed;
+        character.anim.SetFloat("Speed", Mathf.Abs(character.horizontalInput));
     }
 
     public override void Tick()
     {
         character.anim.SetBool("Is Ground", character.PlayerTouchGround(Vector2.down));
 
-        if (character.keyboardInput == true)
+        if (character.PlayerTouchGround(Vector2.down))
         {
-
-            character.horizontalInput = Input.GetAxisRaw("Horizontal");
-            
-            if (Input.GetKeyDown(KeyCode.C))
-            {
-                DashKeyPressed();
-            }
-
-            if (character.PlayerTouchGround(Vector2.down))
-            {
-                character.anim.SetFloat("Speed", Mathf.Abs(character.horizontalInput));
-            }
-                
-            else
-            {
-                character.anim.SetFloat("Speed", 0);
-            }   
-
-            if (!character.isFacingRight && character.horizontalInput > 0)
-                Flip();
-            if (character.isFacingRight && character.horizontalInput < 0)
-                Flip();
-
-
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                character.PlayerTouchEntity(character.dialogueEntity, Vector2.right).collider.GetComponent<IInteractable>().ExecuteInteractable();
-            }
-
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                PlayerJumping();
-            }
-
-            if (Input.GetKeyDown(KeyCode.X))
-            {
-                character.SetState(character.playerAttackState);
-            }
-           
-            if (Input.GetKeyDown(KeyCode.Z))
-            {
-                
-            }
+            character.anim.SetFloat("Speed", Mathf.Abs(character.horizontalInput));
         }
+                
+        else
+        {
+            character.anim.SetFloat("Speed", 0);
+        }   
+
+        if (!character.isFacingRight && character.horizontalInput > 0)
+            character.Flip();
+        if (character.isFacingRight && character.horizontalInput < 0)
+            character.Flip();
+
+
+        if(character.rb.velocity.y < -1f)
+            character.rb.velocity = new Vector2(character.rb.velocity.x, character.rb.velocity.y - 0.17f);
+        
            
     }
 
     public override void PhysicTick()
     {
         character.rb.velocity = new Vector2(character.horizontalInput * character.speed * Time.deltaTime, character.rb.velocity.y);
-    }
-
-    public void Flip()
-    {
-        if (character.isFacingRight)
-        {
-            character.isFacingRight = false;
-            character.transform.Rotate(0, 180f, 0);
-        }
-        else
-        {
-            character.isFacingRight = true;
-            character.transform.Rotate(0, 180f, 0);
-        }
-    }
-
-    public override void ExitState()
-    {
-        character.anim.SetFloat("Speed", Mathf.Abs(character.horizontalInput));
     }
 
     void PlayerJumping()
@@ -107,26 +76,16 @@ public class PlayerLocomotion : CharacterState
                 return;
 
             character.jumpCounter -= 1;
-            vel.y += Mathf.Sqrt(-2f * Physics.gravity.y * character.jumpPower);
+            vel.y += Mathf.Sqrt(-2f * -10f * character.jumpPower);
 
             character.rb.velocity = vel;
         }
     }
 
-    public void Dash()
-    {
-        character.SetState(character.playerDashState);
-    }
-
 
     void AttackKeyPressed()
     {
-
-    }
-
-    void JumpKeyPressed()
-    {
-
+        character.SetState(character.playerAttackState);
     }
 
     void DashKeyPressed()
@@ -137,4 +96,10 @@ public class PlayerLocomotion : CharacterState
 
         }
     }
+
+    void InteractKeyPressed()
+    {
+        character.PlayerTouchEntity(character.dialogueEntity, Vector2.right).collider.GetComponent<IInteractable>().ExecuteInteractable();
+    }
+
 }

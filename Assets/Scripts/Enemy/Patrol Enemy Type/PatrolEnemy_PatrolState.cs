@@ -26,11 +26,9 @@ public class PatrolEnemy_PatrolState : CharacterState
         if (enemy.CheckMask(enemy.borderMask) && !enemy.Resetting)
         {
             enemy.Flip();
-            Debug.Log("Cliff!");
         }else
         {
             enemy.Move();
-            Debug.Log("Ground!");
         }
     }
 

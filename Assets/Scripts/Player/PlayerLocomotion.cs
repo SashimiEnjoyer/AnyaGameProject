@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 /// <summary>
 /// Default State
@@ -42,22 +41,17 @@ public class PlayerLocomotion : CharacterState
         {
             character.anim.SetFloat("Speed", Mathf.Abs(character.horizontalInput));
         }
-                
+
         else
         {
             character.anim.SetFloat("Speed", 0);
-        }   
+        }
 
         if (!character.isFacingRight && character.horizontalInput > 0)
             character.Flip();
         if (character.isFacingRight && character.horizontalInput < 0)
             character.Flip();
 
-
-        if(character.rb.velocity.y < -1f)
-            character.rb.velocity = new Vector2(character.rb.velocity.x, character.rb.velocity.y - 0.17f);
-        
-           
     }
 
     public override void PhysicTick()
@@ -68,18 +62,19 @@ public class PlayerLocomotion : CharacterState
     void PlayerJumping()
     {
 
+        if (character.jumpCounter <= 0)
+            return;
+
+        character.rb.velocity = new Vector2(character.rb.velocity.x, 0);
+
         Vector3 vel = character.rb.velocity;
 
-        if(character.keyboardInput == true)
-        {
-            if (character.jumpCounter <= 0)
-                return;
+        vel.y += Mathf.Sqrt(-2f * -10f * character.jumpPower);
 
-            character.jumpCounter -= 1;
-            vel.y += Mathf.Sqrt(-2f * -10f * character.jumpPower);
-
-            character.rb.velocity = vel;
-        }
+        character.rb.velocity = vel;
+        
+        character.jumpCounter -= 1;
+        
     }
 
 

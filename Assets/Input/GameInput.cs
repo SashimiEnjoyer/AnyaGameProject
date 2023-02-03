@@ -71,6 +71,15 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PauseMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""8f8685f2-6d6b-449a-9653-6fe7ef8c90c6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -183,6 +192,17 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
                     ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""06e50e6e-ae22-4272-ba84-0326f8a590fb"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PauseMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -196,6 +216,7 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
         m_InGame_Jump = m_InGame.FindAction("Jump", throwIfNotFound: true);
         m_InGame_Attack = m_InGame.FindAction("Attack", throwIfNotFound: true);
         m_InGame_Interact = m_InGame.FindAction("Interact", throwIfNotFound: true);
+        m_InGame_PauseMenu = m_InGame.FindAction("PauseMenu", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -260,6 +281,7 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
     private readonly InputAction m_InGame_Jump;
     private readonly InputAction m_InGame_Attack;
     private readonly InputAction m_InGame_Interact;
+    private readonly InputAction m_InGame_PauseMenu;
     public struct InGameActions
     {
         private @GameInput m_Wrapper;
@@ -269,6 +291,7 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_InGame_Jump;
         public InputAction @Attack => m_Wrapper.m_InGame_Attack;
         public InputAction @Interact => m_Wrapper.m_InGame_Interact;
+        public InputAction @PauseMenu => m_Wrapper.m_InGame_PauseMenu;
         public InputActionMap Get() { return m_Wrapper.m_InGame; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -293,6 +316,9 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
                 @Interact.started -= m_Wrapper.m_InGameActionsCallbackInterface.OnInteract;
                 @Interact.performed -= m_Wrapper.m_InGameActionsCallbackInterface.OnInteract;
                 @Interact.canceled -= m_Wrapper.m_InGameActionsCallbackInterface.OnInteract;
+                @PauseMenu.started -= m_Wrapper.m_InGameActionsCallbackInterface.OnPauseMenu;
+                @PauseMenu.performed -= m_Wrapper.m_InGameActionsCallbackInterface.OnPauseMenu;
+                @PauseMenu.canceled -= m_Wrapper.m_InGameActionsCallbackInterface.OnPauseMenu;
             }
             m_Wrapper.m_InGameActionsCallbackInterface = instance;
             if (instance != null)
@@ -312,6 +338,9 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
                 @Interact.started += instance.OnInteract;
                 @Interact.performed += instance.OnInteract;
                 @Interact.canceled += instance.OnInteract;
+                @PauseMenu.started += instance.OnPauseMenu;
+                @PauseMenu.performed += instance.OnPauseMenu;
+                @PauseMenu.canceled += instance.OnPauseMenu;
             }
         }
     }
@@ -323,5 +352,6 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
+        void OnPauseMenu(InputAction.CallbackContext context);
     }
 }

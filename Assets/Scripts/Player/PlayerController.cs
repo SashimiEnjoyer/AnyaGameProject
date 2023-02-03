@@ -108,6 +108,9 @@ public class PlayerController : CharacterStateManager
 
         base.Update();
 
+        if (rb.velocity.y < -1.5f)
+            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y - 0.2f);
+
         if (PlayerTouchGround(Vector2.down))
         {
             jumpCounter = 2;
@@ -120,14 +123,12 @@ public class PlayerController : CharacterStateManager
 
         if(PlayerStats.instance.playerHealth <= 0 && currState != playerDieState)
             SetState(playerDieState);
-
     }
 
     protected override void FixedUpdate()
     {
         if(isStop)
         {
-            StopMove();
             anim.SetFloat("Speed", 0);
             return;
         }
@@ -144,7 +145,7 @@ public class PlayerController : CharacterStateManager
                 
                 if(currState != playerLocomotionState)
                     SetState(playerLocomotionState);
-                
+
                 isStop = true;
                 break;
             case GameplayState.Stop:
@@ -168,7 +169,7 @@ public class PlayerController : CharacterStateManager
 
     public RaycastHit2D PlayerTouchGround(Vector2 _detectionDirection)
     {
-        return Physics2D.CapsuleCast(playerCollider.bounds.center, playerCollider.size,CapsuleDirection2D.Vertical, 0.1f, _detectionDirection, 0.01f, groundLayer);
+        return Physics2D.CapsuleCast(playerCollider.bounds.center, playerCollider.size,CapsuleDirection2D.Vertical, 0.1f, _detectionDirection, 0.1f, groundLayer);
     }
 
     public RaycastHit2D[] PlayerTouchEnemy(bool _isFacingRight)

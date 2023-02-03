@@ -1,11 +1,19 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-[System.Serializable] 
-struct DialogueData
+[System.Serializable]
+public struct DialogueImages
 {
-    public Sprite[] characterImage;
-    public string characterName;
+    public Sprite characterImage;
+    public float imageSize01;
+}
+
+[System.Serializable] 
+public struct DialogueData
+{
+    public DialogueImages[] imagesSetting;   
+    public int characterHighlightIndex;
+    public string currentCharacterName;
     [TextArea(5,20)]public string characterDialogue;
     public UnityEvent onCurrentDialogueEvent;
 };
@@ -37,7 +45,7 @@ public class DialogueController : MonoBehaviour, IInteractable
 
             dialogueObject = Instantiate(dialogueModalUIPrefab);
             dialogueUI = dialogueObject.GetComponent<DialogueModalUI>();
-            dialogueUI.SetDialogueUI(dialogues[0].characterName, dialogues[0].characterDialogue, dialogues[0].characterImage);
+            dialogueUI.SetDialogueUI(dialogues[0]);
             dialogueUI.OnNextDialogueButtonPressed += NextDialogue;
             InGameTracker.instance.gameState = GameplayState.Dialogue;
         }
@@ -48,13 +56,10 @@ public class DialogueController : MonoBehaviour, IInteractable
         dialogueIndex += 1;
 
         if (dialogueIndex <= dialogues.Length - 1)
-            dialogueUI.SetDialogueUI(dialogues[dialogueIndex].characterName, dialogues[dialogueIndex].characterDialogue, dialogues[dialogueIndex].characterImage);
+            dialogueUI.SetDialogueUI(dialogues[dialogueIndex]);
         else
         {
-            dialogueUI.OnNextDialogueButtonPressed -= NextDialogue;
             EndDialogue();
-            InGameTracker.instance.gameState = GameplayState.Playing;
-            dialogueIndex = 0;
         }
 
         dialogues[dialogueIndex].onCurrentDialogueEvent?.Invoke();
@@ -62,9 +67,12 @@ public class DialogueController : MonoBehaviour, IInteractable
 
     private void EndDialogue()
     {
+        dialogueUI.OnNextDialogueButtonPressed -= NextDialogue;
         dialogueObject.SetActive(false);    
         ObjectDestroyed = true;
         DialogueEnd = true;
+        InGameTracker.instance.gameState = GameplayState.Playing;
+        dialogueIndex = 0;
     }
 
 }

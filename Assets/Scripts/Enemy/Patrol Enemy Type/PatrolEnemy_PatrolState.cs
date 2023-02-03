@@ -1,4 +1,5 @@
 
+using System.Collections;
 using UnityEngine;
 
 public class PatrolEnemy_PatrolState : CharacterState
@@ -6,6 +7,8 @@ public class PatrolEnemy_PatrolState : CharacterState
     public PatrolEnemy_PatrolState(EnemyController enemy) : base(enemy)
     {
     }
+
+    WaitForSeconds wait = new WaitForSeconds(1f);
 
     public override void EnterState()
     {

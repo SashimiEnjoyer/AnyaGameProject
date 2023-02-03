@@ -1,8 +1,11 @@
+using System.Collections;
 using UnityEngine;
 
 public class PatrolTypeEnemy : EnemyController
 {
     Vector2 playerPos;
+    IEnumerator DelayedFlip;
+    WaitForSeconds wait;
 
     private void Awake()
     {
@@ -13,11 +16,12 @@ public class PatrolTypeEnemy : EnemyController
         patrolState = new PatrolEnemy_PatrolState(this);
         enemyHurted = new EnemyHurt(this);
         enemyDied = new EnemyDied(this);
-;
+        wait = new WaitForSeconds(1f);
     }
 
     private void Start()
     {
+        DelayedFlip = DoDelayedFlip();
         SetState(patrolState);
     }
 
@@ -47,12 +51,26 @@ public class PatrolTypeEnemy : EnemyController
 
     public override void Flip()
     {
+        //StopCoroutine(DelayedFlip);
+        StartCoroutine(DelayedFlip);
+    }
+
+    private void DoFlip()
+    {
         if (getHit)
             return;
 
         isFacingRight = !isFacingRight;
         StopMove();
         transform.Rotate(0, 180f, 0);
+    }
+
+    IEnumerator DoDelayedFlip()
+    {
+        Debug.Log("Start Coroutine");
+        yield return wait;
+        Debug.Log("Start Flip");
+        DoFlip();
     }
 
     public override void Knocked()

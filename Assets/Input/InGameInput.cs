@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 
 public class InGameInput : MonoBehaviour
 {
+    [SerializeField] InputActionAsset action;
     public static InGameInput instance;
     GameInput input;
 
@@ -47,6 +48,12 @@ public class InGameInput : MonoBehaviour
         input.InGame.Interact.performed -= InteractInput;
         input.Disable();
     }
+
+    //[ContextMenu("Check Map")]
+    //public void ChangeInputMap()
+    //{
+    //    Debug.Log(action.actionMaps[0][]);
+    //}
 
     void MoveInput(InputAction.CallbackContext ctx){  onMovePressed?.Invoke(ctx.ReadValue<float>()); }
     void MoveStop(InputAction.CallbackContext ctx) { onMoveStop?.Invoke(0); }

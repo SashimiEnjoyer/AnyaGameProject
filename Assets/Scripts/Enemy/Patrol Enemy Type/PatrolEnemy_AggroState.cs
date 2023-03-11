@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PatrolEnemy_AggroState : CharacterState
 {
-    public PatrolEnemy_AggroState(PlayerController _character) : base(_character)
+    public PatrolEnemy_AggroState(EnemyController enemy) : base(enemy)
     {
     }
 
@@ -23,12 +23,21 @@ public class PatrolEnemy_AggroState : CharacterState
         {
             enemy.StopMove();
         }
-        else
+
+        if (Mathf.Sign(enemy.CurrentDirection) != Mathf.Sign(PlayerPosDir().x))
         {
-            enemy.Move();
+            enemy.Flip();
         }
 
-        enemy.EnemyDoAttack();
+        enemy.Move();
+
+        if(Mathf.Abs(Vector2.Distance(enemy.transform.position, enemy.player.position)) < 3)
+            enemy.EnemyDoAttack();
+    }
+
+    Vector2 PlayerPosDir()
+    {
+        return (enemy.player.position - enemy.transform.position).normalized;
     }
 
     public override void ExitState()

@@ -18,6 +18,7 @@ public class EnemyController : CharacterStateManager, IEnemy
     [HideInInspector] public bool PatrolAttack = true;
     [HideInInspector] public bool CanAttack = true;
     [HideInInspector] public bool Resetting = false;
+    [HideInInspector] public int CurrentDirection = 1;
 
     [Header("References")]
     public Rigidbody2D rb;

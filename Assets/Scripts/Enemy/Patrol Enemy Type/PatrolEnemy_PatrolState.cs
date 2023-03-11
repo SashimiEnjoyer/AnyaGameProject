@@ -8,8 +8,6 @@ public class PatrolEnemy_PatrolState : CharacterState
     {
     }
 
-    WaitForSeconds wait = new WaitForSeconds(1f);
-
     public override void EnterState()
     {
         //enemy.onTouchBorder += Flip;
@@ -24,15 +22,11 @@ public class PatrolEnemy_PatrolState : CharacterState
             enemy.SetState(enemy.enemyDied);
         }
 
-        enemy.EnemyDoAttack();
-
         if (enemy.CheckMask(enemy.borderMask) && !enemy.Resetting)
-        {
             enemy.Flip();
-        }else
-        {
+        else
             enemy.Move();
-        }
+
     }
 
     public override void ExitState()

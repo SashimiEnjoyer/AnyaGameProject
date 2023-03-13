@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 public class PatrolTypeEnemy : EnemyController
@@ -11,14 +10,16 @@ public class PatrolTypeEnemy : EnemyController
         hitBox = GetComponent<CapsuleCollider2D>();
         anim = GetComponent<Animator>();
 
-        patrolState = new PatrolEnemy_PatrolState(this);
+        patrolState = new PatrolType.PatrolState(this);
+        chaseState = new PatrolType.ChaseState(this);
+        attackState = new PatrolType.AttackState(this);
         enemyHurted = new EnemyHurt(this);
         enemyDied = new EnemyDied(this);
     }
 
     private void Start()
     {
-        SetState(patrolState);
+        SetState(chaseState);
     }
 
     public override void EnemyDoAttack()
@@ -30,9 +31,9 @@ public class PatrolTypeEnemy : EnemyController
         }
     }
 
-    public override void Move()
+    public override void Move(float multiplier)
     {
-        rb.velocity = new Vector2(movementSpeed * CurrentDirection, rb.velocity.y);
+        rb.velocity = new Vector2(movementSpeed * CurrentDirection * multiplier, rb.velocity.y);
     }
 
     public override void StopMove()
@@ -60,12 +61,11 @@ public class PatrolTypeEnemy : EnemyController
     public override void Knocked()
     {
         StopMove();
-        rb.AddForce(new Vector2(playerPos.x > transform.position.x ? -knockDistance.x : knockDistance.x, knockDistance.y));
+        rb.AddForce(new Vector2(-PlayerDirection().x * knockDistance.x, knockDistance.y));
     }
 
-    public override void EnemyHurted(Vector2 _target)
+    public override void EnemyHurted()
     {
-        playerPos = _target;
 
         SetState(enemyHurted);
 
@@ -74,16 +74,11 @@ public class PatrolTypeEnemy : EnemyController
             Debug.LogWarning("No Effect Prefabs Assigned");
             return;
         }
-
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    public override void ResetPosition()
     {
-        if (other.CompareTag("Border"))
-        {
-            onTouchBorder?.Invoke();
-        }
-
+        transform.SetPositionAndRotation(startingPoint.position, Quaternion.identity);
     }
 
 }

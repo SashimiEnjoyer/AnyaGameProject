@@ -67,12 +67,13 @@ public class PlayerLocomotion : CharacterState
 
         character.rb.velocity = new Vector2(character.rb.velocity.x, 0);
 
+        //character.rb.AddForce(new Vector2(character.rb.velocity.x, character.jumpPower), ForceMode2D.Impulse);
         Vector3 vel = character.rb.velocity;
 
         vel.y += Mathf.Sqrt(-2f * -10f * character.jumpPower);
 
         character.rb.velocity = vel;
-        
+
         character.jumpCounter -= 1;
         
     }

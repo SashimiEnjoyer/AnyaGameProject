@@ -1,9 +1,13 @@
+using System;
+using System.Collections;
 using UnityEngine;
 
 public class CharacterStateManager : MonoBehaviour
 {
     protected CharacterState currState;
     protected string currentAnimationLayer;
+    private IEnumerator coroutine;
+    private WaitForSeconds wait;
 
     public void SetState(CharacterState state)
     {
@@ -20,6 +24,25 @@ public class CharacterStateManager : MonoBehaviour
         currentAnimationLayer = animationStateName;
 
         animator.Play(animationStateName, 0, 0);
+    }
+
+    public void FunctionWithInterval(Action action, float interval)
+    {
+        if(coroutine == null)
+        {
+            coroutine = CoroutineFunc(action);
+            wait = new WaitForSeconds(interval);
+        }
+        StartCoroutine(coroutine);
+    }
+
+    private IEnumerator CoroutineFunc(Action action)
+    {
+        while (true)
+        {
+            yield return wait;
+            action?.Invoke();
+        }
     }
 
     protected virtual void Update()

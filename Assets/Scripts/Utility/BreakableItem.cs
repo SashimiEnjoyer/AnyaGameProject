@@ -37,7 +37,7 @@ public class BreakableItem : MonoBehaviour, IEnemy
 
     }
 
-    public void EnemyHurted(Vector2 _target)
+    public void EnemyHurted()
     {
         timer = Time.time + 0.5f;
         isShaking = true;

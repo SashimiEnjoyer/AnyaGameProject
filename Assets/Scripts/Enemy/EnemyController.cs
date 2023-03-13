@@ -17,7 +17,7 @@ public class EnemyController : CharacterStateManager, IEnemy
     [HideInInspector] public bool isFacingRight = true;
     [HideInInspector] public bool PatrolAttack = true;
     [HideInInspector] public bool CanAttack = true;
-    [HideInInspector] public bool Resetting = false;
+     public bool Resetting = false;
     [HideInInspector] public int CurrentDirection = 1;
 
     [Header("References")]
@@ -33,24 +33,27 @@ public class EnemyController : CharacterStateManager, IEnemy
 
     [Header("States")]
     public CharacterState patrolState;
+    public CharacterState chaseState;
+    public CharacterState attackState;
     public CharacterState enemyHurted;
     public CharacterState enemyDied;
 
-    [Header("Actions")]
-    public UnityAction onTouchBorder;
-    public UnityAction onEnemyDied;
+    [Header("Events")]
+    public UnityEvent onEnemyDied;
 
-    public virtual void EnemyHurted(Vector2 _target) { }
+    public virtual void EnemyHurted() { }
 
     public virtual void EnemyDoAttack() { }
 
-    public virtual void Move() { }
+    public virtual void Move(float multiplier) { }
 
     public virtual void StopMove() { }
     
     public virtual void Flip() { }
 
     public virtual void Died() { }
+
+    public virtual void ResetPosition() { }
 
     public virtual void Knocked() { } 
 
@@ -63,5 +66,10 @@ public class EnemyController : CharacterStateManager, IEnemy
     public RaycastHit2D PlayerTouched()
     {
         return EnemyAttackExtension.EnemyTouchPlayer(hitBox, playerMask, isFacingRight);
+    }
+
+    public Vector2 PlayerDirection()
+    {
+        return (player.position - transform.position).normalized;
     }
 }

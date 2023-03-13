@@ -20,6 +20,7 @@ public class PlayerDash : CharacterState
         character.dashCounter += Time.deltaTime;
 
         character.dashCounter = Mathf.Clamp(character.dashCounter, 0, character.dashTime + character.dashCooldown);
+
     }
 
 

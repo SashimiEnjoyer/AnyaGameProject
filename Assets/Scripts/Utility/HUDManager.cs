@@ -33,10 +33,10 @@ public class HUDManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playerController.CanDash())
-            dashSlider.value -= (playerController.dashCounter / (playerController.dashTime + playerController.dashCooldown)) * 100;
-        else
-            dashSlider.value += Time.deltaTime * 100;
+        dashSlider.value = (playerController.dashCounter / (playerController.dashTime + playerController.dashCooldown)) * 100;
+
+
+        dashSlider.value = Mathf.Clamp(dashSlider.value, 0, 100);
 
         HPImage.fillAmount = PlayerStats.instance.playerHealth / 3;
     }

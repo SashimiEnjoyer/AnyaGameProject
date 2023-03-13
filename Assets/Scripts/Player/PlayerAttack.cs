@@ -70,7 +70,7 @@ public class PlayerAttack : CharacterState
                     character.listOfEnemies.Add(character.PlayerTouchEnemy(character.isFacingRight)[i].collider.GetComponent<EnemyController>());
 
                     foreach (var enemy in character.listOfEnemies)
-                        enemy.EnemyHurted(character.transform.position);
+                        enemy.EnemyHurted();
 
                 }
             }

@@ -21,14 +21,17 @@ public static partial class PatrolType
                 enemy.Flip();
             }
 
-            if (enemy.CheckMask(enemy.borderMask) && !enemy.Resetting)
-            {
-                enemy.StopMove();
-            }else
-                enemy.Move(1f);
+            enemy.Move(2f);
 
             if (Mathf.Abs(Vector2.Distance(enemy.transform.position, enemy.player.position)) < 3)
                 enemy.SetState(enemy.attackState);
+
+            if (Mathf.Abs(Vector2.Distance(enemy.transform.position, enemy.startingPoint.position)) < 15)
+            {
+                enemy.transform.position = enemy.startingPoint.position;
+                enemy.SetState(enemy.patrolState);
+
+            }
         }
 
         public override void ExitState()

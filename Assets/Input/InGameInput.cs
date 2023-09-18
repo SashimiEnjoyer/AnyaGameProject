@@ -10,7 +10,9 @@ public class InGameInput : MonoBehaviour
 
     public UnityAction<float> onMovePressed;
     public UnityAction<float> onMoveStop;
-    public UnityAction onDashPressed;
+    public UnityAction onSkill1Pressed;
+    public UnityAction onSkill2Pressed;
+    public UnityAction onSkill3Pressed;
     public UnityAction onJumpPressed;
     public UnityAction onAttackPressed;
     public UnityAction onInteractPressed;
@@ -31,7 +33,9 @@ public class InGameInput : MonoBehaviour
 
         input.InGame.HorizontalMove.performed += MoveInput;
         input.InGame.HorizontalMove.canceled += MoveStop;
-        input.InGame.Dash.performed += DashInput;
+        input.InGame.Skill1.performed += Skill1Input;
+        input.InGame.Skill2.performed += Skill2Input;
+        input.InGame.Skill3.performed += Skill3Input;
         input.InGame.Jump.performed += JumpInput;
         input.InGame.Attack.performed += AttackInput;
         input.InGame.Interact.performed += InteractInput;
@@ -42,7 +46,9 @@ public class InGameInput : MonoBehaviour
     {
         input.InGame.HorizontalMove.performed -= MoveInput;
         input.InGame.HorizontalMove.canceled -= MoveStop;
-        input.InGame.Dash.performed -= DashInput;
+        input.InGame.Skill1.performed -= Skill1Input;
+        input.InGame.Skill2.performed -= Skill2Input;
+        input.InGame.Skill3.performed -= Skill3Input;
         input.InGame.Jump.performed -= JumpInput;
         input.InGame.Attack.performed -= AttackInput;
         input.InGame.Interact.performed -= InteractInput;
@@ -57,7 +63,9 @@ public class InGameInput : MonoBehaviour
 
     void MoveInput(InputAction.CallbackContext ctx){  onMovePressed?.Invoke(ctx.ReadValue<float>()); }
     void MoveStop(InputAction.CallbackContext ctx) { onMoveStop?.Invoke(0); }
-    void DashInput(InputAction.CallbackContext ctx) { onDashPressed?.Invoke(); }
+    void Skill1Input(InputAction.CallbackContext ctx) { onSkill1Pressed?.Invoke(); }
+    void Skill2Input(InputAction.CallbackContext ctx) { onSkill2Pressed?.Invoke(); }
+    void Skill3Input(InputAction.CallbackContext ctx) { onSkill3Pressed?.Invoke(); }
     void JumpInput(InputAction.CallbackContext ctx) { onJumpPressed?.Invoke(); }
     void AttackInput(InputAction.CallbackContext ctx) { onAttackPressed?.Invoke(); } 
     void InteractInput(InputAction.CallbackContext ctx) { onInteractPressed?.Invoke(); }

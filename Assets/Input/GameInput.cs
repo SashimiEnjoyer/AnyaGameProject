@@ -37,15 +37,6 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Dash"",
-                    ""type"": ""Button"",
-                    ""id"": ""f6635550-7810-420d-8aa7-6599ac99d6a3"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Jump"",
                     ""type"": ""Button"",
                     ""id"": ""a63c128a-5e8a-463e-b3a9-f50efa9b1cb0"",
@@ -76,6 +67,33 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""name"": ""PauseMenu"",
                     ""type"": ""Button"",
                     ""id"": ""8f8685f2-6d6b-449a-9653-6fe7ef8c90c6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Skill 1"",
+                    ""type"": ""Button"",
+                    ""id"": ""f6635550-7810-420d-8aa7-6599ac99d6a3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Skill2"",
+                    ""type"": ""Button"",
+                    ""id"": ""6883154e-91b7-4d02-95d6-a968f312fb80"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Skill3"",
+                    ""type"": ""Button"",
+                    ""id"": ""b7742ddb-5cff-4ed8-bba0-f9b1245f50f6"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -151,19 +169,19 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""2da046ec-739a-4e29-9df9-39da7b3de8b6"",
-                    ""path"": ""<Keyboard>/c"",
+                    ""id"": ""bfc3965a-7201-42e7-86c9-21fb2f647cb2"",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Dash"",
+                    ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""bfc3965a-7201-42e7-86c9-21fb2f647cb2"",
-                    ""path"": ""<Keyboard>/space"",
+                    ""id"": ""7d7967b5-c9a5-44c2-9b37-5763a75aa1e2"",
+                    ""path"": ""<Keyboard>/upArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -203,6 +221,39 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""action"": ""PauseMenu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4203c770-f86a-4185-8033-ce8bf5b80ead"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Skill2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2da046ec-739a-4e29-9df9-39da7b3de8b6"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Skill 1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ef8912b1-e169-4256-91cb-df0777010e7f"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Skill3"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -212,11 +263,13 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         // InGame
         m_InGame = asset.FindActionMap("InGame", throwIfNotFound: true);
         m_InGame_HorizontalMove = m_InGame.FindAction("HorizontalMove", throwIfNotFound: true);
-        m_InGame_Dash = m_InGame.FindAction("Dash", throwIfNotFound: true);
         m_InGame_Jump = m_InGame.FindAction("Jump", throwIfNotFound: true);
         m_InGame_Attack = m_InGame.FindAction("Attack", throwIfNotFound: true);
         m_InGame_Interact = m_InGame.FindAction("Interact", throwIfNotFound: true);
         m_InGame_PauseMenu = m_InGame.FindAction("PauseMenu", throwIfNotFound: true);
+        m_InGame_Skill1 = m_InGame.FindAction("Skill 1", throwIfNotFound: true);
+        m_InGame_Skill2 = m_InGame.FindAction("Skill2", throwIfNotFound: true);
+        m_InGame_Skill3 = m_InGame.FindAction("Skill3", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -279,21 +332,25 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_InGame;
     private List<IInGameActions> m_InGameActionsCallbackInterfaces = new List<IInGameActions>();
     private readonly InputAction m_InGame_HorizontalMove;
-    private readonly InputAction m_InGame_Dash;
     private readonly InputAction m_InGame_Jump;
     private readonly InputAction m_InGame_Attack;
     private readonly InputAction m_InGame_Interact;
     private readonly InputAction m_InGame_PauseMenu;
+    private readonly InputAction m_InGame_Skill1;
+    private readonly InputAction m_InGame_Skill2;
+    private readonly InputAction m_InGame_Skill3;
     public struct InGameActions
     {
         private @GameInput m_Wrapper;
         public InGameActions(@GameInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @HorizontalMove => m_Wrapper.m_InGame_HorizontalMove;
-        public InputAction @Dash => m_Wrapper.m_InGame_Dash;
         public InputAction @Jump => m_Wrapper.m_InGame_Jump;
         public InputAction @Attack => m_Wrapper.m_InGame_Attack;
         public InputAction @Interact => m_Wrapper.m_InGame_Interact;
         public InputAction @PauseMenu => m_Wrapper.m_InGame_PauseMenu;
+        public InputAction @Skill1 => m_Wrapper.m_InGame_Skill1;
+        public InputAction @Skill2 => m_Wrapper.m_InGame_Skill2;
+        public InputAction @Skill3 => m_Wrapper.m_InGame_Skill3;
         public InputActionMap Get() { return m_Wrapper.m_InGame; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -306,9 +363,6 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @HorizontalMove.started += instance.OnHorizontalMove;
             @HorizontalMove.performed += instance.OnHorizontalMove;
             @HorizontalMove.canceled += instance.OnHorizontalMove;
-            @Dash.started += instance.OnDash;
-            @Dash.performed += instance.OnDash;
-            @Dash.canceled += instance.OnDash;
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
@@ -321,6 +375,15 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @PauseMenu.started += instance.OnPauseMenu;
             @PauseMenu.performed += instance.OnPauseMenu;
             @PauseMenu.canceled += instance.OnPauseMenu;
+            @Skill1.started += instance.OnSkill1;
+            @Skill1.performed += instance.OnSkill1;
+            @Skill1.canceled += instance.OnSkill1;
+            @Skill2.started += instance.OnSkill2;
+            @Skill2.performed += instance.OnSkill2;
+            @Skill2.canceled += instance.OnSkill2;
+            @Skill3.started += instance.OnSkill3;
+            @Skill3.performed += instance.OnSkill3;
+            @Skill3.canceled += instance.OnSkill3;
         }
 
         private void UnregisterCallbacks(IInGameActions instance)
@@ -328,9 +391,6 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @HorizontalMove.started -= instance.OnHorizontalMove;
             @HorizontalMove.performed -= instance.OnHorizontalMove;
             @HorizontalMove.canceled -= instance.OnHorizontalMove;
-            @Dash.started -= instance.OnDash;
-            @Dash.performed -= instance.OnDash;
-            @Dash.canceled -= instance.OnDash;
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
@@ -343,6 +403,15 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @PauseMenu.started -= instance.OnPauseMenu;
             @PauseMenu.performed -= instance.OnPauseMenu;
             @PauseMenu.canceled -= instance.OnPauseMenu;
+            @Skill1.started -= instance.OnSkill1;
+            @Skill1.performed -= instance.OnSkill1;
+            @Skill1.canceled -= instance.OnSkill1;
+            @Skill2.started -= instance.OnSkill2;
+            @Skill2.performed -= instance.OnSkill2;
+            @Skill2.canceled -= instance.OnSkill2;
+            @Skill3.started -= instance.OnSkill3;
+            @Skill3.performed -= instance.OnSkill3;
+            @Skill3.canceled -= instance.OnSkill3;
         }
 
         public void RemoveCallbacks(IInGameActions instance)
@@ -363,10 +432,12 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
     public interface IInGameActions
     {
         void OnHorizontalMove(InputAction.CallbackContext context);
-        void OnDash(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnPauseMenu(InputAction.CallbackContext context);
+        void OnSkill1(InputAction.CallbackContext context);
+        void OnSkill2(InputAction.CallbackContext context);
+        void OnSkill3(InputAction.CallbackContext context);
     }
 }

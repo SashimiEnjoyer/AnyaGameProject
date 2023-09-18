@@ -2,9 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
-using UnityEngine.InputSystem;
-using System.Collections;
-using UnityEngine.TextCore.Text;
 
 /// <summary>
 /// Set and Get Overall Conditions for Player 
@@ -16,17 +13,16 @@ public class PlayerController : CharacterStateManager
     public Action OnAttackKeyPressed;
 
     public PlayerAttack playerAttackState;
-    public PlayerDash playerDashState;
     public PlayerDie playerDieState;
     public PlayerHurt playerHurtState;
     public PlayerLocomotion playerLocomotionState;
+    public CharacterState skill1;
+
+    public SkillManager skillManager;
 
     [Header("Run Setting")]
     public float horizontalInput = 0f;
     public float speed;
-    public float dashSpeed = 50f;
-    public float dashCounter = 0f;
-    public float dashTime = 0.5f;
     public float dashCooldown = 10;
     public float nextDashTiming = 0f;
 
@@ -35,7 +31,8 @@ public class PlayerController : CharacterStateManager
     
     [Header("Jump Setting")]
     public float jumpPower;
-    public int jumpCounter = 2;
+    public int jumpAvailable = 2;
+    [HideInInspector] public int jumpCounter = 2;
 
     [Header("Define Interactable Entity")]
     public LayerMask groundLayer;
@@ -56,12 +53,15 @@ public class PlayerController : CharacterStateManager
     public bool isDead = false;
     public float invulnerableCount = 0;
 
+    [Header("Transforms")]
+    public Transform skillSpawnerBotton;
+
     [Header("Effect")]
     [SerializeField] HitEffect hitEffect;
     
     public Rigidbody2D rb;
     public Animator anim;
-    public List<EnemyController> listOfEnemies = new List<EnemyController>();
+    public List<IEnemy> listOfEnemies = new();
 
     CapsuleCollider2D playerCollider;
     bool isStop = false;
@@ -79,7 +79,6 @@ public class PlayerController : CharacterStateManager
 
         playerAttackState = new PlayerAttack(this);
         playerDieState = new PlayerDie(this);
-        playerDashState = new PlayerDash(this);
         playerLocomotionState = new PlayerLocomotion(this);
         playerHurtState = new PlayerHurt(this);
     }
@@ -101,8 +100,7 @@ public class PlayerController : CharacterStateManager
     }
 
     protected override void Update()
-    {
-        
+    {   
         if (isStop)
             return;
 
@@ -113,7 +111,7 @@ public class PlayerController : CharacterStateManager
 
         if (PlayerTouchGround(Vector2.down))
         {
-            jumpCounter = 2;
+            jumpCounter = jumpAvailable;
         }
            
         if (PlayerTouchEntity(movingPlatform, Vector2.down))
@@ -232,7 +230,7 @@ public class PlayerController : CharacterStateManager
 
     public void Dash()
     {
-        SetState(playerDashState);
+        SetState(skill1);
     }
 
     public void Flip()

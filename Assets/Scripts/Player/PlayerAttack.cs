@@ -57,29 +57,29 @@ public class PlayerAttack : CharacterState
     }
 
     public override void Tick()
-    { 
+    {
 
+        //if (Time.time < timer)
+        //{
+        //    for (int i = 0; i < character.PlayerTouchEnemy(character.isFacingRight).Length; i++)
+        //    {
+        //        if (character.listOfEnemies.Contains(character.PlayerTouchEnemy(character.isFacingRight)[i].collider.GetComponent<IEnemy>()))
+        //            continue;
+        //        else
+        //        {
+        //            character.listOfEnemies.Add(character.PlayerTouchEnemy(character.isFacingRight)[i].collider.GetComponent<IEnemy>());
+
+        //            foreach (var enemy in character.listOfEnemies)
+        //                enemy.EnemyHurted();
+
+        //        }
+        //    }
+
+        //}
         if (Time.time < timer)
-        {
-            for (int i = 0; i < character.PlayerTouchEnemy(character.isFacingRight).Length; i++)
-            {
-                if (character.listOfEnemies.Contains(character.PlayerTouchEnemy(character.isFacingRight)[i].collider.GetComponent<EnemyController>()))
-                    continue;
-                else
-                {
-                    character.listOfEnemies.Add(character.PlayerTouchEnemy(character.isFacingRight)[i].collider.GetComponent<EnemyController>());
-
-                    foreach (var enemy in character.listOfEnemies)
-                        enemy.EnemyHurted();
-
-                }
-            }
-
-        }
-        else
-        {
-            character.SetState(character.playerLocomotionState);
-        }      
+            return;
+        
+        character.SetState(character.playerLocomotionState);
     }
 
     public override void ExitState()

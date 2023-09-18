@@ -19,7 +19,7 @@ public class PatrolTypeEnemy : EnemyController
 
     private void Start()
     {
-        SetState(chaseState);
+        SetState(patrolState);
     }
 
     public override void EnemyDoAttack()
@@ -27,7 +27,6 @@ public class PatrolTypeEnemy : EnemyController
         if (PlayerTouched() && !getHit && PatrolAttack == true)
         {
             PlayerTouched().collider.GetComponent<PlayerController>().PlayerHurt(transform.position, 1);
-
         }
     }
 

@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerStats : MonoBehaviour, ISaveSystem
 {
     public static PlayerStats instance;
+    
 
     private void Awake()
     {

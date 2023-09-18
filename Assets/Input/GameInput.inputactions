@@ -15,15 +15,6 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Dash",
-                    "type": "Button",
-                    "id": "f6635550-7810-420d-8aa7-6599ac99d6a3",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Jump",
                     "type": "Button",
                     "id": "a63c128a-5e8a-463e-b3a9-f50efa9b1cb0",
@@ -54,6 +45,33 @@
                     "name": "PauseMenu",
                     "type": "Button",
                     "id": "8f8685f2-6d6b-449a-9653-6fe7ef8c90c6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Skill 1",
+                    "type": "Button",
+                    "id": "f6635550-7810-420d-8aa7-6599ac99d6a3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Skill2",
+                    "type": "Button",
+                    "id": "6883154e-91b7-4d02-95d6-a968f312fb80",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Skill3",
+                    "type": "Button",
+                    "id": "b7742ddb-5cff-4ed8-bba0-f9b1245f50f6",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -129,19 +147,19 @@
                 },
                 {
                     "name": "",
-                    "id": "2da046ec-739a-4e29-9df9-39da7b3de8b6",
-                    "path": "<Keyboard>/c",
+                    "id": "bfc3965a-7201-42e7-86c9-21fb2f647cb2",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Dash",
+                    "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "bfc3965a-7201-42e7-86c9-21fb2f647cb2",
-                    "path": "<Keyboard>/space",
+                    "id": "7d7967b5-c9a5-44c2-9b37-5763a75aa1e2",
+                    "path": "<Keyboard>/upArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -179,6 +197,39 @@
                     "processors": "",
                     "groups": "",
                     "action": "PauseMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4203c770-f86a-4185-8033-ce8bf5b80ead",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Skill2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2da046ec-739a-4e29-9df9-39da7b3de8b6",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Skill 1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ef8912b1-e169-4256-91cb-df0777010e7f",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Skill3",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
 
 public class BreakableItem : MonoBehaviour, IEnemy
 {
@@ -39,6 +36,7 @@ public class BreakableItem : MonoBehaviour, IEnemy
 
     public void EnemyHurted()
     {
+        Debug.Log("Hit");
         timer = Time.time + 0.5f;
         isShaking = true;
         hitCounter++;

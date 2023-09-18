@@ -13,11 +13,12 @@ public class PlayerLocomotion : CharacterState
     public float cooldownTimer = 0;
     public float dashhCooldown = 0;
 
-
     public override void EnterState()
     {
         Debug.Log("Locomotion State!");
-        InGameInput.instance.onDashPressed += DashKeyPressed;
+        InGameInput.instance.onSkill1Pressed += Skill1Pressed;
+        InGameInput.instance.onSkill2Pressed += Skill2Pressed;
+        InGameInput.instance.onSkill3Pressed += Skill3Pressed;
         InGameInput.instance.onJumpPressed += PlayerJumping;
         InGameInput.instance.onAttackPressed += AttackKeyPressed;
         InGameInput.instance.onInteractPressed += InteractKeyPressed;
@@ -26,7 +27,9 @@ public class PlayerLocomotion : CharacterState
 
     public override void ExitState()
     {
-        InGameInput.instance.onDashPressed -= DashKeyPressed;
+        InGameInput.instance.onSkill1Pressed -= Skill1Pressed;
+        InGameInput.instance.onSkill2Pressed -= Skill2Pressed;
+        InGameInput.instance.onSkill3Pressed -= Skill3Pressed;
         InGameInput.instance.onJumpPressed -= PlayerJumping;
         InGameInput.instance.onAttackPressed -= AttackKeyPressed;
         InGameInput.instance.onInteractPressed -= InteractKeyPressed;
@@ -57,10 +60,12 @@ public class PlayerLocomotion : CharacterState
     public override void PhysicTick()
     {
         character.rb.velocity = new Vector2(character.horizontalInput * character.speed * Time.deltaTime, character.rb.velocity.y);
+        
     }
 
     void PlayerJumping()
     {
+        character.jumpCounter -= 1;
 
         if (character.jumpCounter <= 0)
             return;
@@ -74,23 +79,27 @@ public class PlayerLocomotion : CharacterState
 
         character.rb.velocity = vel;
 
-        character.jumpCounter -= 1;
         
     }
-
 
     void AttackKeyPressed()
     {
         character.SetState(character.playerAttackState);
     }
 
-    void DashKeyPressed()
+    void Skill1Pressed()
     {
-        if (character.CanDash())
-        {
-            character.SetState(character.playerDashState);
+        character.SetState(character.skillManager.GetSkill(0, this));   
+    }
 
-        }
+    void Skill2Pressed()
+    {
+        character.SetState(character.skillManager.GetSkill(1, this));
+    }
+
+    void Skill3Pressed()
+    {
+        character.SetState(character.skillManager.GetSkill(2, this));
     }
 
     void InteractKeyPressed()

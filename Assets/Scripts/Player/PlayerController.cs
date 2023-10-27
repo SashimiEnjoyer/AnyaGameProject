@@ -114,8 +114,8 @@ public class PlayerController : CharacterStateManager
             jumpCounter = jumpAvailable;
         }
            
-        if (PlayerTouchEntity(movingPlatform, Vector2.down))
-            transform.SetParent(PlayerTouchEntity(movingPlatform, Vector2.down).transform);
+        if (PlayerTouchEntity(movingPlatform, Vector2.down, 0.1f))
+            transform.SetParent(PlayerTouchEntity(movingPlatform, Vector2.down, 0.1f).transform);
         else
             transform.SetParent(null);
 
@@ -160,19 +160,19 @@ public class PlayerController : CharacterStateManager
         }
     }
 
-    public RaycastHit2D PlayerTouchEntity(LayerMask _entityLayer, Vector2 _detectionDirection)
+    public RaycastHit2D PlayerTouchEntity(LayerMask _entityLayer, Vector2 _detectionDirection, float distance = 0.5f)
     {
-        return Physics2D.CapsuleCast(playerCollider.bounds.center, playerCollider.size, CapsuleDirection2D.Horizontal, 0.5f, _detectionDirection, 0.5f, _entityLayer);
+        return Physics2D.CapsuleCast(playerCollider.bounds.center, playerCollider.size, CapsuleDirection2D.Horizontal, 180, _detectionDirection, distance, _entityLayer);
     }
 
     public RaycastHit2D PlayerTouchGround(Vector2 _detectionDirection)
     {
-        return Physics2D.CapsuleCast(playerCollider.bounds.center, playerCollider.size,CapsuleDirection2D.Vertical, 0.1f, _detectionDirection, 0.1f, groundLayer);
+        return Physics2D.CapsuleCast(playerCollider.bounds.center, playerCollider.size,CapsuleDirection2D.Vertical, 180, _detectionDirection, 0.1f, groundLayer);
     }
 
     public RaycastHit2D[] PlayerTouchEnemy(bool _isFacingRight)
     {
-        return Physics2D.CapsuleCastAll(playerCollider.bounds.center, playerCollider.size, CapsuleDirection2D.Horizontal, 0, _isFacingRight ? Vector2.right : Vector2.left, 1f, enemyEntity);
+        return Physics2D.CapsuleCastAll(playerCollider.bounds.center, playerCollider.size, CapsuleDirection2D.Horizontal, 90, _isFacingRight ? Vector2.right : Vector2.left, 1f, enemyEntity);
     }
 
     public void PlayerHurt(Vector2 _target, int damage)

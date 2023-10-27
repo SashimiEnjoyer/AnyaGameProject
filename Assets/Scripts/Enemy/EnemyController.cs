@@ -1,6 +1,11 @@
 using UnityEngine;
 using UnityEngine.Events;
 
+public enum EnemyAggroStatus
+{
+    Calm, Semi, Aggresive
+}
+
 public class EnemyController : CharacterStateManager, IEnemy
 {
     [Header("Stats")]
@@ -9,6 +14,7 @@ public class EnemyController : CharacterStateManager, IEnemy
     public float attackAnimLength = 0.01f;
     public float maxDistanceBeforeDie = 2f;
     public float staggerTime = 1f;
+    public float aggroRadius = 2f;
     public Vector2 knockDistance;
     public bool isGround;
 
@@ -18,7 +24,8 @@ public class EnemyController : CharacterStateManager, IEnemy
     [HideInInspector] public bool PatrolAttack = true;
     [HideInInspector] public bool CanAttack = true;
      public bool Resetting = false;
-    [HideInInspector] public int CurrentDirection = 1;
+     public int CurrentDirection = 1;
+    public EnemyAggroStatus AggroStatus;
 
     [Header("References")]
     public Rigidbody2D rb;
@@ -26,7 +33,7 @@ public class EnemyController : CharacterStateManager, IEnemy
     public GameObject afterHitEffect;
     public Transform startingPoint;
     public Transform groundChecker;
-    public Transform player;
+    public Transform playerTransform;
     public CapsuleCollider2D hitBox;
     public LayerMask playerMask;
     public LayerMask borderMask;
@@ -70,6 +77,6 @@ public class EnemyController : CharacterStateManager, IEnemy
 
     public Vector2 PlayerDirection()
     {
-        return (player.position - transform.position).normalized;
+        return (playerTransform.position - transform.position).normalized;
     }
 }

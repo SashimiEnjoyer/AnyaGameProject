@@ -4,7 +4,8 @@ public static partial class PatrolType
 {
     public class AttackState : CharacterState
     {
-        float timer = 0f;
+        float timeToAttack = 0f;
+
         public AttackState(EnemyController enemy) : base(enemy)
         {
         }
@@ -12,16 +13,16 @@ public static partial class PatrolType
         public override void EnterState()
         {
             enemy.SetAnimatorState(enemy.anim, "Enemy_Attack");
+            timeToAttack = Time.time + 2f;
         }
 
         public override void Tick()
         {
-            timer += Time.deltaTime;
 
-            if (timer >= 2f)
+            if (Time.time > timeToAttack)
             {
                 enemy.SetState(enemy.chaseState);
-                timer = 0f;
+                timeToAttack = 0f;
             }
 
             enemy.Move(2f);

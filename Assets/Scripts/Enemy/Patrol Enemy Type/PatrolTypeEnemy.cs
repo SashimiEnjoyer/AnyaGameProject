@@ -30,7 +30,7 @@ public class PatrolTypeEnemy : EnemyController
         }
     }
 
-    public override void Move(float multiplier)
+    public override void Move(float multiplier = 1f)
     {
         rb.velocity = new Vector2(movementSpeed * CurrentDirection * multiplier, rb.velocity.y);
     }
@@ -77,7 +77,13 @@ public class PatrolTypeEnemy : EnemyController
 
     public override void ResetPosition()
     {
-        transform.SetPositionAndRotation(startingPoint.position, Quaternion.identity);
+        transform.position = startingPoint.position;
+
+        //if (CurrentDirection != 1)
+        //{
+        //    Flip();
+        //    CurrentDirection = 1;
+        //}
     }
 
 }

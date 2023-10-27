@@ -46,7 +46,7 @@ public class Platform : MonoBehaviour
                         switch (platformType)
                         {
                             case PlatformTypes.Horizontal:
-                                    transform.Translate(transform.right * travelSpeed * Time.deltaTime);
+                                transform.Translate(transform.right * travelSpeed * Time.deltaTime);
                                 break;
                             case PlatformTypes.Vertical:
                                 transform.Translate(transform.up * travelSpeed * Time.deltaTime);

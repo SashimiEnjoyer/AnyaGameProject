@@ -1,4 +1,7 @@
+using Cinemachine;
 using Cysharp.Threading.Tasks;
+using UnityEngine;
+
 public class PlayerHurt : CharacterState
 {
     public PlayerHurt(PlayerController player) : base(player) { }
@@ -10,12 +13,16 @@ public class PlayerHurt : CharacterState
         character.invulnerableCount = 0;
         character.isInvulnerable = true;
         character.isGetHitByEnemy = true;
-        
+
+        Time.timeScale = 0.2f;
     }
 
     public override async void Tick()
     {
-        await UniTask.Delay(1000); // Wait 1 sec
+        await UniTask.Delay(100);
+        Time.timeScale = 1;
+
+        await UniTask.Delay(800); // Wait 1 sec
         
         character.SetState(character.playerLocomotionState);    
     }

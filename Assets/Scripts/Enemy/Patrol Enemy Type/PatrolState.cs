@@ -6,13 +6,16 @@ public static partial class PatrolType
     {
         float interval = 2f;
         float resetting;
+        PatrolTypeEnemy en;
 
-        public PatrolState(EnemyController enemy) : base(enemy)
+        public PatrolState(PatrolTypeEnemy _enemy) : base(_enemy)
         {
+            en = _enemy;
         }
 
         public override void EnterState()
         {
+            Debug.Log("Patrol State!");
             enemy.SetAnimatorState(enemy.anim, "Enemy Default State");
 
             if (enemy.Resetting)
@@ -62,7 +65,7 @@ public static partial class PatrolType
             if (Time.time > resetting)
             {
                 enemy.ResetPosition();
-                interval += Time.time + 12;
+                interval = Time.time + 12;
                 enemy.Resetting = false;
             }   
 

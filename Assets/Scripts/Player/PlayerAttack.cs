@@ -41,6 +41,7 @@ public class PlayerAttack : CharacterState
             slashEffectObject.transform.Rotate(Vector3.up * (character.isFacingRight ? 0 : 180));
             slashEffectObject.transform.parent = character.transform;
         }
+        slashEffectObject.SetActive(true);
         if (slashEffect == null)
         {
             slashEffect = slashEffectObject.GetComponent<ParticleSystem>();
@@ -84,6 +85,7 @@ public class PlayerAttack : CharacterState
 
     public override void ExitState()
     {
+        slashEffectObject.SetActive(false);
         character.EmptyEnemyList();
         timer = 0;
     }

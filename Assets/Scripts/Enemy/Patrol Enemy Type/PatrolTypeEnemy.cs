@@ -6,6 +6,8 @@ public class PatrolTypeEnemy : EnemyController
 
     private void Awake()
     {
+        AssignPlayerTransform();
+
         rb = GetComponent<Rigidbody2D>();
         hitBox = GetComponent<CapsuleCollider2D>();
         anim = GetComponent<Animator>();
@@ -17,7 +19,7 @@ public class PatrolTypeEnemy : EnemyController
         enemyDied = new EnemyDied(this);
     }
 
-    private void Start()
+    private void OnEnable()
     {
         SetState(patrolState);
     }

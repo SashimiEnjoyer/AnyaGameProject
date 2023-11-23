@@ -4,8 +4,10 @@ public static partial class PatrolType
 {
     public class ChaseState : CharacterState
     {
-        public ChaseState(EnemyController enemy) : base(enemy)
+        PatrolTypeEnemy en;
+        public ChaseState(PatrolTypeEnemy _enemy) : base(_enemy)
         {
+            en = _enemy;
         }
 
         public override void EnterState()

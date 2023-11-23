@@ -46,7 +46,7 @@ public class EnemyController : CharacterStateManager, IEnemy
     public CharacterState enemyDied;
 
     [Header("Events")]
-    public UnityEvent onEnemyDied;
+    public UnityAction onEnemyDied;
 
     public virtual void EnemyHurted() { }
 
@@ -62,8 +62,13 @@ public class EnemyController : CharacterStateManager, IEnemy
 
     public virtual void ResetPosition() { }
 
-    public virtual void Knocked() { } 
+    public virtual void Knocked() { }
 
+    public void AssignPlayerTransform()
+    {
+        if (playerTransform == null)
+            playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+    }
 
     public RaycastHit2D CheckMask(LayerMask mask) 
     {

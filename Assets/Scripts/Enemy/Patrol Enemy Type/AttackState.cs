@@ -5,9 +5,11 @@ public static partial class PatrolType
     public class AttackState : CharacterState
     {
         float timeToAttack = 0f;
+        PatrolTypeEnemy en;
 
-        public AttackState(EnemyController enemy) : base(enemy)
+        public AttackState(PatrolTypeEnemy _enemy) : base(_enemy)
         {
+            en = _enemy;
         }
 
         public override void EnterState()

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
+using Cinemachine;
 
 /// <summary>
 /// Set and Get Overall Conditions for Player 
@@ -114,8 +115,8 @@ public class PlayerController : CharacterStateManager
             jumpCounter = jumpAvailable;
         }
            
-        if (PlayerTouchEntity(movingPlatform, Vector2.down, 0.1f))
-            transform.SetParent(PlayerTouchEntity(movingPlatform, Vector2.down, 0.1f).transform);
+        if (PlayerTouchEntity(movingPlatform, Vector2.down, radiusDetection))
+            transform.SetParent(PlayerTouchEntity(movingPlatform, Vector2.down, radiusDetection).transform);
         else
             transform.SetParent(null);
 
@@ -167,7 +168,7 @@ public class PlayerController : CharacterStateManager
 
     public RaycastHit2D PlayerTouchGround(Vector2 _detectionDirection)
     {
-        return Physics2D.CapsuleCast(playerCollider.bounds.center, playerCollider.size,CapsuleDirection2D.Vertical, 180, _detectionDirection, 0.1f, groundLayer);
+        return Physics2D.CapsuleCast(playerCollider.bounds.center, playerCollider.size,CapsuleDirection2D.Vertical, 180, _detectionDirection, radiusDetection, groundLayer);
     }
 
     public RaycastHit2D[] PlayerTouchEnemy(bool _isFacingRight)

@@ -8,7 +8,7 @@ public enum EnemyAggroStatus
 
 public class EnemyController : CharacterStateManager, IEnemy
 {
-    [Header("Stats")]
+    [Header("Base Stats")]
     public float health = 100;
     public float movementSpeed = 3f;
     public float attackAnimLength = 0.01f;
@@ -18,7 +18,7 @@ public class EnemyController : CharacterStateManager, IEnemy
     public Vector2 knockDistance;
     public bool isGround;
 
-    [Header("Status")]
+    [Header("Base Status")]
     [HideInInspector] public bool getHit = false;
     [HideInInspector] public bool isFacingRight = true;
     [HideInInspector] public bool PatrolAttack = true;
@@ -27,7 +27,7 @@ public class EnemyController : CharacterStateManager, IEnemy
      public int CurrentDirection = 1;
     public EnemyAggroStatus AggroStatus;
 
-    [Header("References")]
+    [Header("Base References")]
     public Rigidbody2D rb;
     public Animator anim;
     public GameObject afterHitEffect;
@@ -39,7 +39,7 @@ public class EnemyController : CharacterStateManager, IEnemy
     public LayerMask borderMask;
 
     [Header("States")]
-    public CharacterState patrolState;
+    public CharacterState defaultState;
     public CharacterState chaseState;
     public CharacterState attackState;
     public CharacterState enemyHurted;
@@ -62,7 +62,7 @@ public class EnemyController : CharacterStateManager, IEnemy
 
     public virtual void ResetPosition() { }
 
-    public virtual void Knocked() { }
+    public virtual void Knocked() { Debug.Log("Enemy get knocked!"); }
 
     public void AssignPlayerTransform()
     {

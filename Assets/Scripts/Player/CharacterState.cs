@@ -1,7 +1,7 @@
 public abstract class CharacterState
 {
     protected PlayerController character;
-    protected EnemyController enemy;
+    protected EnemyController baseEnemy;
     protected EventController player;
 
     public CharacterState(PlayerController _character)
@@ -11,7 +11,7 @@ public abstract class CharacterState
 
     public CharacterState(EnemyController _enemy)
     {
-        enemy = _enemy;
+        baseEnemy = _enemy;
     }
 
     public CharacterState(EventController _character)

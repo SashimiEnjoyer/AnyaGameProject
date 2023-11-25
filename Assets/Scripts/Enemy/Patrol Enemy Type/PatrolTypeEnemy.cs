@@ -2,17 +2,15 @@ using UnityEngine;
 
 public class PatrolTypeEnemy : EnemyController
 {
-    Vector2 playerPos;
 
     private void Awake()
     {
         AssignPlayerTransform();
-
         rb = GetComponent<Rigidbody2D>();
         hitBox = GetComponent<CapsuleCollider2D>();
         anim = GetComponent<Animator>();
 
-        patrolState = new PatrolType.PatrolState(this);
+        defaultState = new PatrolType.PatrolState(this);
         chaseState = new PatrolType.ChaseState(this);
         attackState = new PatrolType.AttackState(this);
         enemyHurted = new EnemyHurt(this);
@@ -21,7 +19,7 @@ public class PatrolTypeEnemy : EnemyController
 
     private void OnEnable()
     {
-        SetState(patrolState);
+        SetState(defaultState);
     }
 
     public override void EnemyDoAttack()
@@ -67,6 +65,8 @@ public class PatrolTypeEnemy : EnemyController
 
     public override void EnemyHurted()
     {
+        if (getHit)
+            return;
 
         SetState(enemyHurted);
 

@@ -14,7 +14,7 @@ public static partial class PatrolType
 
         public override void EnterState()
         {
-            enemy.SetAnimatorState(enemy.anim, "Enemy_Attack");
+            baseEnemy.SetAnimatorState(baseEnemy.anim, "Enemy_Attack");
             timeToAttack = Time.time + 2f;
         }
 
@@ -23,12 +23,12 @@ public static partial class PatrolType
 
             if (Time.time > timeToAttack)
             {
-                enemy.SetState(enemy.chaseState);
+                baseEnemy.SetState(baseEnemy.chaseState);
                 timeToAttack = 0f;
             }
 
-            enemy.Move(2f);
-            enemy.EnemyDoAttack();
+            baseEnemy.Move(2f);
+            baseEnemy.EnemyDoAttack();
         }
     }
 }

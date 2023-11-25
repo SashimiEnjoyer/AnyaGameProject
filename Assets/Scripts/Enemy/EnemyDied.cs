@@ -12,7 +12,7 @@ public class EnemyDied : CharacterState
     public override void EnterState()
     {
         Debug.Log("Enter Die State!");
-        enemy.onEnemyDied?.Invoke();
-        enemy.Died();
+        baseEnemy.onEnemyDied?.Invoke();
+        baseEnemy.Died();
     }
 }

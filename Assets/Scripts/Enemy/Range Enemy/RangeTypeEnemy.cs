@@ -1,20 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class RangeTypeEnemy : EnemyController
 {
+    [Header("Range Enemy References")]
     public Transform projectilePos;
     public GameObject projectile;
+    public float projectileSpeed = 10f;
 
     private void Awake()
     {
-        chaseState = new RangeType.ChaseState(this);
+        defaultState = new RangeType.ChaseState(this);
         attackState = new RangeType.AttackState(this);
+        enemyHurted = new EnemyHurt(this);
+        enemyDied = new EnemyDied(this);
     }
     private void Start()
     {
-        SetState(chaseState);
+        AssignPlayerTransform();
+        SetState(defaultState);
     }
 
     public override void Flip()
@@ -26,5 +29,29 @@ public class RangeTypeEnemy : EnemyController
         CurrentDirection *= -1;
         StopMove();
         transform.Rotate(0, 180f, 0);
+    }
+
+    public override void EnemyHurted()
+    {
+        if (getHit)
+            return;
+
+        SetState(enemyHurted);
+
+        if (afterHitEffect == null)
+        {
+            Debug.LogWarning("No Effect Prefabs Assigned");
+            return;
+        }
+    }
+
+    public override void Knocked()
+    {
+        rb.AddForce(new Vector2(0, knockDistance.y));
+    }
+
+    public override void Died()
+    {
+        Destroy(gameObject, 1f);
     }
 }

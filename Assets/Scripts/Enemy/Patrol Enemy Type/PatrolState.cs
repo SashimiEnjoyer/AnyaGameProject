@@ -16,9 +16,9 @@ public static partial class PatrolType
         public override void EnterState()
         {
             Debug.Log("Patrol State!");
-            enemy.SetAnimatorState(enemy.anim, "Enemy Default State");
+            baseEnemy.SetAnimatorState(baseEnemy.anim, "Enemy Default State");
 
-            if (enemy.Resetting)
+            if (baseEnemy.Resetting)
                 resetting = Time.time + 5f;
         
         }
@@ -26,17 +26,17 @@ public static partial class PatrolType
         public override void Tick()
         {
             
-            if (enemy.Resetting)
+            if (baseEnemy.Resetting)
                 CheckResetting();
             else
                 Patrolling();           
                 
 
-            if(enemy.AggroStatus != EnemyAggroStatus.Calm)
+            if(baseEnemy.AggroStatus != EnemyAggroStatus.Calm)
             {
-                if(Mathf.Abs(Vector2.Distance(enemy.transform.position, enemy.playerTransform.position)) < 10f)
+                if(Mathf.Abs(Vector2.Distance(baseEnemy.transform.position, baseEnemy.playerTransform.position)) < 10f)
                 {
-                    enemy.SetState(enemy.chaseState);
+                    baseEnemy.SetState(baseEnemy.chaseState);
                 }
             }
 
@@ -44,7 +44,7 @@ public static partial class PatrolType
 
         public override void PhysicTick()
         {
-            enemy.anim.SetFloat("EnemySpeed", Mathf.Clamp01(Mathf.Abs( enemy.rb.velocity.x)));
+            baseEnemy.anim.SetFloat("EnemySpeed", Mathf.Clamp01(Mathf.Abs( baseEnemy.rb.velocity.x)));
         }
 
 
@@ -52,21 +52,21 @@ public static partial class PatrolType
         {
             if (Time.time >= interval)
             {
-                enemy.Flip();
+                baseEnemy.Flip();
                 interval = Time.time + Random.Range(5, 12);
             }
 
-            enemy.Move(0.7f);
+            baseEnemy.Move(0.7f);
         }
 
         private void CheckResetting()
         {
-            enemy.StopMove();
+            baseEnemy.StopMove();
             if (Time.time > resetting)
             {
-                enemy.ResetPosition();
+                baseEnemy.ResetPosition();
                 interval = Time.time + 12;
-                enemy.Resetting = false;
+                baseEnemy.Resetting = false;
             }   
 
         }

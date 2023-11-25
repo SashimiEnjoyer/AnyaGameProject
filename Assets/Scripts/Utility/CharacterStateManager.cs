@@ -18,6 +18,9 @@ public class CharacterStateManager : MonoBehaviour
 
     public void SetAnimatorState(Animator animator, string animationStateName, bool canMultiple = false)
     {
+        if (animator == null)
+            return;
+
         if (string.Equals(currentAnimationLayer, animationStateName) && !canMultiple)
             return;
 

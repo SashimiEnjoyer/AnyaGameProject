@@ -4,24 +4,24 @@ public static partial class RangeType
 {
     public class AttackState : CharacterState
     {
-        RangeTypeEnemy enemy;
+        RangeTypeEnemy currEnemy;
         GameObject proj;
         float interval = 0f;
 
         public AttackState(RangeTypeEnemy _enemy) : base(_enemy)
         {
-            enemy = _enemy;
+            currEnemy = _enemy;
         }
 
         public override void EnterState()
         {
             Debug.Log("Attack State!");
-            proj = Object.Instantiate(enemy.projectile, enemy.projectilePos);
+            proj = Object.Instantiate(currEnemy.projectile, currEnemy.projectilePos);
             proj.transform.SetParent(null);
-            proj.transform.position = enemy.projectilePos.position;
-            proj.GetComponent<ProjectileMove>().MoveProjectile(0.5f, 4);
+            proj.transform.position = currEnemy.projectilePos.position;
+            proj.GetComponent<ProjectileMove>().MoveProjectile(currEnemy.projectileSpeed, 4);
             interval = Time.time + 2;
-            enemy.SetState(enemy.chaseState);
+            baseEnemy.SetState(baseEnemy.defaultState);
         }
     }
 }

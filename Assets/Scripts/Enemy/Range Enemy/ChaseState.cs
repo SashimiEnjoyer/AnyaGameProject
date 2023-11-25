@@ -19,16 +19,16 @@ public static partial class RangeType
 
         public override void Tick()
         {
-            RotateTowards(enemy.playerTransform.position);
+            RotateTowards(baseEnemy.playerTransform.position);
             
-            if (Mathf.Sign(enemy.CurrentDirection) != Mathf.Sign(enemy.PlayerDirection().x))
+            if (Mathf.Sign(baseEnemy.CurrentDirection) != Mathf.Sign(baseEnemy.PlayerDirection().x))
             {
-                enemy.Flip();
+                baseEnemy.Flip();
             }
 
             if (Time.time > interval)
             {
-                enemy.SetState(curr.attackState);
+                baseEnemy.SetState(curr.attackState);
             }
         }
 

@@ -5,7 +5,7 @@ public static partial class PatrolType
     public class PatrolState : CharacterState
     {
         float interval = 2f;
-        float resetting;
+        //float resetting;
         PatrolTypeEnemy en;
 
         public PatrolState(PatrolTypeEnemy _enemy) : base(_enemy)
@@ -15,26 +15,27 @@ public static partial class PatrolType
 
         public override void EnterState()
         {
-            Debug.Log("Patrol State!");
+            Debug.Log("Patrol State! " + en.gameObject.name);
             baseEnemy.SetAnimatorState(baseEnemy.anim, "Enemy Default State");
 
-            if (baseEnemy.Resetting)
-                resetting = Time.time + 5f;
+            //if (baseEnemy.Resetting)
+            //    resetting = Time.time + 5f;
         
         }
 
         public override void Tick()
         {
             
-            if (baseEnemy.Resetting)
-                CheckResetting();
-            else
+            //if (baseEnemy.Resetting)
+            //    CheckResetting();
+            //else
                 Patrolling();           
                 
 
             if(baseEnemy.AggroStatus != EnemyAggroStatus.Calm)
             {
-                if(Mathf.Abs(Vector2.Distance(baseEnemy.transform.position, baseEnemy.playerTransform.position)) < 10f)
+                if(Mathf.Abs(baseEnemy.transform.position.x - baseEnemy.playerTransform.position.x) < 10f &&
+                    Mathf.Abs(baseEnemy.transform.position.y - baseEnemy.playerTransform.position.y) < 3f)
                 {
                     baseEnemy.SetState(baseEnemy.chaseState);
                 }
@@ -53,23 +54,23 @@ public static partial class PatrolType
             if (Time.time >= interval)
             {
                 baseEnemy.Flip();
-                interval = Time.time + Random.Range(5, 12);
+                interval = Time.time + Random.Range(en.minPatrolTime, en.maxPatrolTime);
             }
 
-            baseEnemy.Move(0.7f);
+            baseEnemy.Move(1f);
         }
 
-        private void CheckResetting()
-        {
-            baseEnemy.StopMove();
-            if (Time.time > resetting)
-            {
-                baseEnemy.ResetPosition();
-                interval = Time.time + 12;
-                baseEnemy.Resetting = false;
-            }   
+        //private void CheckResetting()
+        //{
+        //    baseEnemy.StopMove();
+        //    if (Time.time > resetting)
+        //    {
+        //        baseEnemy.ResetPosition();
+        //        interval = Time.time + 12;
+        //        baseEnemy.Resetting = false;
+        //    }   
 
-        }
+        //}
 
     }
 }

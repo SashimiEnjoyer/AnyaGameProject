@@ -11,7 +11,7 @@ public class EnemyHurt : CharacterState
     {
         Debug.Log("Enter Hurt State!");
 
-        baseEnemy.health -= 1;
+        baseEnemy.currHealth -= 1;
         baseEnemy.getHit = true;
 
         if (hitEffect == null)
@@ -23,6 +23,7 @@ public class EnemyHurt : CharacterState
 
         baseEnemy.Knocked();
         baseEnemy.SetAnimatorState(baseEnemy.anim, "Enemy_Hurt");
+        CameraImpulseManager.instance.ActiveEnemyImpulse();
         timer = Time.time + baseEnemy.staggerTime;
     }
 
@@ -30,7 +31,7 @@ public class EnemyHurt : CharacterState
     {
         if(Time.time >= timer)
         {
-            if (baseEnemy.health > 0) 
+            if (baseEnemy.currHealth > 0) 
                 baseEnemy.SetState(baseEnemy.defaultState);
             else
                 baseEnemy.SetState(baseEnemy.enemyDied);

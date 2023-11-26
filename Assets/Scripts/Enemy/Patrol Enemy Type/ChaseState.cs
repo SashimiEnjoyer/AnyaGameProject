@@ -25,7 +25,7 @@ public static partial class PatrolType
                     baseEnemy.StopMove();
             }
 
-            baseEnemy.Move(1f);
+            baseEnemy.Move(1.2f);
 
             if (Mathf.Sign(baseEnemy.CurrentDirection) != Mathf.Sign(baseEnemy.PlayerDirection().x))
             {
@@ -38,10 +38,10 @@ public static partial class PatrolType
             if (Mathf.Abs(Vector2.Distance(baseEnemy.transform.position, baseEnemy.playerTransform.position)) < 3)
                 baseEnemy.SetState(baseEnemy.attackState);
 
-
-            if (Mathf.Abs(Vector2.Distance(baseEnemy.transform.position, baseEnemy.playerTransform.position)) > 35)
-            {
-                baseEnemy.transform.position = baseEnemy.startingPoint.position;
+            else if (Mathf.Abs(baseEnemy.transform.position.x - baseEnemy.playerTransform.position.x) > 35f ||
+                    Mathf.Abs(baseEnemy.transform.position.y - baseEnemy.playerTransform.position.y) > 7f)
+            { 
+                //baseEnemy.transform.position = baseEnemy.startingPoint.position;
                 baseEnemy.SetState(baseEnemy.defaultState);
 
             }
@@ -49,7 +49,7 @@ public static partial class PatrolType
 
         public override void ExitState()
         {
-            baseEnemy.Resetting = true;
+            //baseEnemy.Resetting = true;
         }
     }
 }

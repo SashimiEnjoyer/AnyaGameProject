@@ -13,6 +13,7 @@ public class RangeTypeEnemy : EnemyController
         attackState = new RangeType.AttackState(this);
         enemyHurted = new EnemyHurt(this);
         enemyDied = new EnemyDied(this);
+        currHealth = maxHealth;
     }
     private void Start()
     {
@@ -52,6 +53,7 @@ public class RangeTypeEnemy : EnemyController
 
     public override void Died()
     {
-        Destroy(gameObject, 1f);
+        //Destroy(gameObject, 1f);
+        gameObject.SetActive(false);
     }
 }

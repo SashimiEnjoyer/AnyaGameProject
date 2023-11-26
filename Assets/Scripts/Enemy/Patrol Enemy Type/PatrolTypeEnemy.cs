@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class PatrolTypeEnemy : EnemyController
 {
+    [Header("Patrol Enemy References")]
+    public float minPatrolTime;
+    public float maxPatrolTime;
 
     private void Awake()
     {
@@ -15,6 +18,8 @@ public class PatrolTypeEnemy : EnemyController
         attackState = new PatrolType.AttackState(this);
         enemyHurted = new EnemyHurt(this);
         enemyDied = new EnemyDied(this);
+
+        currHealth = maxHealth;
     }
 
     private void OnEnable()
@@ -42,7 +47,8 @@ public class PatrolTypeEnemy : EnemyController
 
     public override void Died()
     {
-        Destroy(transform.parent.gameObject, 1f);
+        //Destroy(transform.parent.gameObject, 1f);
+        transform.parent.gameObject.SetActive(false);
     }
 
     public override void Flip()
@@ -77,15 +83,15 @@ public class PatrolTypeEnemy : EnemyController
         }
     }
 
-    public override void ResetPosition()
-    {
-        transform.position = startingPoint.position;
+    //public override void ResetPosition()
+    //{
+    //    transform.position = startingPoint.position;
 
-        //if (CurrentDirection != 1)
-        //{
-        //    Flip();
-        //    CurrentDirection = 1;
-        //}
-    }
+    //    //if (CurrentDirection != 1)
+    //    //{
+    //    //    Flip();
+    //    //    CurrentDirection = 1;
+    //    //}
+    //}
 
 }

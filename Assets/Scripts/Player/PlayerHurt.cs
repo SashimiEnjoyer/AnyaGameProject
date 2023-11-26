@@ -15,6 +15,7 @@ public class PlayerHurt : CharacterState
         character.isGetHitByEnemy = true;
 
         Time.timeScale = 0.2f;
+        CameraImpulseManager.instance.ActivePlayerImpulse();
     }
 
     public override async void Tick()
@@ -24,7 +25,7 @@ public class PlayerHurt : CharacterState
 
         await UniTask.Delay(800); // Wait 1 sec
         
-        character.SetState(character.playerLocomotionState);    
+        character.SetState(character.playerLocomotionState);
     }
 
     public override void ExitState()

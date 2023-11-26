@@ -9,7 +9,8 @@ public enum EnemyAggroStatus
 public class EnemyController : CharacterStateManager, IEnemy
 {
     [Header("Base Stats")]
-    public float health = 100;
+    public float maxHealth = 100;
+    public float currHealth = 100;
     public float movementSpeed = 3f;
     public float attackAnimLength = 0.01f;
     public float maxDistanceBeforeDie = 2f;

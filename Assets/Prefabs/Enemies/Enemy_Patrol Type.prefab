@@ -323,7 +323,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53f86f0044bee674a80b2292d9262f24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 3
+  maxHealth: 3
+  currHealth: 100
   movementSpeed: 2
   attackAnimLength: 0.01
   maxDistanceBeforeDie: 25
@@ -341,7 +342,7 @@ MonoBehaviour:
   rb: {fileID: 6644157030018930664}
   anim: {fileID: 6644157030018930199}
   afterHitEffect: {fileID: 1030730534638234535, guid: f9c35b667571eb040b2e765b3e7195eb, type: 3}
-  startingPoint: {fileID: 7545273402235464970}
+  startingPoint: {fileID: 0}
   groundChecker: {fileID: 3889187198315076732}
   playerTransform: {fileID: 0}
   hitBox: {fileID: 6644157030018930666}
@@ -351,6 +352,8 @@ MonoBehaviour:
   borderMask:
     serializedVersion: 2
     m_Bits: 0
+  minPatrolTime: 10
+  maxPatrolTime: 15
 --- !u!1 &6644157030112288171
 GameObject:
   m_ObjectHideFlags: 0

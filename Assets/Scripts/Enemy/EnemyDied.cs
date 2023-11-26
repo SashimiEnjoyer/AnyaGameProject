@@ -14,5 +14,6 @@ public class EnemyDied : CharacterState
         Debug.Log("Enter Die State!");
         baseEnemy.onEnemyDied?.Invoke();
         baseEnemy.Died();
+        baseEnemy.currHealth = baseEnemy.maxHealth;
     }
 }

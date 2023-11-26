@@ -27,7 +27,7 @@ public static partial class PatrolType
                 timeToAttack = 0f;
             }
 
-            baseEnemy.Move(2f);
+            baseEnemy.Move(2.3f);
             baseEnemy.EnemyDoAttack();
         }
     }

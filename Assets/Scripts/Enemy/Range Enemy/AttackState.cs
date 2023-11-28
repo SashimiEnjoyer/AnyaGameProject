@@ -20,8 +20,16 @@ public static partial class RangeType
             proj.transform.SetParent(null);
             proj.transform.position = currEnemy.projectilePos.position;
             proj.GetComponent<ProjectileMove>().MoveProjectile(currEnemy.projectileSpeed, 4);
-            interval = Time.time + 2;
-            baseEnemy.SetState(baseEnemy.defaultState);
+            interval = Time.time + 1;
+        }
+
+        public override void Tick()
+        {
+            if (Time.time > interval)
+            {
+                baseEnemy.SetState(baseEnemy.defaultState);
+                interval = 0f;
+            }
         }
     }
 }

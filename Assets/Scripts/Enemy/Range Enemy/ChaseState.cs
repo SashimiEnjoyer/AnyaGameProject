@@ -14,7 +14,7 @@ public static partial class RangeType
 
         public override void EnterState()
         {
-            interval = Time.time + 5f;
+            interval = Time.time + curr.nextProjectileTimer;
         }
 
         public override void Tick()

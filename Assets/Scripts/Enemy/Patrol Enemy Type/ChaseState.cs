@@ -19,7 +19,7 @@ public static partial class PatrolType
         public override void Tick()
         {
 
-            if (baseEnemy.AggroStatus == EnemyAggroStatus.Semi)
+            if (en.AggroStatus == EnemyAggroStatus.Semi)
             {
                 if (baseEnemy.CheckMask(baseEnemy.borderMask) && !baseEnemy.Resetting)
                     baseEnemy.StopMove();

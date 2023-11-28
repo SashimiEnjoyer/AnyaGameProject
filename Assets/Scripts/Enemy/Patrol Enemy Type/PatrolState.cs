@@ -32,7 +32,7 @@ public static partial class PatrolType
                 Patrolling();           
                 
 
-            if(baseEnemy.AggroStatus != EnemyAggroStatus.Calm)
+            if(en.AggroStatus != EnemyAggroStatus.Calm)
             {
                 if(Mathf.Abs(baseEnemy.transform.position.x - baseEnemy.playerTransform.position.x) < 10f &&
                     Mathf.Abs(baseEnemy.transform.position.y - baseEnemy.playerTransform.position.y) < 3f)

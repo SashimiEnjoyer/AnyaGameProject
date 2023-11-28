@@ -6,6 +6,7 @@ public class RangeTypeEnemy : EnemyController
     public Transform projectilePos;
     public GameObject projectile;
     public float projectileSpeed = 10f;
+    public float nextProjectileTimer = 3f;
 
     private void Awake()
     {

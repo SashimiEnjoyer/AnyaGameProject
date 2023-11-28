@@ -26,7 +26,6 @@ public class EnemyController : CharacterStateManager, IEnemy
     [HideInInspector] public bool CanAttack = true;
      public bool Resetting = false;
      public int CurrentDirection = 1;
-    public EnemyAggroStatus AggroStatus;
 
     [Header("Base References")]
     public Rigidbody2D rb;

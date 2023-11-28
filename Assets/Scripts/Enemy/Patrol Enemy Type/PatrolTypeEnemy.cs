@@ -3,6 +3,7 @@ using UnityEngine;
 public class PatrolTypeEnemy : EnemyController
 {
     [Header("Patrol Enemy References")]
+    public EnemyAggroStatus AggroStatus;
     public float minPatrolTime;
     public float maxPatrolTime;
 

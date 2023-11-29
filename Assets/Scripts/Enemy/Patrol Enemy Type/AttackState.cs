@@ -15,6 +15,7 @@ public static partial class PatrolType
         public override void EnterState()
         {
             baseEnemy.SetAnimatorState(baseEnemy.anim, "Enemy_Attack");
+            en.attackHitBox.SetActive(true);
             timeToAttack = Time.time + 2f;
         }
 
@@ -28,7 +29,12 @@ public static partial class PatrolType
             }
 
             baseEnemy.Move(2.3f);
-            baseEnemy.EnemyDoAttack();
+            
+        }
+
+        public override void ExitState()
+        {
+            en.attackHitBox.SetActive(false);
         }
     }
 }

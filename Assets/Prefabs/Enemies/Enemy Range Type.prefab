@@ -146,7 +146,6 @@ MonoBehaviour:
   CanAttack: 1
   Resetting: 0
   CurrentDirection: 1
-  AggroStatus: 0
   rb: {fileID: 2749031176295254214}
   anim: {fileID: 0}
   afterHitEffect: {fileID: 1030730534638234535, guid: f9c35b667571eb040b2e765b3e7195eb, type: 3}
@@ -163,6 +162,7 @@ MonoBehaviour:
   projectilePos: {fileID: 93620280122412165}
   projectile: {fileID: 54984662909627791, guid: 8cd07e85fe537754f89c9963b273de06, type: 3}
   projectileSpeed: 15
+  nextProjectileTimer: 5
 --- !u!50 &2749031176295254214
 Rigidbody2D:
   serializedVersion: 4

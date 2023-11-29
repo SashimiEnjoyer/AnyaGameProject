@@ -4,6 +4,8 @@ public class PatrolTypeEnemy : EnemyController
 {
     [Header("Patrol Enemy References")]
     public EnemyAggroStatus AggroStatus;
+    public GameObject attackHitBox;
+    public float minAttackTriggerRange;
     public float minPatrolTime;
     public float maxPatrolTime;
 
@@ -12,7 +14,7 @@ public class PatrolTypeEnemy : EnemyController
         AssignPlayerTransform();
         rb = GetComponent<Rigidbody2D>();
         hitBox = GetComponent<CapsuleCollider2D>();
-        anim = GetComponent<Animator>();
+        //anim = GetComponent<Animator>();
 
         defaultState = new PatrolType.PatrolState(this);
         chaseState = new PatrolType.ChaseState(this);

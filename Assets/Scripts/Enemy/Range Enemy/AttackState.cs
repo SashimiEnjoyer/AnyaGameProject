@@ -19,7 +19,7 @@ public static partial class RangeType
             proj = Object.Instantiate(currEnemy.projectile, currEnemy.projectilePos);
             proj.transform.SetParent(null);
             proj.transform.position = currEnemy.projectilePos.position;
-            proj.GetComponent<ProjectileMove>().MoveProjectile(currEnemy.projectileSpeed, 4);
+            proj.GetComponent<ProjectileMove>()?.MoveProjectile(currEnemy.projectileSpeed, 4);
             interval = Time.time + 1;
         }
 

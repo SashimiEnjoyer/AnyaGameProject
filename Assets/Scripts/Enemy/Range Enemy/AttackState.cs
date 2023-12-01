@@ -6,7 +6,7 @@ public static partial class RangeType
     {
         RangeTypeEnemy currEnemy;
         GameObject proj;
-        float interval = 0f;
+        float interval = 0.5f;
 
         public AttackState(RangeTypeEnemy _enemy) : base(_enemy)
         {
@@ -16,20 +16,42 @@ public static partial class RangeType
         public override void EnterState()
         {
             Debug.Log("Attack State!");
-            proj = Object.Instantiate(currEnemy.projectile, currEnemy.projectilePos);
-            proj.transform.SetParent(null);
-            proj.transform.position = currEnemy.projectilePos.position;
-            proj.GetComponent<ProjectileMove>()?.MoveProjectile(currEnemy.projectileSpeed, 4);
-            interval = Time.time + 1;
+            baseEnemy.SetAnimatorState(baseEnemy.anim, "Enemy_Attack");
+            interval = Time.time + currEnemy.spawnTimerAfterAnimation;
+
+            if (proj != null)
+            {
+                proj.transform.parent = currEnemy.projectilePos;
+                proj.transform.eulerAngles = currEnemy.projectilePos.eulerAngles;
+                proj.transform.position = Vector3.zero;
+            }
         }
 
         public override void Tick()
         {
+            currEnemy.RotateTowards(baseEnemy.playerTransform.position);
+
+            if (Mathf.Sign(baseEnemy.CurrentDirection) != Mathf.Sign(baseEnemy.PlayerDirection().x))
+            {
+                baseEnemy.Flip();
+            }
+
             if (Time.time > interval)
             {
                 baseEnemy.SetState(baseEnemy.defaultState);
-                interval = 0f;
             }
+        }
+
+        public override void ExitState()
+        {
+            if(proj == null)
+                proj = Object.Instantiate(currEnemy.projectile, currEnemy.projectilePos);
+
+            proj.SetActive(true);
+            proj.transform.SetParent(null);
+            proj.transform.position = currEnemy.projectilePos.position;
+            proj.GetComponent<ProjectileMove>()?.MoveProjectile(currEnemy.projectileSpeed, 4);
+            
         }
     }
 }

@@ -7,6 +7,7 @@ public class RangeTypeEnemy : EnemyController
     public GameObject projectile;
     public float projectileSpeed = 10f;
     public float nextProjectileTimer = 3f;
+    public float spawnTimerAfterAnimation = 0.5f;
 
     private void Awake()
     {
@@ -50,6 +51,13 @@ public class RangeTypeEnemy : EnemyController
     public override void Knocked()
     {
         rb.AddForce(new Vector2(0, knockDistance.y));
+    }
+
+    public void RotateTowards(Vector2 target)
+    {
+        Vector2 direction = (target - (Vector2)projectilePos.position).normalized;
+        var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        projectilePos.rotation = Quaternion.Euler(Vector3.forward * (angle));
     }
 
     public override void Died()

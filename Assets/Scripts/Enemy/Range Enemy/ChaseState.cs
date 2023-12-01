@@ -14,12 +14,13 @@ public static partial class RangeType
 
         public override void EnterState()
         {
+            baseEnemy.SetAnimatorState(baseEnemy.anim, "Enemy_Walk");
             interval = Time.time + curr.nextProjectileTimer;
         }
 
         public override void Tick()
         {
-            RotateTowards(baseEnemy.playerTransform.position);
+            curr.RotateTowards(baseEnemy.playerTransform.position);
             
             if (Mathf.Sign(baseEnemy.CurrentDirection) != Mathf.Sign(baseEnemy.PlayerDirection().x))
             {
@@ -32,11 +33,6 @@ public static partial class RangeType
             }
         }
 
-        private void RotateTowards(Vector2 target)
-        {
-            Vector2 direction = (target - (Vector2)curr.projectilePos.position).normalized;
-            var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            curr.projectilePos.rotation = Quaternion.Euler(Vector3.forward * (angle));
-        }
+       
     }
 }

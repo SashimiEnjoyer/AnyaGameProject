@@ -1,34 +1,34 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public struct EnemySpawnerDetail
+public class EnemySpawnerDetail
 {
     public GameObject enemyPrefab;
     public Transform[] spawnPos;
+    public int spawnCounter;
+    public List<GameObject> currentWave = new();
 }
 
 public class EnemySpawnManager : MonoBehaviour
 {
-    public EnemySpawnerDetail rangedEnemyDetail;
-    public EnemySpawnerDetail patrolEnemyDetail;
-    public int spawnCount = 5;  
+    public EnemySpawnerDetail rangedEnemyDetail = new();
+    public EnemySpawnerDetail patrolEnemyDetail = new();
+    public EnemySpawnerDetail bringerOfDeathDetail = new();
+    public int maxSpawnCounter = 5;
 
-    [SerializeField] List<GameObject> RangedEnemy = new List<GameObject>();
-    [SerializeField] List<GameObject> PatrolEnemy = new List<GameObject>();
-    int rangedEnemyTracker = 0;
-    int patrolEnemyTracker = 0; 
+    public static Action OnWaveEnded;
 
     private void Awake()
     {
-        InitiateEnemies(0);
+        InitiatePool();
     }
 
     private void Start()
     {
-        SpawnEnemy1();
-        SpawnEnemy2();
+        InitiateWave();
     }
 
     private void OnDisable()
@@ -36,56 +36,67 @@ public class EnemySpawnManager : MonoBehaviour
         UnsetEnemy();
     }
 
-    public void InitiateEnemies(int index)
+    public void InitiatePool()
     {
 
-        for (int i = 0; i < spawnCount; i++)
+        for (int i = 0; i < 10; i++)
         {
             GameObject go = Instantiate(rangedEnemyDetail.enemyPrefab);
-            go.GetComponentInChildren<EnemyController>().onEnemyDied += WhenEnemy1Died;
+            go.GetComponentInChildren<EnemyController>().onEnemyDied += () => WhenEnemyDied(rangedEnemyDetail);
             go.SetActive(false);
-            RangedEnemy.Add(go);
+            rangedEnemyDetail.currentWave.Add(go);
             
             go = Instantiate(patrolEnemyDetail.enemyPrefab);
-            go.GetComponentInChildren<EnemyController>().onEnemyDied += WhenEnemy2Died;
+            go.GetComponentInChildren<EnemyController>().onEnemyDied += () => WhenEnemyDied(patrolEnemyDetail);
             go.SetActive(false);
-            PatrolEnemy.Add(go);
+            patrolEnemyDetail.currentWave.Add(go);
+
+            go = Instantiate(bringerOfDeathDetail.enemyPrefab);
+            go.GetComponentInChildren<EnemyController>().onEnemyDied += () => WhenEnemyDied(bringerOfDeathDetail);
+            go.SetActive(false);
+            bringerOfDeathDetail.currentWave.Add(go);
         }
     }
 
-    public void SpawnEnemy1()
+    public void InitiateWave()
     {
-        RangedEnemy[rangedEnemyTracker].transform.position = rangedEnemyDetail.spawnPos[Random.Range(0, rangedEnemyDetail.spawnPos.Length)].position;
-        RangedEnemy[rangedEnemyTracker].SetActive(true);
-        rangedEnemyTracker++;
+        SpawnEnemy(rangedEnemyDetail);
+        SpawnEnemy(patrolEnemyDetail);
+        SpawnEnemy(bringerOfDeathDetail);
     }
 
-    public void SpawnEnemy2()
+    public void SpawnEnemy(EnemySpawnerDetail detail)
     {
-        PatrolEnemy[patrolEnemyTracker].transform.position = patrolEnemyDetail.spawnPos[Random.Range(0, patrolEnemyDetail.spawnPos.Length)].position;
-        PatrolEnemy[patrolEnemyTracker].SetActive(true);
-        patrolEnemyTracker++;
+        detail.currentWave[detail.spawnCounter].transform.position = detail.spawnPos[UnityEngine.Random.Range(0, detail.spawnPos.Length)].position;
+        detail.currentWave[detail.spawnCounter].SetActive(true);
+        detail.spawnCounter++;
     }
 
     public void UnsetEnemy()
     {
-        for (int i = 0; i < spawnCount; i++)
+        for (int i = 0; i < 10; i++)
         {
-            RangedEnemy[i].GetComponent<EnemyController>().onEnemyDied -= WhenEnemy1Died;
-            PatrolEnemy[i].GetComponent<EnemyController>().onEnemyDied -= WhenEnemy2Died;
+            rangedEnemyDetail.currentWave[i].GetComponent<EnemyController>().onEnemyDied -= () => WhenEnemyDied(rangedEnemyDetail);
+            patrolEnemyDetail.currentWave[i].GetComponent<EnemyController>().onEnemyDied -= () => WhenEnemyDied(patrolEnemyDetail);
+            bringerOfDeathDetail.currentWave[i].GetComponent<EnemyController>().onEnemyDied -= () => WhenEnemyDied(bringerOfDeathDetail);
         }
     }
 
-    public void WhenEnemy1Died()
+    public void WhenEnemyDied(EnemySpawnerDetail detail)
     {
-        if(rangedEnemyTracker < spawnCount)
-            SpawnEnemy1();
+        if(detail.spawnCounter < maxSpawnCounter)
+        {
+            SpawnEnemy(detail);
+        }
+
+        CheckEndofWave();
     }
 
-    public void WhenEnemy2Died()
+    private void CheckEndofWave()
     {
-        if(patrolEnemyTracker < spawnCount)
-            SpawnEnemy2();
+        if (rangedEnemyDetail.spawnCounter >= maxSpawnCounter
+            && patrolEnemyDetail.spawnCounter >= maxSpawnCounter
+            && bringerOfDeathDetail.spawnCounter >= maxSpawnCounter)
+            OnWaveEnded?.Invoke();
     }
-
 }

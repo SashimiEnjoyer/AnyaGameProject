@@ -5,9 +5,11 @@ using UnityEngine;
 public class CharacterStateManager : MonoBehaviour
 {
     protected CharacterState currState;
+    protected CharacterState prevState;
     protected string currentAnimationLayer;
     private IEnumerator coroutine;
     private WaitForSeconds wait;
+    private bool isStop = false;
 
     public void SetState(CharacterState state)
     {
@@ -50,8 +52,9 @@ public class CharacterStateManager : MonoBehaviour
 
     protected virtual void Update()
     {
-        if(currState != null)
+        if (currState != null)
             currState.Tick();
+        
     }
 
     protected virtual void FixedUpdate()

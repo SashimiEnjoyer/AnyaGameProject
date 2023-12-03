@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
-using Cinemachine;
 
 /// <summary>
 /// Set and Get Overall Conditions for Player 
@@ -145,6 +144,8 @@ public class PlayerController : CharacterStateManager
                 if(currState != playerLocomotionState)
                     SetState(playerLocomotionState);
 
+                StopMove();
+                rb.gravityScale = 0;
                 isStop = true;
                 break;
             case GameplayState.Stop:
@@ -152,10 +153,13 @@ public class PlayerController : CharacterStateManager
                 if(PlayerStats.instance.playerHealth > 0)
                     SetState(playerLocomotionState);
 
+                StopMove();
+                rb.gravityScale = 0;
                 isStop = true;
                 break; 
             case GameplayState.Playing:
 
+                rb.gravityScale = 3;
                 isStop = false;
                 break;
         }

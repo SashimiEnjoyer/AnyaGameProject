@@ -44,6 +44,7 @@ public class EnemyController : CharacterStateManager, IEnemy
     public CharacterState attackState;
     public CharacterState enemyHurted;
     public CharacterState enemyDied;
+    public CharacterState enemyPause;
 
     [Header("Events")]
     public UnityAction onEnemyDied;
@@ -83,5 +84,31 @@ public class EnemyController : CharacterStateManager, IEnemy
     public Vector2 PlayerDirection()
     {
         return (playerTransform.position - transform.position).normalized;
+    }
+
+    private void Start()
+    {
+        InGameTracker.instance.onGameStateChange += SwitchGameState;
+    }
+
+    private void OnDestroy()
+    {
+        InGameTracker.instance.onGameStateChange -= SwitchGameState;
+    }
+
+    public void SwitchGameState(GameplayState state)
+    {
+        switch (state)
+        {
+            case GameplayState.Pause:
+            case GameplayState.Dialogue:
+            case GameplayState.Stop:
+                prevState = currState;
+                SetState(enemyPause);
+                break;
+            case GameplayState.Playing:
+                SetState(prevState);
+                break;
+        }
     }
 }

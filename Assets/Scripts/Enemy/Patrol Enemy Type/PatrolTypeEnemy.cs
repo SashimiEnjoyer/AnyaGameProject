@@ -21,6 +21,7 @@ public class PatrolTypeEnemy : EnemyController
         attackState = new PatrolType.AttackState(this);
         enemyHurted = new EnemyHurt(this);
         enemyDied = new EnemyDied(this);
+        enemyPause = new EnemyPause(this);
 
         currHealth = maxHealth;
     }

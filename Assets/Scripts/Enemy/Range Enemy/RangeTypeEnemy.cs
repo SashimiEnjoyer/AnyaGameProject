@@ -15,9 +15,10 @@ public class RangeTypeEnemy : EnemyController
         attackState = new RangeType.AttackState(this);
         enemyHurted = new EnemyHurt(this);
         enemyDied = new EnemyDied(this);
+        enemyPause = new EnemyPause(this);
         currHealth = maxHealth;
     }
-    private void Start()
+    private void OnEnable()
     {
         AssignPlayerTransform();
         SetState(defaultState);

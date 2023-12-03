@@ -14,6 +14,7 @@ public static partial class RangeType
 
         public override void EnterState()
         {
+            Debug.Log("Enter Chase State!");
             baseEnemy.SetAnimatorState(baseEnemy.anim, "Enemy_Walk");
             interval = Time.time + curr.nextProjectileTimer;
         }

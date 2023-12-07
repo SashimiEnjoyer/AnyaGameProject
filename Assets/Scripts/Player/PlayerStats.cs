@@ -1,10 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStats : MonoBehaviour, ISaveSystem
+public class PlayerStats : MonoBehaviour
 {
     public static PlayerStats instance;
+    public static string playerName;
     
 
     private void Awake()
@@ -13,6 +12,8 @@ public class PlayerStats : MonoBehaviour, ISaveSystem
             instance = this;
         else
             Destroy(this.gameObject);
+
+        Debug.Log("PLayer Name is : " + playerName);
     }
 
     public float playerHealth;
@@ -23,23 +24,5 @@ public class PlayerStats : MonoBehaviour, ISaveSystem
         get { return playerHealth <= 0 ? true : false; }
     }
 
-    public object CaptureSavedData()
-    {
-        return new SaveData
-        {
-            saveHealth = playerHealth
-        };
-    }
-
-    public void RestoreSavedData(object _savedData)
-    {
-        var saveData = (SaveData) _savedData;
-        playerHealth = saveData.saveHealth;
-    }
-
-    [System.Serializable]
-    struct SaveData
-    {
-        public float saveHealth;
-    }
+ 
 }

@@ -1,9 +1,13 @@
-using Cysharp.Threading.Tasks;
+
 using UnityEngine;
 
 public class PlayerHurt : CharacterState
 {
     public PlayerHurt(PlayerController player) : base(player) { }
+
+    private float endOfStateTiming = 0f;
+    private float endOfSlowmoTiming = 0f;
+    private bool isNormal = false;
 
     public override void EnterState()
     {
@@ -13,18 +17,30 @@ public class PlayerHurt : CharacterState
         character.isInvulnerable = true;
         character.isGetHitByEnemy = true;
 
+        endOfStateTiming = Time.time + 1f;
+        endOfSlowmoTiming = Time.time + 0.12f;
+
         Time.timeScale = 0.2f;
+        isNormal = false;
+        
         CameraImpulseManager.instance.ActivePlayerImpulse();
     }
 
-    public override async void Tick()
+    public override void Tick()
     {
-        await UniTask.Delay(100);
-        Time.timeScale = 1;
+        if (Time.time > endOfSlowmoTiming && !isNormal)
+        {
+            Time.timeScale = 1;
+            isNormal = true;
+        }
 
-        await UniTask.Delay(800); // Wait 1 sec
-        
-        character.SetState(character.playerLocomotionState);
+        if (Time.time > endOfStateTiming)
+        {
+            if(PlayerStats.instance.playerHealth > 0)
+                character.SetState(character.playerLocomotionState);
+            else
+                character.SetState(character.playerDieState);
+        }
     }
 
     public override void ExitState()

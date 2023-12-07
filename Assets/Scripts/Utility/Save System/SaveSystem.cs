@@ -1,68 +1,99 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization;
 
-public class SaveSystem : MonoBehaviour
+
+public static class SaveSystem 
 {
-    private string savePath => $"{Application.persistentDataPath}/save.txt";
+    private static string _savePath = $"{Application.persistentDataPath}";
 
-    [ContextMenu("Test Save")]
-    public void DoSave()
+    public static void Save<T>(string key, T objectToSave)
     {
-        var state = LoadFromFile();
-        CaptureData(state);
-        SaveToFile(state);
-        Debug.Log(savePath);
+        SaveData(key, objectToSave);
     }
 
-    [ContextMenu("Test Load")]
-    public void DoLoad()
+    public static void SaveData<T>( string fileName, T objectToSave)
     {
-        var state = LoadFromFile();
-        RestoreData(state);
-    }
+        // Create the directory IF it doesn't already exist
+        Directory.CreateDirectory(_savePath);
+        // Grab an instance of the BinaryFormatter that will handle serializing our data
+        BinaryFormatter formatter = new BinaryFormatter();
+        // Open up a filestream, combining the path and object key
+        FileStream fileStream = new FileStream($"{_savePath}{fileName}.any", FileMode.Create, FileAccess.Write);
 
-    private void SaveToFile(object _data)
-    {
-        using(var stream = File.Open(savePath, FileMode.OpenOrCreate))
+        // Try/Catch/Finally block that will attempt to serialize/write-to-stream, closing stream when complete
+        try
         {
-            var formatter = new BinaryFormatter();
-            formatter.Serialize(stream, _data);
+            formatter.Serialize(fileStream, objectToSave);
+        }
+        catch (SerializationException exception)
+        {
+            Debug.LogError("Save failed. Error: " + exception.Message);
+        }
+        finally
+        {
+            fileStream.Close();
+            fileStream.Dispose();
         }
     }
 
-    private Dictionary<string,object> LoadFromFile()
+    public static T LoadData<T>(string key)
     {
-        if (!File.Exists(savePath))
+        if (IsExists( key))
         {
-            return new Dictionary<string, object>();
-        }
+            bool isValid = true;
+            string error = "";
+            // Initialize a variable with the default value of whatever type we're using
+            T returnValue = default(T);
 
-        using (FileStream stream = File.Open(savePath, FileMode.Open))
-        {
-            var formatter = new BinaryFormatter();
-            return (Dictionary<string, object>)formatter.Deserialize(stream);
-        }
-    }
+            // Grab an instance of the BinaryFormatter that will handle serializing our data
+            BinaryFormatter formatter = new BinaryFormatter();
 
-    private void CaptureData(Dictionary<string, object> _data)
-    {
-        foreach(var saveableData in FindObjectsOfType<SaveableEntity>())
-        {
-            _data[saveableData.entityId] = saveableData.CaptureData();
-        }
-    }
+            // Open up a filestream, combining the path and object key
+            FileStream fileStream = new FileStream($"{_savePath}{key}.any", FileMode.Open, FileAccess.Read);
 
-    private void RestoreData(Dictionary<string, object> _data)
-    {
-        foreach(var saveableData in FindObjectsOfType<SaveableEntity>())
-        {
-            if(_data.TryGetValue(saveableData.entityId, out object value))
+            /* 
+            * Try/Catch/Finally block that will attempt to deserialize the data
+            * If we fail to successfully deserialize the data, we'll just return the default value for Type
+            */
+            try
             {
-                saveableData.RestoreData(value);
+                returnValue = (T)formatter.Deserialize(fileStream);
+            }
+            catch (SerializationException exception)
+            {
+                error = exception.Message;
+                isValid = false;
+            }
+            finally
+            {
+                fileStream.Close();
+                fileStream.Dispose();
+            }
+
+            if (isValid)
+            {
+                //onComplete?.Invoke(returnValue);
+                return returnValue;
+            }
+            else
+            {
+                //onFailed?.Invoke(error);
+                return default;
             }
         }
+        else
+        {
+            //onFailed?.Invoke("Can't read data or file not exists");
+            return default;
+        }
+    }
+
+    public static bool IsExists(string filename)
+    {
+        return File.Exists($"{_savePath}{filename}.any");
     }
 }
+

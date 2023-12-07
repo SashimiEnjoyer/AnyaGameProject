@@ -9,7 +9,6 @@ public class CharacterStateManager : MonoBehaviour
     protected string currentAnimationLayer;
     private IEnumerator coroutine;
     private WaitForSeconds wait;
-    private bool isStop = false;
 
     public void SetState(CharacterState state)
     {

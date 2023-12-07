@@ -19,7 +19,6 @@ public class EnemySpawnManager : MonoBehaviour
     public EnemySpawnerDetail bringerOfDeathDetail = new();
     public int maxSpawnCounter = 5;
 
-    public static Action OnWaveEnded;
 
     private void Awake()
     {
@@ -65,8 +64,8 @@ public class EnemySpawnManager : MonoBehaviour
     public void InitiateWave()
     {
         SpawnEnemy(rangedEnemyDetail);
-        //SpawnEnemy(patrolEnemyDetail);
-        //SpawnEnemy(bringerOfDeathDetail);
+        SpawnEnemy(patrolEnemyDetail);
+        SpawnEnemy(bringerOfDeathDetail);
     }
 
     public void SpawnEnemy(EnemySpawnerDetail detail)
@@ -74,7 +73,6 @@ public class EnemySpawnManager : MonoBehaviour
         detail.currentWave[detail.spawnCounter].transform.position = detail.spawnPos[detail.spawnCounter % 2].position;
         detail.currentWave[detail.spawnCounter].SetActive(true);
         detail.spawnCounter++;
-        Debug.LogWarning("Added!!");
     }
 
     public void UnsetEnemy()
@@ -104,8 +102,7 @@ public class EnemySpawnManager : MonoBehaviour
             && patrolEnemyDetail.spawnCounter >= maxSpawnCounter
             && bringerOfDeathDetail.spawnCounter >= maxSpawnCounter)
         {
-            OnWaveEnded?.Invoke();
-            Debug.LogWarning("Wave Ended! " + Time.time);
+            InGameTracker.instance.onWinEnding?.Invoke();
         }
     }
 }

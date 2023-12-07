@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using UnityEngine.Events;
 
 public enum GameplayState { Playing, Pause, Dialogue, Stop}
 
@@ -10,9 +11,11 @@ public struct InGameProgressTracker
     public bool isDone;
 }
 
-public class InGameTracker : MonoBehaviour, ISaveSystem
+public class InGameTracker : MonoBehaviour
 {
     public static InGameTracker instance;
+    public UnityAction onWinEnding;
+    public UnityAction onLoseEnding;
 
     public InGameProgressTracker[] progressTracker;
 
@@ -66,22 +69,6 @@ public class InGameTracker : MonoBehaviour, ISaveSystem
         }
 
         progressTracker[index].isDone = true;
-    }
-
-    [ContextMenu("Play")]
-    public void TestPlaying()
-    {
-        gameState = GameplayState.Playing;
-    }
-
-    public object CaptureSavedData()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void RestoreSavedData(object SavedData)
-    {
-        throw new System.NotImplementedException();
     }
 
 }

@@ -7,12 +7,14 @@ public class MainMenuTemporary : MonoBehaviour
 {
     [SerializeField] TMP_InputField inputField;
     [SerializeField] TMP_Text debugText;
+    [SerializeField] TMP_Text versionText;
     [SerializeField] Button buttonPlay;
 
     [SerializeField] string nextScene;
 
     private void Awake()
     {
+        versionText.SetText(Application.version);
         buttonPlay.onClick.AddListener(() =>
         {
             PlayerStats.playerName = inputField.text;

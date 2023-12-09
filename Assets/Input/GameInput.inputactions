@@ -80,39 +80,6 @@
             ],
             "bindings": [
                 {
-                    "name": "AD Key",
-                    "id": "55c5af60-1d83-440c-9134-06f80f74fb91",
-                    "path": "1DAxis",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "HorizontalMove",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "negative",
-                    "id": "d32a06c6-5d7f-4f16-a537-a792d867c084",
-                    "path": "<Keyboard>/a",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "HorizontalMove",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "positive",
-                    "id": "5bc4c8eb-691f-45cf-91b1-ca273945e30b",
-                    "path": "<Keyboard>/d",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "HorizontalMove",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
                     "name": "Arrow Key",
                     "id": "5fb0a7f5-fb05-49ef-9b72-f9ec90941730",
                     "path": "1DAxis",

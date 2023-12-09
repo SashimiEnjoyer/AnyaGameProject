@@ -17,6 +17,8 @@ public class EnemySpawnManager : MonoBehaviour
     public EnemySpawnerDetail rangedEnemyDetail = new();
     public EnemySpawnerDetail patrolEnemyDetail = new();
     public EnemySpawnerDetail bringerOfDeathDetail = new();
+    public GameObject simpleEnemyType;
+    public bool simpleTypeDeployed = false;
     public int maxSpawnCounter = 5;
 
 
@@ -88,6 +90,12 @@ public class EnemySpawnManager : MonoBehaviour
     public void WhenEnemyDied(EnemySpawnerDetail detail)
     {
         CheckEndofWave();
+
+        if(patrolEnemyDetail.spawnCounter == maxSpawnCounter && !simpleTypeDeployed)
+        {
+            simpleEnemyType.SetActive(true);
+            simpleTypeDeployed = true;
+        }
 
         if(detail.spawnCounter < maxSpawnCounter)
         {

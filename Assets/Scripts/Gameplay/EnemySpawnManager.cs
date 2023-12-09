@@ -25,10 +25,10 @@ public class EnemySpawnManager : MonoBehaviour
         InitiatePool();
     }
 
-    private void Start()
-    {
-        InitiateWave();
-    }
+    //private void Start()
+    //{
+    //    InitiateWave();
+    //}
 
     private void OnDisable()
     {

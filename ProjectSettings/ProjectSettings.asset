@@ -595,8 +595,10 @@ PlayerSettings:
   platformArchitecture: {}
   scriptingBackend:
     Standalone: 1
-  il2cppCompilerConfiguration: {}
-  il2cppCodeGeneration: {}
+  il2cppCompilerConfiguration:
+    Standalone: 2
+  il2cppCodeGeneration:
+    Standalone: 1
   managedStrippingLevel:
     Bratwurst: 1
     EmbeddedLinux: 1

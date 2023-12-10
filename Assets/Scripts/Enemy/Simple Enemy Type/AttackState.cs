@@ -24,7 +24,7 @@ public static partial class SimpleEnemy
 
         public override void Tick()
         {
-            baseEnemy.Move(2);
+            baseEnemy.Move(4);
 
             if (Time.time > interval)
                 currEnemy.EnemyHurted();

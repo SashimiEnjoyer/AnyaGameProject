@@ -20,19 +20,6 @@ public static partial class PatrolType
 
         public override void Tick()
         {
-            if (en.AggroStatus == EnemyAggroStatus.Semi)
-            {
-                if (baseEnemy.CheckMask(baseEnemy.borderMask) && !baseEnemy.Resetting)
-                    baseEnemy.StopMove();
-            }
-
-            baseEnemy.Move(1.2f);
-            
-            if (Mathf.Sign(baseEnemy.CurrentDirection) != Mathf.Sign(baseEnemy.PlayerDirection().x))
-            {
-                baseEnemy.Flip();
-            }
-
             if (Time.time > interval)
             {
                 if (Mathf.Abs(Vector2.Distance(baseEnemy.transform.position, baseEnemy.playerTransform.position)) < en.minAttackTriggerRange)
@@ -46,6 +33,20 @@ public static partial class PatrolType
 
                 }
             }
+
+            if (en.AggroStatus == EnemyAggroStatus.Semi)
+            {
+                if (baseEnemy.CheckMask(baseEnemy.borderMask) && !baseEnemy.Resetting)
+                    baseEnemy.StopMove();
+            }
+
+            baseEnemy.Move(1.2f);
+            
+            if (Mathf.Sign(baseEnemy.CurrentDirection) != Mathf.Sign(baseEnemy.PlayerDirection().x))
+            {
+                baseEnemy.Flip();
+            }
+
         }
 
     }

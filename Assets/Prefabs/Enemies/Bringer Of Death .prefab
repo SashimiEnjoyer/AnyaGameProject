@@ -286,7 +286,7 @@ MonoBehaviour:
   attackAnimLength: 0.01
   maxDistanceBeforeDie: 25
   staggerTime: 1
-  aggroRadius: 2
+  aggroRadius: 8
   knockDistance: {x: 0, y: 75}
   isGround: 0
   getHit: 0
@@ -310,7 +310,7 @@ MonoBehaviour:
     m_Bits: 0
   AggroStatus: 2
   attackHitBox: {fileID: 6128299151713323833}
-  minAttackTriggerRange: 6
+  minAttackTriggerRange: 8
   minPatrolTime: 5
   maxPatrolTime: 15
 --- !u!1 &6128299151713323833

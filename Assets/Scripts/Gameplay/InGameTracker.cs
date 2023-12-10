@@ -29,7 +29,12 @@ public class InGameTracker : MonoBehaviour
         {
             if (value == _gameState)
                 return;
-            
+
+            if (value == GameplayState.Playing)
+                Cursor.lockState = CursorLockMode.Locked;
+            else
+                Cursor.lockState = CursorLockMode.None;
+
             _gameState = value;
             onGameStateChange?.Invoke(value);
             Debug.Log("Game State: " + _gameState);

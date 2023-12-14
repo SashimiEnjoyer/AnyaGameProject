@@ -97,6 +97,11 @@ public class EnemySpawnManager : MonoBehaviour
             simpleTypeDeployed = true;
         }
 
+        if(detail.spawnCounter == 3)
+        {
+            SpawnEnemy(detail);
+        }
+
         if(detail.spawnCounter < maxSpawnCounter)
         {
             SpawnEnemy(detail);

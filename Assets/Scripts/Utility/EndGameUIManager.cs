@@ -9,6 +9,7 @@ public class EndGameUIManager : MonoBehaviour
     [SerializeField] TMP_Text headerTest;
     [SerializeField] Button backToMainMenuBtn;
     [Space]
+    [SerializeField] TMP_Text bestScoreTitle;
     [SerializeField] GameObject bestScoreObject;
     [SerializeField] TMP_Text playerName;
     [SerializeField] TMP_Text timeStamp;
@@ -33,19 +34,24 @@ public class EndGameUIManager : MonoBehaviour
         });
     }
 
-    public void SetBestScore(SaveData data)
+    public void SetBestScore(SaveData data, bool isUpdated = false)
     {
         bestScoreObject.SetActive(true);
-        playerName.SetText(data.playerName);
-        timeStamp.SetText(data.timeStamp.ToString());
-        healthRemaining.SetText(data.remainingHP.ToString());
+        if (isUpdated)
+            bestScoreTitle.SetText("Best Score Updated! ");
+        else
+            bestScoreTitle.SetText("Current Best Score");
+
+        playerName.SetText($"Name: {data.playerName}");
+        timeStamp.SetText($"Timer (s): {data.timeStamp}");
+        healthRemaining.SetText($"HP Remaining: {data.remainingHP}");
     }
 
     public void SetCurrentScore(SaveData data)
     {
         currentScore.SetActive(true);
-        currentPlayerName.SetText(data.playerName);
-        currentTimeStamp.SetText(data.timeStamp.ToString());
-        currentHealth.SetText(data.remainingHP.ToString());
+        currentPlayerName.SetText($"Name: {data.playerName}");
+        currentTimeStamp.SetText($"Timer (s): {data.timeStamp}");
+        currentHealth.SetText($"HP Remaining: {data.remainingHP}");
     }
 }

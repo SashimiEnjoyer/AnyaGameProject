@@ -75,7 +75,7 @@ public class EndGameManager : MonoBehaviour
         if (lastBestScore == null)
         {
             SaveSystem.Save("BEST_PLAYER", currentData);
-            uiEndGame.SetBestScore(currentData);
+            uiEndGame.SetBestScore(currentData, true);
             return;
         }
 
@@ -83,7 +83,7 @@ public class EndGameManager : MonoBehaviour
             currentData.timeStamp == lastBestScore.timeStamp && currentData.remainingHP > lastBestScore.remainingHP)
         {
             SaveSystem.Save("BEST_PLAYER", currentData);
-            uiEndGame.SetBestScore(currentData);
+            uiEndGame.SetBestScore(currentData, true);
             return;
         }
 

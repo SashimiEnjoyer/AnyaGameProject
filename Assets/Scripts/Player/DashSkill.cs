@@ -21,6 +21,7 @@ public class DashSkill : CharacterState
         character.SetAnimatorState(character.anim, "Anya_Dash");
         maxTimer = Time.time + stats.duration;
         timeToMoveState = maxTimer + 0.25f;
+        character.isInvulnerable = true;
 
         GameObject go = Object.Instantiate(stats.hitbox, character.transform) as GameObject;
         GameObject.Destroy(go, stats.duration);
@@ -55,6 +56,7 @@ public class DashSkill : CharacterState
     public override void ExitState()
     {
         //character.DashCooldown = true;
+        character.isInvulnerable = false;
         stats.onSkillEnded?.Invoke();
         Debug.Log("Exit Dash State ");
         

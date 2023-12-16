@@ -8,6 +8,7 @@ public class PlayerDie : CharacterState
     {
         character.SetAnimatorState(character.anim, "Anya_Died");
         character.rb.velocity = Vector2.zero;
+        character.PlayerDie();
         InGameTracker.instance.onLoseEnding?.Invoke();
     }
 }

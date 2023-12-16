@@ -45,7 +45,11 @@ public class EndGameManager : MonoBehaviour
         InGameTracker.instance.ChangeGameState(GameplayState.Stop);
         CheckSaveData();
         SaveData lastBestScore = SaveSystem.LoadData<SaveData>("BEST_PLAYER");
-        uiEndGame.SetBestScore(lastBestScore);
+        if (lastBestScore != null)
+        {
+            uiEndGame.SetBestScore(lastBestScore);
+        }
+
         uiEndGame.SetUI(false);
     }
 

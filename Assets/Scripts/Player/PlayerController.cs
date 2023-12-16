@@ -192,6 +192,11 @@ public class PlayerController : CharacterStateManager
         }
     }
 
+    public void PlayerDie()
+    {
+        gameObject.SetActive(false);
+    }
+
     public void StopMove()
     {
         rb.velocity = Vector2.zero;
@@ -251,4 +256,6 @@ public class PlayerController : CharacterStateManager
             transform.Rotate(0, 180f, 0);
         }
     }
+
+    
 }

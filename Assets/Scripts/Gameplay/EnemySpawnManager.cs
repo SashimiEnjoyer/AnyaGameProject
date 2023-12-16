@@ -20,7 +20,7 @@ public class EnemySpawnManager : MonoBehaviour
     public GameObject simpleEnemyType;
     public bool simpleTypeDeployed = false;
     public int maxSpawnCounter = 5;
-
+    public Action OnEnemyDied;
 
     private void Awake()
     {
@@ -89,6 +89,7 @@ public class EnemySpawnManager : MonoBehaviour
 
     public void WhenEnemyDied(EnemySpawnerDetail detail)
     {
+        OnEnemyDied?.Invoke();
         CheckEndofWave();
 
         if(patrolEnemyDetail.spawnCounter == maxSpawnCounter && !simpleTypeDeployed)

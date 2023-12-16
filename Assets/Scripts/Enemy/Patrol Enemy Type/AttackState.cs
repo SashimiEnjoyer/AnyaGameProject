@@ -5,6 +5,7 @@ public static partial class PatrolType
     public class AttackState : CharacterState
     {
         float timeToAttack = 0f;
+        float preAttack = 0f;
         PatrolTypeEnemy en;
 
         public AttackState(PatrolTypeEnemy _enemy) : base(_enemy)
@@ -15,12 +16,14 @@ public static partial class PatrolType
         public override void EnterState()
         {
             baseEnemy.SetAnimatorState(baseEnemy.anim, "Enemy_Attack");
-            en.attackHitBox.SetActive(true);
+            preAttack = Time.time + 0.15f;
             timeToAttack = Time.time + 2f;
         }
 
         public override void Tick()
         {
+            if(Time.time > preAttack)
+                en.attackHitBox.SetActive(true);
 
             if (Time.time > timeToAttack)
             {

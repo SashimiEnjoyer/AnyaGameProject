@@ -26,12 +26,6 @@ public static partial class PatrolType
         public override void Tick()
         {
             
-            //if (baseEnemy.Resetting)
-            //    CheckResetting();
-            //else
-                Patrolling();           
-                
-
             if(en.AggroStatus != EnemyAggroStatus.Calm)
             {
                 if(Mathf.Abs(baseEnemy.transform.position.x - baseEnemy.playerTransform.position.x) < 10f &&
@@ -40,6 +34,13 @@ public static partial class PatrolType
                     baseEnemy.SetState(baseEnemy.chaseState);
                 }
             }
+
+            //if (baseEnemy.Resetting)
+            //    CheckResetting();
+            //else
+                Patrolling();           
+                
+
 
         }
 

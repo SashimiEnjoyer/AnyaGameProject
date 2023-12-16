@@ -8,6 +8,7 @@ public class EnemySpawnerDetail
 {
     public GameObject enemyPrefab;
     public Transform[] spawnPos;
+    public float[] variationSpawn;
     public int spawnCounter;
     public List<GameObject> currentWave = new();
 }
@@ -73,6 +74,7 @@ public class EnemySpawnManager : MonoBehaviour
     public void SpawnEnemy(EnemySpawnerDetail detail)
     {
         detail.currentWave[detail.spawnCounter].transform.position = detail.spawnPos[detail.spawnCounter % 2].position;
+        detail.currentWave[detail.spawnCounter].transform.position = new Vector2(detail.currentWave[detail.spawnCounter].transform.position.x + detail.variationSpawn[detail.spawnCounter % 3], detail.currentWave[detail.spawnCounter].transform.position.y);
         detail.currentWave[detail.spawnCounter].SetActive(true);
         detail.spawnCounter++;
     }

@@ -2346,7 +2346,7 @@ Transform:
   - {fileID: 852076239158033298}
   - {fileID: 4530422924192022743}
   m_Father: {fileID: 0}
-  m_RootOrder: 25
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &9203548844035425867
 Animator:
@@ -2474,5 +2474,5 @@ MonoBehaviour:
   projectilePos: {fileID: 4530422924192022743}
   projectile: {fileID: 54984662909627791, guid: 8cd07e85fe537754f89c9963b273de06, type: 3}
   projectileSpeed: 15
-  nextProjectileTimer: 3
+  nextProjectileTimer: 4
   spawnTimerAfterAnimation: 0.5

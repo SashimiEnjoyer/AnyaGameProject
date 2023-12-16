@@ -8,6 +8,7 @@ public class HUDManager : MonoBehaviour
     [SerializeField] Image HPImage;
     [SerializeField] PlayerController playerController;
     [SerializeField] TMP_Text enemyRemainingText;
+    [SerializeField] TMP_Text timerText;
     [SerializeField] EnemySpawnManager spawnerManager;
 
     [Header("Pause HUD Menu")]
@@ -15,6 +16,8 @@ public class HUDManager : MonoBehaviour
     [SerializeField] Button backGameButton;
 
     int temp = 18;
+    [SerializeField] bool isCounting = true;
+    public static float counter = 0f;
 
     private void Awake()
     {
@@ -40,12 +43,28 @@ public class HUDManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isCounting)
+        {
+            counter += Time.deltaTime;
+            timerText.SetText($"Timer: {counter:F2}");
+        }
+
         HPImage.fillAmount = PlayerStats.instance.playerHealth / 3;
+    }
+
+    public void StartTheCounter()
+    {
+        isCounting = true;
+    }
+
+    public void EndCounter()
+    {
+        isCounting = false;
     }
 
     void OnEnemiesRemainingText()
     {
-        temp = -1;
+        temp --;
         enemyRemainingText.SetText($"Remaining Enemies: {temp}");
     }
 

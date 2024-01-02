@@ -35,6 +35,11 @@ public class HUDManager : MonoBehaviour
         backGameButton.onClick.AddListener(OnBackToGameButtonClicked);
     }
 
+    private void Start()
+    {
+        counter = 0f;
+    }
+
     private void OnDisable()
     {
         spawnerManager.OnEnemyDied -= OnEnemiesRemainingText;

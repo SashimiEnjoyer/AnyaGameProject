@@ -20,7 +20,6 @@ public struct DialogueData
 
 public class DialogueController : MonoBehaviour, IInteractable
 {
-    [SerializeField] private DialogueData[] dialogues;
     [SerializeField] private GameObject dialogueModalUIPrefab;
     private GameObject dialogueObject;
     private DialogueModalUI dialogueUI;
@@ -28,6 +27,10 @@ public class DialogueController : MonoBehaviour, IInteractable
     private int dialogueIndex = 0;
     public bool ObjectDestroyed = false;
     public bool DialogueEnd = false;
+    [Space]
+    [SerializeField] private DialogueData[] dialogues;
+    [Space]
+    public UnityEvent onDialogueEnded;
 
     private void Update()
     {
@@ -55,7 +58,7 @@ public class DialogueController : MonoBehaviour, IInteractable
     {
         dialogueIndex += 1;
 
-        if (dialogueIndex <= dialogues.Length - 1)
+        if (dialogueIndex < dialogues.Length)
             dialogueUI.SetDialogueUI(dialogues[dialogueIndex]);
         else
         {

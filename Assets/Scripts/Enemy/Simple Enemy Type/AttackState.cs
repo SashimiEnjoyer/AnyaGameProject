@@ -32,7 +32,7 @@ public static partial class SimpleEnemy
 
         public override void ExitState()
         {
-            baseEnemy.rb.velocity = Vector2.zero;
+            baseEnemy.rb.linearVelocity = Vector2.zero;
         }
     }
 }

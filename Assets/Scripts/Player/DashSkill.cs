@@ -33,16 +33,16 @@ public class DashSkill : CharacterState
         
         if (Time.time < maxTimer)
         {
-            character.rb.velocity = new Vector2((character.isFacingRight ? 1 : -1) * stats.horizontalSpeed * Time.deltaTime, 1);
+            character.rb.linearVelocity = new Vector2((character.isFacingRight ? 1 : -1) * stats.horizontalSpeed * Time.deltaTime, 1);
         }
         else
         {
-            character.rb.velocity = new Vector2((character.isFacingRight ? 1 : -1) * (stats.horizontalSpeed * 0.25f) * Time.deltaTime, character.rb.velocity.y);
+            character.rb.linearVelocity = new Vector2((character.isFacingRight ? 1 : -1) * (stats.horizontalSpeed * 0.25f) * Time.deltaTime, character.rb.linearVelocity.y);
 
-            if (character.rb.velocity.x < 0)
-                character.rb.velocity = new Vector2(character.rb.velocity.x + Time.deltaTime, character.rb.velocity.y);
+            if (character.rb.linearVelocity.x < 0)
+                character.rb.linearVelocity = new Vector2(character.rb.linearVelocity.x + Time.deltaTime, character.rb.linearVelocity.y);
             else
-                character.rb.velocity = new Vector2(character.rb.velocity.x - Time.deltaTime, character.rb.velocity.y);
+                character.rb.linearVelocity = new Vector2(character.rb.linearVelocity.x - Time.deltaTime, character.rb.linearVelocity.y);
 
             if (Time.time >= timeToMoveState)
             {

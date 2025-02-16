@@ -5,13 +5,14 @@ using UnityEngine;
 /// </summary>
 public class PlayerLocomotion : CharacterState
 {
-
     public PlayerLocomotion(PlayerController player) : base(player)
     {
     }
     //public float nextDashTime = 0.3f;
     public float cooldownTimer = 0;
     public float dashhCooldown = 0;
+
+    bool clingWall = false;
 
     public override void EnterState()
     {
@@ -23,6 +24,8 @@ public class PlayerLocomotion : CharacterState
         InGameInput.instance.onAttackPressed += AttackKeyPressed;
         InGameInput.instance.onInteractPressed += InteractKeyPressed;
         character.SetAnimatorState(character.anim, "Anya_Idle");
+
+        clingWall = false;
     }
 
     public override void ExitState()
@@ -38,6 +41,8 @@ public class PlayerLocomotion : CharacterState
 
     public override void Tick()
     {
+        CheckWall();
+
         character.anim.SetBool("Is Ground", character.PlayerTouchGround(Vector2.down));
 
         if (character.PlayerTouchGround(Vector2.down))
@@ -54,13 +59,25 @@ public class PlayerLocomotion : CharacterState
             character.Flip();
         if (character.isFacingRight && character.horizontalInput < 0)
             character.Flip();
+    }
 
+    void CheckWall()
+    {
+        Vector2 direction = character.isFacingRight ? Vector2.right : Vector2.left;
+        RaycastHit2D wallHit = Physics2D.Raycast(character.transform.position, direction, 1f, character.wallLayer);
+
+        clingWall = wallHit.collider != null && !character.PlayerTouchGround(Vector2.down);
+
+        if (clingWall)
+        {
+            character.SetState(character.playerWallHangingState);
+        }
     }
 
     public override void PhysicTick()
     {
-        character.rb.velocity = new Vector2(character.horizontalInput * character.speed * Time.deltaTime, character.rb.velocity.y);
-        
+        if(!clingWall)
+            character.rb.linearVelocity = new Vector2(character.horizontalInput * character.speed * Time.deltaTime, character.rb.linearVelocity.y);
     }
 
     void PlayerJumping()
@@ -70,15 +87,24 @@ public class PlayerLocomotion : CharacterState
         if (character.jumpCounter <= 0)
             return;
 
-        character.rb.velocity = new Vector2(character.rb.velocity.x, 0);
+        float jumpDir;
 
-        //character.rb.AddForce(new Vector2(character.rb.velocity.x, character.jumpPower), ForceMode2D.Impulse);
-        Vector3 vel = character.rb.velocity;
+        if (clingWall)
+        {
+            jumpDir = (character.isFacingRight ? -100 : 100);
+            character.horizontalInput = character.isFacingRight ? -1 : 1;
+            character.Flip();
+        }
+        else
+        {
+            jumpDir = character.rb.linearVelocity.x;
+        }
+
+        Vector3 vel = character.rb.linearVelocity;
 
         vel.y += Mathf.Sqrt(-2f * -10f * character.jumpPower);
 
-        character.rb.velocity = vel;
-
+        character.rb.linearVelocity = new Vector2(jumpDir, vel.y);
         
     }
 
@@ -104,7 +130,7 @@ public class PlayerLocomotion : CharacterState
 
     void InteractKeyPressed()
     {
-        character.PlayerTouchEntity(character.dialogueEntity, Vector2.right).collider.GetComponent<IInteractable>().ExecuteInteractable();
+        character.PlayerTouchEntity(character.dialogueEntity, Vector2.right).collider?.GetComponent<IInteractable>().ExecuteInteractable();
     }
 
 }

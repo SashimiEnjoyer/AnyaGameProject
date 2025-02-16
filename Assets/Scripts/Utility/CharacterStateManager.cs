@@ -30,6 +30,11 @@ public class CharacterStateManager : MonoBehaviour
         animator.Play(animationStateName, 0, 0);
     }
 
+    public float GetCurrentAnimLength(Animator animator)
+    {
+        return animator.GetCurrentAnimatorStateInfo(0).length;
+    }
+
     public void FunctionWithInterval(Action action, float interval)
     {
         if(coroutine == null)

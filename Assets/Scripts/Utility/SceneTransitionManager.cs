@@ -31,6 +31,8 @@ public class SceneTransitionManager : MonoBehaviour
         nextSceneName = sceneName;
         TransitionScreen.instance.StartingTransition(TransitionPosition.ToBlack, 2f, GoToNextScene);
         SoundsOnSceneManager.instance.AllAudioFadeOut();
+
+        Debug.Log("Moving Scene");
     }
 
     void FinishedFirstTransition()

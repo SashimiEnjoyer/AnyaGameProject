@@ -16,8 +16,8 @@ public static partial class PatrolType
         public override void EnterState()
         {
             baseEnemy.SetAnimatorState(baseEnemy.anim, "Enemy_Attack");
-            preAttack = Time.time + 0.15f;
-            timeToAttack = Time.time + 2f;
+            preAttack = Time.time + en.preAttackTimer;
+            timeToAttack = Time.time + en.attackTimer;
         }
 
         public override void Tick()

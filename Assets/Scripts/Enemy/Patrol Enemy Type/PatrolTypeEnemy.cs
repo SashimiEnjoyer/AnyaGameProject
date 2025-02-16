@@ -5,6 +5,8 @@ public class PatrolTypeEnemy : EnemyController
     [Header("Patrol Enemy References")]
     public EnemyAggroStatus AggroStatus;
     public GameObject attackHitBox;
+    public float preAttackTimer;
+    public float attackTimer;
     public float minAttackTriggerRange;
     public float minPatrolTime;
     public float maxPatrolTime;
@@ -41,12 +43,12 @@ public class PatrolTypeEnemy : EnemyController
 
     public override void Move(float multiplier = 1f)
     {
-        rb.velocity = new Vector2(movementSpeed * CurrentDirection * multiplier, rb.velocity.y);
+        rb.linearVelocity = new Vector2(movementSpeed * CurrentDirection * multiplier, rb.linearVelocity.y);
     }
 
     public override void StopMove()
     {
-        rb.velocity = Vector2.zero;
+        rb.linearVelocity = Vector2.zero;
     }
 
     public override void Died()

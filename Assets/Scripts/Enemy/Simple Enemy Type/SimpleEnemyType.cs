@@ -31,7 +31,7 @@ public class SimpleEnemyType : EnemyController
 
     public override void Move(float multiplier = 1f)
     {
-        rb.velocity = new Vector2(movementSpeed * CurrentDirection * multiplier, rb.velocity.y);
+        rb.linearVelocity = new Vector2(movementSpeed * CurrentDirection * multiplier, rb.linearVelocity.y);
     }
 
     public override void EnemyHurted()

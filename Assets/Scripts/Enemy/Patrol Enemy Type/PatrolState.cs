@@ -46,7 +46,7 @@ public static partial class PatrolType
 
         public override void PhysicTick()
         {
-            baseEnemy.anim.SetFloat("EnemySpeed", Mathf.Clamp01(Mathf.Abs( baseEnemy.rb.velocity.x)));
+            baseEnemy.anim.SetFloat("EnemySpeed", Mathf.Clamp01(Mathf.Abs( baseEnemy.rb.linearVelocity.x)));
         }
 
 

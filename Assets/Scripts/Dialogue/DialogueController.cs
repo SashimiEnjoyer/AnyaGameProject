@@ -71,7 +71,9 @@ public class DialogueController : MonoBehaviour, IInteractable
     private void EndDialogue()
     {
         dialogueUI.OnNextDialogueButtonPressed -= NextDialogue;
-        dialogueObject.SetActive(false);    
+        onDialogueEnded?.Invoke();
+        dialogueObject.SetActive(false);
+        gameObject.SetActive(false);
         ObjectDestroyed = true;
         DialogueEnd = true;
         InGameTracker.instance.gameState = GameplayState.Playing;

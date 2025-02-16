@@ -25,7 +25,7 @@ public class EnemySpawnManager : MonoBehaviour
 
     private void Awake()
     {
-        InitiatePool();
+        //InitiatePool();
     }
 
     //private void Start()

@@ -16,6 +16,7 @@ public class PlayerController : CharacterStateManager
     public PlayerDie playerDieState;
     public PlayerHurt playerHurtState;
     public PlayerLocomotion playerLocomotionState;
+    public PlayerWallHanging playerWallHangingState;
     public CharacterState skill1;
 
     public SkillManager skillManager;
@@ -25,6 +26,7 @@ public class PlayerController : CharacterStateManager
     public float speed;
     public float dashCooldown = 10;
     public float nextDashTiming = 0f;
+    public float gravityMultiplier = 0.1f;
 
     [Header("Attack Setting")]
     public GameObject attackSlashEffectPrefab;
@@ -39,6 +41,7 @@ public class PlayerController : CharacterStateManager
     public LayerMask dialogueEntity;
     public LayerMask enemyEntity;
     public LayerMask movingPlatform;
+    public LayerMask wallLayer;
     [SerializeField] float radiusDetection = 0.5f;
 
     [Header("Audio Setting")]
@@ -81,6 +84,7 @@ public class PlayerController : CharacterStateManager
         playerDieState = new PlayerDie(this);
         playerLocomotionState = new PlayerLocomotion(this);
         playerHurtState = new PlayerHurt(this);
+        playerWallHangingState = new PlayerWallHanging(this);
     }
 
     private void OnDestroy()
@@ -106,8 +110,8 @@ public class PlayerController : CharacterStateManager
 
         base.Update();
 
-        if (rb.velocity.y < -1.5f)
-            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y - 0.2f);
+        if (rb.linearVelocity.y < -1.5f)
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y - gravityMultiplier);
 
         if (PlayerTouchGround(Vector2.down))
         {
@@ -199,7 +203,7 @@ public class PlayerController : CharacterStateManager
 
     public void StopMove()
     {
-        rb.velocity = Vector2.zero;
+        rb.linearVelocity = Vector2.zero;
     }
 
     void GetMoveInput(float input)

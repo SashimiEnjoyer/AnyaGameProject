@@ -53,30 +53,12 @@ public class PlayerAttack : CharacterState
         slashEffectRenderer.flip = Vector3.right * (character.isFacingRight ? 0 : 1);
         slashEffect.Emit(1);
 
-        timer = Time.time + 0.6f;
-
+        timer = Time.time + 0.4f;
+        Debug.LogWarning("Current Animation Clip Length: " + character.GetCurrentAnimLength(character.anim));
     }
 
     public override void Tick()
     {
-
-        //if (Time.time < timer)
-        //{
-        //    for (int i = 0; i < character.PlayerTouchEnemy(character.isFacingRight).Length; i++)
-        //    {
-        //        if (character.listOfEnemies.Contains(character.PlayerTouchEnemy(character.isFacingRight)[i].collider.GetComponent<IEnemy>()))
-        //            continue;
-        //        else
-        //        {
-        //            character.listOfEnemies.Add(character.PlayerTouchEnemy(character.isFacingRight)[i].collider.GetComponent<IEnemy>());
-
-        //            foreach (var enemy in character.listOfEnemies)
-        //                enemy.EnemyHurted();
-
-        //        }
-        //    }
-
-        //}
         if (Time.time < timer)
             return;
         

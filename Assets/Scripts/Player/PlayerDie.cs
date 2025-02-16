@@ -7,7 +7,7 @@ public class PlayerDie : CharacterState
     public override void EnterState()
     {
         character.SetAnimatorState(character.anim, "Anya_Died");
-        character.rb.velocity = Vector2.zero;
+        character.rb.linearVelocity = Vector2.zero;
         character.PlayerDie();
         InGameTracker.instance.onLoseEnding?.Invoke();
     }

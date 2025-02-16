@@ -62,19 +62,19 @@ public class Enemy : MonoBehaviour
 
     public void Move()
     {
-        rb.velocity = new Vector2(movementSpeed * Time.fixedDeltaTime, rb.velocity.y);
+        rb.linearVelocity = new Vector2(movementSpeed * Time.fixedDeltaTime, rb.linearVelocity.y);
     }
 
     public void Stop()
     {
-        rb.velocity = new Vector2(0.0f, rb.velocity.y);
+        rb.linearVelocity = new Vector2(0.0f, rb.linearVelocity.y);
     }
 
     public void Jump()
     {
         if (isGrounded())
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpStrength * Time.fixedDeltaTime);
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpStrength * Time.fixedDeltaTime);
         }
     }
 

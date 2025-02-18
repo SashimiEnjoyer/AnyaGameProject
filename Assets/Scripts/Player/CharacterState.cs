@@ -14,11 +14,6 @@ public abstract class CharacterState
         baseEnemy = _enemy;
     }
 
-    public CharacterState(EventController _character)
-    {
-        player = _character;
-    }
-
     public virtual void EnterState()
     {
         

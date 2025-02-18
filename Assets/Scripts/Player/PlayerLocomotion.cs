@@ -16,7 +16,6 @@ public class PlayerLocomotion : CharacterState
 
     public override void EnterState()
     {
-        Debug.Log("Locomotion State!");
         InGameInput.instance.onSkill1Pressed += Skill1Pressed;
         InGameInput.instance.onSkill2Pressed += Skill2Pressed;
         InGameInput.instance.onSkill3Pressed += Skill3Pressed;
@@ -87,25 +86,18 @@ public class PlayerLocomotion : CharacterState
         if (character.jumpCounter <= 0)
             return;
 
+        character.rb.linearVelocityY = 0;
+
         float jumpDir;
 
-        if (clingWall)
-        {
-            jumpDir = (character.isFacingRight ? -100 : 100);
-            character.horizontalInput = character.isFacingRight ? -1 : 1;
-            character.Flip();
-        }
-        else
-        {
-            jumpDir = character.rb.linearVelocity.x;
-        }
+        jumpDir = character.rb.linearVelocity.x;
 
         Vector3 vel = character.rb.linearVelocity;
 
         vel.y += Mathf.Sqrt(-2f * -10f * character.jumpPower);
 
         character.rb.linearVelocity = new Vector2(jumpDir, vel.y);
-        
+        //character.rb.AddForce(new Vector2(jumpDir, vel.y), ForceMode2D.Impulse);
     }
 
     void AttackKeyPressed()

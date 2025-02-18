@@ -14,13 +14,14 @@ public class PlayerWallHanging : CharacterState
         InGameInput.instance.onJumpPressed += PlayerJumping;
         character.horizontalInput = 0;
         character.gravityMultiplier = -0.1f;
+
+        character.jumpCounter = 3;
     }
 
     public override void ExitState()
     {
         InGameInput.instance.onJumpPressed -= PlayerJumping;
         character.gravityMultiplier = 0.2f;
-        character.horizontalInput = 0;
         beginCountdown = false;
     }
 
@@ -29,6 +30,8 @@ public class PlayerWallHanging : CharacterState
         if(beginCountdown && Time.time > endOfStateTiming)
             character.SetState(character.playerLocomotionState);
 
+        if(character.PlayerTouchGround(Vector2.down))
+            character.SetState(character.playerLocomotionState);
     }
 
     void PlayerJumping()
@@ -38,11 +41,25 @@ public class PlayerWallHanging : CharacterState
         if (character.jumpCounter <= 0)
             return;
 
+        character.rb.linearVelocityY = 0;
+
         float jumpDir;
 
         jumpDir = (character.isFacingRight ? -10 : 10);
-        character.horizontalInput = character.isFacingRight ? -1 : 1;
-        character.Flip();
+
+        if (character.jumpCounter == 1)
+        {
+            jumpDir *= character.horizontalInput;
+
+            if (!character.isFacingRight && character.horizontalInput > 0)
+                character.Flip();
+            if (character.isFacingRight && character.horizontalInput < 0)
+                character.Flip();
+        }
+        else
+        {
+            character.Flip();
+        }
 
         Vector3 vel = character.rb.linearVelocity;
 

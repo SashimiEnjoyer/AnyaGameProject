@@ -41,33 +41,30 @@ public class PlayerWallHanging : CharacterState
         if (character.jumpCounter <= 0)
             return;
 
-        character.rb.linearVelocityY = 0;
-
         float jumpDir;
 
-        jumpDir = (character.isFacingRight ? -10 : 10);
-
-        if (character.jumpCounter == 1)
+        if (character.jumpCounter <= 1)
         {
-            jumpDir *= character.horizontalInput;
+            jumpDir = character.horizontalInput * 15;
 
             if (!character.isFacingRight && character.horizontalInput > 0)
+            {
                 character.Flip();
+            }
             if (character.isFacingRight && character.horizontalInput < 0)
+            {
                 character.Flip();
+            }
         }
         else
         {
+            jumpDir = (character.isFacingRight ? -15 : 15);
             character.Flip();
         }
 
-        Vector3 vel = character.rb.linearVelocity;
+        character.PlayerJumping(jumpDir);
 
-        vel.y += Mathf.Sqrt(-2f * -10f * character.jumpPower);
-
-        character.rb.linearVelocity = new Vector2(jumpDir, vel.y);
-        
-        endOfStateTiming = Time.time + 0.5f;
+        endOfStateTiming = Time.time + 1f;
 
         beginCountdown = true;
 

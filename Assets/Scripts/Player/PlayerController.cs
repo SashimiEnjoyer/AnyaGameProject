@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
+using UnityEngine.TextCore.Text;
 
 /// <summary>
 /// Set and Get Overall Conditions for Player 
@@ -194,6 +195,17 @@ public class PlayerController : CharacterStateManager
 
             SetState(PlayerStats.instance.playerHealth > 0? playerHurtState : playerDieState);
         }
+    }
+
+    public void PlayerJumping(float direction)
+    {
+        rb.linearVelocity = Vector2.zero;
+        Vector3 vel = rb.linearVelocity;
+        vel.y += Mathf.Sqrt(-2f * -10f * jumpPower);
+
+        //rb.linearVelocity = new Vector2(direction, vel.y);
+        rb.AddForce(new Vector2(direction, vel.y), ForceMode2D.Impulse);
+    
     }
 
     public void PlayerDie()

@@ -63,7 +63,7 @@ public class PlayerLocomotion : CharacterState
     void CheckWall()
     {
         Vector2 direction = character.isFacingRight ? Vector2.right : Vector2.left;
-        RaycastHit2D wallHit = Physics2D.Raycast(character.transform.position, direction, 1f, character.wallLayer);
+        RaycastHit2D wallHit = Physics2D.Raycast(character.transform.position, direction, 1f, character.groundLayer);
 
         clingWall = wallHit.collider != null && !character.PlayerTouchGround(Vector2.down);
 
@@ -86,18 +86,7 @@ public class PlayerLocomotion : CharacterState
         if (character.jumpCounter <= 0)
             return;
 
-        character.rb.linearVelocityY = 0;
-
-        float jumpDir;
-
-        jumpDir = character.rb.linearVelocity.x;
-
-        Vector3 vel = character.rb.linearVelocity;
-
-        vel.y += Mathf.Sqrt(-2f * -10f * character.jumpPower);
-
-        character.rb.linearVelocity = new Vector2(jumpDir, vel.y);
-        //character.rb.AddForce(new Vector2(jumpDir, vel.y), ForceMode2D.Impulse);
+        character.PlayerJumping(character.rb.linearVelocityX);
     }
 
     void AttackKeyPressed()

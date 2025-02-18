@@ -5020,6 +5020,7 @@ MonoBehaviour:
   speed: 300
   dashCooldown: 0.15
   nextDashTiming: 0
+  gravityMultiplier: 0.1
   attackSlashEffectPrefab: {fileID: 2081181903204149500, guid: 591714454d5fe5c41b79a74e9534a5e3, type: 3}
   jumpPower: 15
   jumpAvailable: 2
@@ -5036,6 +5037,9 @@ MonoBehaviour:
   movingPlatform:
     serializedVersion: 2
     m_Bits: 256
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
   radiusDetection: 0.5
   movementAudio: {fileID: 1786172580}
   attackAudio: {fileID: 125491879}

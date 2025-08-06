@@ -606,7 +606,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 2f5e2f06b926ad74095ff5be507aa6d2, type: 3}
+  m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 2f5e2f06b926ad74095ff5be507aa6d2, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0
@@ -5020,7 +5020,6 @@ MonoBehaviour:
   speed: 300
   dashCooldown: 0.15
   nextDashTiming: 0
-  gravityMultiplier: 0.1
   attackSlashEffectPrefab: {fileID: 2081181903204149500, guid: 591714454d5fe5c41b79a74e9534a5e3, type: 3}
   jumpPower: 15
   jumpAvailable: 2
@@ -5075,7 +5074,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fdb97de8505b164e9d588cd26932659, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerHealth: 3
+  startingStats:
+    healthMax: 5
+    gravityForce: 0.03
+  currentHealth: 0
   currentCheckpoint: {fileID: 0}
 --- !u!70 &1297424287
 CapsuleCollider2D:

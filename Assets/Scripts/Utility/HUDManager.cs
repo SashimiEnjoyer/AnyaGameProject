@@ -54,7 +54,7 @@ public class HUDManager : MonoBehaviour
             timerText.SetText($"Timer: {counter:F2}");
         }
 
-        HPImage.fillAmount = PlayerStats.instance.playerHealth / 3;
+        HPImage.fillAmount = PlayerStats.instance.currentHealth / 3;
     }
 
     public void StartTheCounter()

@@ -7,13 +7,14 @@ public class PlayerWallHanging : CharacterState
     }
 
     bool beginCountdown = false;
+    bool clingWall = false;
     private float endOfStateTiming = 0f;
 
     public override void EnterState()
     {
         InGameInput.instance.onJumpPressed += PlayerJumping;
         character.horizontalInput = 0;
-        character.gravityMultiplier = -0.1f;
+        
 
         character.jumpCounter = 3;
     }
@@ -21,7 +22,7 @@ public class PlayerWallHanging : CharacterState
     public override void ExitState()
     {
         InGameInput.instance.onJumpPressed -= PlayerJumping;
-        character.gravityMultiplier = 0.2f;
+        PlayerStats.instance.startingStats.gravityForce = 0.03f;
         beginCountdown = false;
     }
 
@@ -32,6 +33,27 @@ public class PlayerWallHanging : CharacterState
 
         if(character.PlayerTouchGround(Vector2.down))
             character.SetState(character.playerLocomotionState);
+
+        CheckWall();
+
+        if(clingWall)
+            PlayerStats.instance.startingStats.gravityForce = -0.1f;
+        else
+            PlayerStats.instance.startingStats.gravityForce = 0.03f;
+
+    }
+
+    void CheckWall()
+    {
+        Vector2 direction = character.isFacingRight ? Vector2.right : Vector2.left;
+        RaycastHit2D wallHit = Physics2D.Raycast(character.transform.position, direction, 1f, character.groundLayer);
+
+        clingWall = wallHit.collider != null && !character.PlayerTouchGround(Vector2.down);
+
+        if (clingWall)
+        {
+            character.SetState(character.playerWallHangingState);
+        }
     }
 
     void PlayerJumping()
@@ -64,7 +86,7 @@ public class PlayerWallHanging : CharacterState
 
         character.PlayerJumping(jumpDir);
 
-        endOfStateTiming = Time.time + 1f;
+        endOfStateTiming = Time.time + 0.7f;
 
         beginCountdown = true;
 

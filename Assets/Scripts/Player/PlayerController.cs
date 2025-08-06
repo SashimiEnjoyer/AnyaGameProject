@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
-using UnityEngine.TextCore.Text;
 
 /// <summary>
 /// Set and Get Overall Conditions for Player 
@@ -27,7 +26,6 @@ public class PlayerController : CharacterStateManager
     public float speed;
     public float dashCooldown = 10;
     public float nextDashTiming = 0f;
-    public float gravityMultiplier = 0.1f;
 
     [Header("Attack Setting")]
     public GameObject attackSlashEffectPrefab;
@@ -111,8 +109,8 @@ public class PlayerController : CharacterStateManager
 
         base.Update();
 
-        if (rb.linearVelocity.y < -1.5f)
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y - gravityMultiplier);
+        if (rb.linearVelocity.y < 0.1f)
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y - PlayerStats.instance.startingStats.gravityForce);
 
         if (PlayerTouchGround(Vector2.down))
         {
@@ -124,7 +122,7 @@ public class PlayerController : CharacterStateManager
         else
             transform.SetParent(null);
 
-        if(PlayerStats.instance.playerHealth <= 0 && currState != playerDieState)
+        if(PlayerStats.instance.currentHealth <= 0 && currState != playerDieState)
             SetState(playerDieState);
     }
 
@@ -155,7 +153,7 @@ public class PlayerController : CharacterStateManager
                 break;
             case GameplayState.Stop:
 
-                if(PlayerStats.instance.playerHealth > 0)
+                if(PlayerStats.instance.currentHealth > 0)
                     SetState(playerLocomotionState);
 
                 StopMove();
@@ -187,13 +185,13 @@ public class PlayerController : CharacterStateManager
 
     public void PlayerHurt(Vector2 _target, int damage)
     {
-        if (!isInvulnerable && PlayerStats.instance.playerHealth > 0)
+        if (!isInvulnerable && PlayerStats.instance.currentHealth > 0)
         {
             StopMove();
             rb.AddForce(new Vector2(_target.x > transform.position.x ? -100 : 100, 150));
-            PlayerStats.instance.playerHealth -= damage;
+            PlayerStats.instance.currentHealth -= damage;
 
-            SetState(PlayerStats.instance.playerHealth > 0? playerHurtState : playerDieState);
+            SetState(PlayerStats.instance.currentHealth > 0? playerHurtState : playerDieState);
         }
     }
 

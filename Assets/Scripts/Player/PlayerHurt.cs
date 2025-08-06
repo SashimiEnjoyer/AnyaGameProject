@@ -36,7 +36,7 @@ public class PlayerHurt : CharacterState
 
         if (Time.time > endOfStateTiming)
         {
-            if(PlayerStats.instance.playerHealth > 0)
+            if(PlayerStats.instance.currentHealth > 0)
                 character.SetState(character.playerLocomotionState);
             else
                 character.SetState(character.playerDieState);

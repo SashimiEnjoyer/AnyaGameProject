@@ -39,7 +39,7 @@ public class SceneTransitionManager : MonoBehaviour
     {
         SoundsOnSceneManager.instance.AllAudioFadeIn();
         InGameTracker.instance.gameState = GameplayState.Playing;
-        Destroy(transistionObject);
+        //Destroy(transistionObject);
     }
 
     void GoToNextScene()

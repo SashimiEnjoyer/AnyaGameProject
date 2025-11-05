@@ -3,7 +3,9 @@ using UnityEngine.Events;
 
 public enum EnemyAggroStatus
 {
-    Calm, Semi, Aggresive
+    Calm,   //Just walking around
+    Semi,   //Chase player, but won't cross borders
+    Aggresive   //Chase player no matter what
 }
 
 public class EnemyController : CharacterStateManager, IEnemy

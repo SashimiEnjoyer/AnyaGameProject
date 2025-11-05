@@ -34,13 +34,22 @@ public static partial class PatrolType
                 }
             }
 
-            if (en.AggroStatus == EnemyAggroStatus.Semi)
+            switch(en.AggroStatus)
             {
-                if (baseEnemy.CheckMask(baseEnemy.borderMask) && !baseEnemy.Resetting)
-                    baseEnemy.StopMove();
-            }
+                case EnemyAggroStatus.Semi:
+                    
+                    if (baseEnemy.CheckMask(baseEnemy.borderMask) && !baseEnemy.Resetting)
+                        baseEnemy.StopMove();
+                    else
+                    {
+                        baseEnemy.Move(2.3f);
+                    }
+                    break;
 
-            baseEnemy.Move(1.2f);
+                default:
+                    baseEnemy.Move(2.3f);
+                    break;
+            }
             
             if (Mathf.Sign(baseEnemy.CurrentDirection) != Mathf.Sign(baseEnemy.PlayerDirection().x))
             {

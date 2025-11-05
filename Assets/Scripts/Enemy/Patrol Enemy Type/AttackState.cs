@@ -31,8 +31,23 @@ public static partial class PatrolType
                 timeToAttack = 0f;
             }
 
-            baseEnemy.Move(2.3f);
-            
+            switch(en.AggroStatus)
+            {
+                case EnemyAggroStatus.Semi:
+                    
+                    if (baseEnemy.CheckMask(baseEnemy.borderMask) && !baseEnemy.Resetting)
+                        baseEnemy.StopMove();
+                    else
+                    {
+                        baseEnemy.Move(2.3f);
+                    }
+                    break;
+
+                default:
+                    baseEnemy.Move(2.3f);
+                    break;
+            }
+
         }
 
         public override void ExitState()

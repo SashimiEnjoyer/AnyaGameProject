@@ -4489,7 +4489,7 @@ Transform:
   m_GameObject: {fileID: 1131809486}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -555.01, y: -10.49, z: -12}
+  m_LocalPosition: {x: -284.6, y: 69.5, z: -12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4994,7 +4994,7 @@ Transform:
   m_GameObject: {fileID: 1297424280}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -555.01, y: -10.49, z: 0}
+  m_LocalPosition: {x: -284.6, y: 69.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -43286,7 +43286,7 @@ Transform:
   m_GameObject: {fileID: 1816851218}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -555.01, y: -10.49, z: -12}
+  m_LocalPosition: {x: -284.6, y: 69.5, z: -12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -44747,6 +44747,10 @@ PrefabInstance:
     - target: {fileID: 5392164576127903433, guid: 1bcba1942af39ca41a4b9c42ce19a88a, type: 3}
       propertyPath: m_UiScaleMode
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5392164576127903434, guid: 1bcba1942af39ca41a4b9c42ce19a88a, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5392164576127903434, guid: 1bcba1942af39ca41a4b9c42ce19a88a, type: 3}
       propertyPath: timerText

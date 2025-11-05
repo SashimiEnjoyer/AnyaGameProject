@@ -57,8 +57,27 @@ public static partial class PatrolType
                 baseEnemy.Flip();
                 interval = Time.time + Random.Range(en.minPatrolTime, en.maxPatrolTime);
             }
+            else
+            {
 
-            baseEnemy.Move(1f);
+                switch(en.AggroStatus)
+                {
+                    case EnemyAggroStatus.Semi:
+                        
+                        if (baseEnemy.CheckMask(baseEnemy.borderMask) && !baseEnemy.Resetting)
+                            baseEnemy.StopMove();
+                        else
+                        {
+                            baseEnemy.Move(1f);
+                        }
+                        break;
+
+                    default:
+                        baseEnemy.Move(1f);
+                        break;
+                }    
+            }
+
         }
 
         //private void CheckResetting()

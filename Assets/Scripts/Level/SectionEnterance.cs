@@ -14,7 +14,10 @@ public class SectionEnterance : MonoBehaviour
             TransitionScreen.instance.StartingFullTransition(1f, () =>
             {
                 thisSection.SetNextSection(nextSectionIndex);
-                collision.transform.position = startingPoint.position;
+
+                if (startingPoint != null)
+                    collision.transform.position = startingPoint.position;
+                
                 thisSection.CleanupSection();
                 TransitionScreen.instance.StartingTransition(TransitionPosition.FromBlack, 1f, null);
             });

@@ -18,10 +18,12 @@ public class CameraImpulseManager : MonoBehaviour
     public void ActiveEnemyImpulse()
     {
         enemyImpulse.GenerateImpulse();
+        Debug.LogWarning("Enemy Impulse Active");
     }
 
     public void ActivePlayerImpulse()
     {
         playerImpulse.GenerateImpulse();
+        Debug.LogWarning("Player Impulse Active");
     }
 }

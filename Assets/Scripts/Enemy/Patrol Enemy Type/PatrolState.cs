@@ -28,8 +28,8 @@ public static partial class PatrolType
             
             if(en.AggroStatus != EnemyAggroStatus.Calm)
             {
-                if(Mathf.Abs(baseEnemy.transform.position.x - baseEnemy.playerTransform.position.x) < 10f &&
-                    Mathf.Abs(baseEnemy.transform.position.y - baseEnemy.playerTransform.position.y) < 3f)
+                if(Mathf.Abs(baseEnemy.transform.position.x - baseEnemy.playerTransform.position.x) < en.aggroRadiusX &&
+                    Mathf.Abs(baseEnemy.transform.position.y - baseEnemy.playerTransform.position.y) < en.aggroRadiusY)
                 {
                     baseEnemy.SetState(baseEnemy.chaseState);
                 }

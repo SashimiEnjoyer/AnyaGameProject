@@ -485,7 +485,8 @@ MonoBehaviour:
   attackAnimLength: 0.01
   maxDistanceBeforeDie: 25
   staggerTime: 1
-  aggroRadius: 30
+  aggroRadiusX: 20
+  aggroRadiusY: 4
   knockDistance: {x: 75, y: 75}
   isGround: 0
   getHit: 0

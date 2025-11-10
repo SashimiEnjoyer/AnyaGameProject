@@ -41,28 +41,34 @@ public class PlayerAttack : CharacterState
             slashEffectObject.transform.Rotate(Vector3.up * (character.isFacingRight ? 0 : 180));
             slashEffectObject.transform.parent = character.transform;
         }
+
         slashEffectObject.SetActive(true);
+
         if (slashEffect == null)
-        {
             slashEffect = slashEffectObject.GetComponent<ParticleSystem>();
-            slashEffect.Play();
-        }
+            //slashEffect.Play();
+        
+
         if(slashEffectRenderer == null)
             slashEffectRenderer = slashEffect.GetComponent<ParticleSystemRenderer>();
 
         slashEffectRenderer.flip = Vector3.right * (character.isFacingRight ? 0 : 1);
         slashEffect.Emit(1);
 
-        timer = Time.time + 0.4f;
-        Debug.LogWarning("Current Animation Clip Length: " + character.GetCurrentAnimLength(character.anim));
+        timer = Time.time + slashEffect.main.duration;
+        
+        
     }
 
     public override void Tick()
     {
         if (Time.time < timer)
             return;
+        else 
+            slashEffectObject.SetActive(false);
         
-        character.SetState(character.playerLocomotionState);
+        if(Time.time >= timer + 0.2f)
+            character.SetState(character.playerLocomotionState);
     }
 
     public override void ExitState()

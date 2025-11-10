@@ -17,7 +17,8 @@ public class EnemyController : CharacterStateManager, IEnemy
     public float attackAnimLength = 0.01f;
     public float maxDistanceBeforeDie = 2f;
     public float staggerTime = 1f;
-    public float aggroRadius = 2f;
+    public float aggroRadiusX = 2f;
+    public float aggroRadiusY = 1f;
     public Vector2 knockDistance;
     public bool isGround;
 

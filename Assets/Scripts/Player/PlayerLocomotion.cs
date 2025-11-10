@@ -63,7 +63,7 @@ public class PlayerLocomotion : CharacterState
     void CheckWall()
     {
         Vector2 direction = character.isFacingRight ? Vector2.right : Vector2.left;
-        RaycastHit2D wallHit = Physics2D.Raycast(character.transform.position, direction, 1f, character.groundLayer);
+        RaycastHit2D wallHit = Physics2D.Raycast(character.transform.position, direction, 1f, character.wallLayer);
 
         clingWall = wallHit.collider != null && !character.PlayerTouchGround(Vector2.down);
 

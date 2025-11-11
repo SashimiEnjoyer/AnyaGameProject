@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class HUDManager : MonoBehaviour
 {
     [Header("Player HUD")]
-    [SerializeField] Image HPImage;
+    [SerializeField] Slider HPImage;
     [SerializeField] PlayerController playerController;
     [SerializeField] TMP_Text enemyRemainingText;
     [SerializeField] TMP_Text timerText;
@@ -16,28 +16,30 @@ public class HUDManager : MonoBehaviour
     [SerializeField] Button backGameButton;
 
     int temp = 18;
-    [SerializeField] bool isCounting = true;
+    
     public static float counter = 0f;
 
-    private void Awake()
-    {
-        void OnPauseButtonClicked()
-        {
-            InGameTracker.instance.ChangeGameState(GameplayState.Pause);
-        }
+    // private void Awake()
+    // {
+    //     void OnPauseButtonClicked()
+    //     {
+    //         InGameTracker.instance.ChangeGameState(GameplayState.Pause);
+    //     }
 
-        void OnBackToGameButtonClicked()
-        {
-            InGameTracker.instance.ChangeGameState(GameplayState.Playing);
-        }
-        spawnerManager.OnEnemyDied += OnEnemiesRemainingText;
-        pauseButton.onClick.AddListener(OnPauseButtonClicked);
-        backGameButton.onClick.AddListener(OnBackToGameButtonClicked);
-    }
+    //     void OnBackToGameButtonClicked()
+    //     {
+    //         InGameTracker.instance.ChangeGameState(GameplayState.Playing);
+    //     }
+    //     spawnerManager.OnEnemyDied += OnEnemiesRemainingText;
+    //     pauseButton.onClick.AddListener(OnPauseButtonClicked);
+    //     backGameButton.onClick.AddListener(OnBackToGameButtonClicked);
+    // }
 
     private void Start()
     {
         counter = 0f;
+        HPImage.maxValue = PlayerStats.instance.startingStats.healthMax;
+        HPImage.value = PlayerStats.instance.currentHealth;
     }
 
     private void OnDisable()
@@ -45,26 +47,9 @@ public class HUDManager : MonoBehaviour
         spawnerManager.OnEnemyDied -= OnEnemiesRemainingText;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetHealthBar(float value)
     {
-        if (isCounting)
-        {
-            counter += Time.deltaTime;
-            timerText.SetText($"Timer: {counter:F2}");
-        }
-
-        HPImage.fillAmount = PlayerStats.instance.currentHealth / 3;
-    }
-
-    public void StartTheCounter()
-    {
-        isCounting = true;
-    }
-
-    public void EndCounter()
-    {
-        isCounting = false;
+        HPImage.value = value;
     }
 
     void OnEnemiesRemainingText()

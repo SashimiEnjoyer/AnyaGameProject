@@ -11,7 +11,10 @@ public class PlayerStats : MonoBehaviour
 {
     public static PlayerStats instance;
     public static string playerName;
-    
+
+    [SerializeField] private HUDManager HUDManager;
+    private float health;
+ 
     private void Awake()
     {
         if (instance == null)
@@ -29,7 +32,17 @@ public class PlayerStats : MonoBehaviour
 
     public Stats startingStats;
 
-    public float currentHealth;
+    public float currentHealth
+    {
+        get { return health; }
+        set
+        {
+            health = Mathf.Clamp(value, 0, startingStats.healthMax);
+            HUDManager.SetHealthBar(health);
+        }
+            
+    }
+
     public Transform currentCheckpoint;
 
     public bool playerIsDie

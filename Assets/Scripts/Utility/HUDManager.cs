@@ -16,8 +16,6 @@ public class HUDManager : MonoBehaviour
     [SerializeField] Button backGameButton;
 
     int temp = 18;
-    
-    public static float counter = 0f;
 
     // private void Awake()
     // {
@@ -37,7 +35,6 @@ public class HUDManager : MonoBehaviour
 
     private void Start()
     {
-        counter = 0f;
         HPImage.maxValue = PlayerStats.instance.startingStats.healthMax;
         HPImage.value = PlayerStats.instance.currentHealth;
     }

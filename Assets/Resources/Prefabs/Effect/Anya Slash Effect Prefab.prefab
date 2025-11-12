@@ -121,7 +121,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2081181903204149500}
   serializedVersion: 8
-  lengthInSec: 0.5
+  lengthInSec: 0.15
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -1567,7 +1567,6 @@ ParticleSystem:
     uvChannelMask: -1
     rowMode: 1
     sprites:
-    - sprite: {fileID: -2009732446, guid: 55b0dfb584562b847a94fe133f724b6f, type: 3}
     - sprite: {fileID: -2009732446, guid: 55b0dfb584562b847a94fe133f724b6f, type: 3}
     - sprite: {fileID: -1286909604, guid: 55b0dfb584562b847a94fe133f724b6f, type: 3}
     - sprite: {fileID: -1286909604, guid: 55b0dfb584562b847a94fe133f724b6f, type: 3}

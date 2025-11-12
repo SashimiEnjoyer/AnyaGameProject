@@ -67,7 +67,6 @@ public class EndGameManager : MonoBehaviour
     private void SetCurrentWinData()
     {
         currentData.playerName = PlayerStats.playerName;
-        currentData.timeStamp = HUDManager.counter;
         currentData.remainingHP = PlayerStats.instance.currentHealth;
         uiEndGame.SetCurrentScore(currentData);
     }

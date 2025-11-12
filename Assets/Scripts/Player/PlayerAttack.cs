@@ -67,7 +67,7 @@ public class PlayerAttack : CharacterState
         else 
             slashEffectObject.SetActive(false);
         
-        if(Time.time >= timer + 0.2f)
+        if(Time.time >= timer + 0.45f)
             character.SetState(character.playerLocomotionState);
     }
 

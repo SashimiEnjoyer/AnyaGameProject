@@ -20,18 +20,13 @@ public class SkillManager : MonoBehaviour
     public Skill[] CurrentSkillSlot = new Skill[3];
     private float[] skillCooldown = new float[3];
 
-    private void Awake()
-    {
-        InstantiateSkills();
-    }
-
     private void OnDisable()
     {
         dashSkillStats.onSkillEnded -= SkillEnded;
         radialSwingSkillStats.onSkillEnded -= SkillEnded;
     }
 
-    private void InstantiateSkills()
+    public void InstantiateSkills()
     {
         SkillCatalogue.Clear();
 
@@ -40,6 +35,7 @@ public class SkillManager : MonoBehaviour
         dashSkill.AssignStats(dashSkillStats);
         RegisterSkills(dashSkill, dashSkillStats);
 
+/*
         radialSwingSkill = new (player);
         radialSwingSkillStats.onSkillEnded += SkillEnded;
         radialSwingSkill.AssignStats(radialSwingSkillStats);
@@ -49,7 +45,7 @@ public class SkillManager : MonoBehaviour
         kerisShootSkillStats.onSkillEnded += SkillEnded;
         kerisShootSkill.AssignStats(kerisShootSkillStats);
         RegisterSkills(kerisShootSkill, kerisShootSkillStats);
-
+*/
         for (int i = 0; i < CurrentSkillSlot.Length; i++)
         {
             int temp = i;

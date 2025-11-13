@@ -6,7 +6,6 @@ using DG.Tweening;
 public class SceneTransitionManager : MonoBehaviour
 {
     [SerializeField] GameObject transitionScreenPrefab;
-    [SerializeField] AudioUtility mainBGM;
     [SerializeField] GameObject loadingUIPrefab;
     GameObject loadingUI;
     TMP_Text loadingProgressText;
@@ -19,7 +18,7 @@ public class SceneTransitionManager : MonoBehaviour
         
         if(transistionObject == null)
             transistionObject = Instantiate(transitionScreenPrefab);
-
+        
         TransitionScreen.instance.StartingTransition(TransitionPosition.FromBlack, 1f, FinishedFirstTransition);
     }
 
@@ -30,16 +29,17 @@ public class SceneTransitionManager : MonoBehaviour
         
         nextSceneName = sceneName;
         TransitionScreen.instance.StartingTransition(TransitionPosition.ToBlack, 2f, GoToNextScene);
-        SoundsOnSceneManager.instance.AllAudioFadeOut();
+        //SoundsOnSceneManager.instance.AllAudioFadeOut();
 
         Debug.Log("Moving Scene");
     }
 
     void FinishedFirstTransition()
     {
-        SoundsOnSceneManager.instance.AllAudioFadeIn();
-        InGameTracker.instance.gameState = GameplayState.Playing;
-        //Destroy(transistionObject);
+        //SoundsOnSceneManager.instance.AllAudioFadeIn();
+        //InGameTracker.instance.gameState = GameplayState.Playing;
+        //transistionObject.SetActive(false);
+        Destroy(transistionObject);
     }
 
     void GoToNextScene()

@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
+[DefaultExecutionOrder(-10)]
 public class InGameInput : MonoBehaviour
 {
     [SerializeField] InputActionAsset action;
@@ -16,6 +17,7 @@ public class InGameInput : MonoBehaviour
     public UnityAction onJumpPressed;
     public UnityAction onAttackPressed;
     public UnityAction onInteractPressed;
+    public UnityAction onPausePressed;
 
     private void Awake()
     {
@@ -39,6 +41,7 @@ public class InGameInput : MonoBehaviour
         input.InGame.Jump.performed += JumpInput;
         input.InGame.Attack.performed += AttackInput;
         input.InGame.Interact.performed += InteractInput;
+        input.InGame.PauseMenu.performed += PauseInput;
     }
 
 
@@ -52,7 +55,16 @@ public class InGameInput : MonoBehaviour
         input.InGame.Jump.performed -= JumpInput;
         input.InGame.Attack.performed -= AttackInput;
         input.InGame.Interact.performed -= InteractInput;
+        input.InGame.PauseMenu.performed -= PauseInput;
         input.Disable();
+    }
+
+    public void SetInputActive(bool isActive)
+    {
+        if (isActive)
+            input.Enable();
+        else
+            input.Disable();
     }
 
     //[ContextMenu("Check Map")]
@@ -67,6 +79,7 @@ public class InGameInput : MonoBehaviour
     void Skill2Input(InputAction.CallbackContext ctx) { onSkill2Pressed?.Invoke(); }
     void Skill3Input(InputAction.CallbackContext ctx) { onSkill3Pressed?.Invoke(); }
     void JumpInput(InputAction.CallbackContext ctx) { onJumpPressed?.Invoke(); }
-    void AttackInput(InputAction.CallbackContext ctx) { onAttackPressed?.Invoke(); } 
+    void AttackInput(InputAction.CallbackContext ctx) { onAttackPressed?.Invoke(); }
     void InteractInput(InputAction.CallbackContext ctx) { onInteractPressed?.Invoke(); }
+    void PauseInput(InputAction.CallbackContext ctx) { onPausePressed?.Invoke(); }
 }

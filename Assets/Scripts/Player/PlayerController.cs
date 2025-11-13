@@ -143,27 +143,22 @@ public class PlayerController : CharacterStateManager
         {
             case GameplayState.Pause:
             case GameplayState.Dialogue:
-                
-                if(currState != playerLocomotionState)
-                    SetState(playerLocomotionState);
-
-                StopMove();
-                rb.gravityScale = 0;
-                isStop = true;
-                break;
             case GameplayState.Stop:
 
-                if(PlayerStats.instance.currentHealth > 0)
+                if(currState != playerLocomotionState)
                     SetState(playerLocomotionState);
-
                 StopMove();
+                Cursor.lockState = CursorLockMode.None;
                 rb.gravityScale = 0;
                 isStop = true;
+                InGameInput.instance.SetInputActive(false);
                 break; 
             case GameplayState.Playing:
 
                 rb.gravityScale = 3;
+                Cursor.lockState = CursorLockMode.Locked;
                 isStop = false;
+                InGameInput.instance.SetInputActive(true);
                 break;
         }
     }

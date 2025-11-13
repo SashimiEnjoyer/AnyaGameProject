@@ -2,10 +2,27 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
+    [SerializeField] private SkillManager skillManager;
     [SerializeField] private LevelSectionManager[] levelSections;
 
     private int currentSectionIndex = 0;
+    private bool levelInitiated = false;
     public int CurrentSectionIndex => currentSectionIndex;
+
+
+
+    void Awake()
+    {
+        skillManager.InstantiateSkills();
+        levelInitiated = true;
+
+        TransitionScreen.instance.StartingTransition(TransitionPosition.FromBlack, 1f, null);
+    }
+
+    void Start()
+    {
+        SoundsOnSceneManager.instance.AllAudioFadeIn();
+    }
 
     public void SetCurrentSectionIndex(int index)
     {

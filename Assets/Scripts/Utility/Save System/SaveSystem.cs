@@ -1,99 +1,140 @@
-
 using UnityEngine;
+using System;
 using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Runtime.Serialization;
-
+using System.Security.Cryptography;
 
 public static class SaveSystem 
 {
-    private static string _savePath = $"{Application.persistentDataPath}";
+const string FILE_EXTENSION = ".dat";
+    private static readonly string _savePath = Application.persistentDataPath;
+
+    private static string _encryptionKey;
+    private static string _encryptionIV;
 
     public static void Save<T>(string key, T objectToSave)
     {
         SaveData(key, objectToSave);
     }
 
-    public static void SaveData<T>( string fileName, T objectToSave)
+    public static void CheckAESSetup()
     {
-        // Create the directory IF it doesn't already exist
-        Directory.CreateDirectory(_savePath);
-        // Grab an instance of the BinaryFormatter that will handle serializing our data
-        BinaryFormatter formatter = new BinaryFormatter();
-        // Open up a filestream, combining the path and object key
-        FileStream fileStream = new FileStream($"{_savePath}{fileName}.any", FileMode.Create, FileAccess.Write);
+        if (!PlayerPrefs.HasKey("aes_key"))
+        {
+            using (Aes aes = Aes.Create())
+            {
+                PlayerPrefs.SetString("aes_key", Convert.ToBase64String(aes.Key));
+                PlayerPrefs.SetString("aes_iv", Convert.ToBase64String(aes.IV));
+            }
+        }
 
-        // Try/Catch/Finally block that will attempt to serialize/write-to-stream, closing stream when complete
+        _encryptionKey = PlayerPrefs.GetString("aes_key");
+        _encryptionIV = PlayerPrefs.GetString("aes_iv");
+    }
+
+    public static void SaveData<T>(string fileName, T objectToSave)
+    {
         try
         {
-            formatter.Serialize(fileStream, objectToSave);
+            Directory.CreateDirectory(_savePath);
+            string fullPath = Path.Combine(_savePath, $"{Application.productName}_{fileName}{FILE_EXTENSION}");
+
+            // Convert object to JSON
+            string json = JsonUtility.ToJson(objectToSave, true);
+
+            // Encrypt JSON
+            string encrypted = Encrypt(json);
+
+            // Write encrypted data
+            File.WriteAllText(fullPath, encrypted);
+
+#if UNITY_EDITOR
+            Debug.Log($" Encrypted save written to: {fullPath}");
+#endif
         }
-        catch (SerializationException exception)
+        catch (Exception e)
         {
-            Debug.LogError("Save failed. Error: " + exception.Message);
-        }
-        finally
-        {
-            fileStream.Close();
-            fileStream.Dispose();
+            Debug.LogError($" Save failed: {e.Message}");
         }
     }
 
-    public static T LoadData<T>(string key)
+    public static T LoadData<T>(string key, Action<T> onComplete = null, Action<string> onFailed = null)
     {
-        if (IsExists( key))
+        string fullPath = Path.Combine(_savePath, $"{Application.productName}_{key}{FILE_EXTENSION}");
+
+        if (File.Exists(fullPath))
         {
-            bool isValid = true;
-            string error = "";
-            // Initialize a variable with the default value of whatever type we're using
-            T returnValue = default(T);
-
-            // Grab an instance of the BinaryFormatter that will handle serializing our data
-            BinaryFormatter formatter = new BinaryFormatter();
-
-            // Open up a filestream, combining the path and object key
-            FileStream fileStream = new FileStream($"{_savePath}{key}.any", FileMode.Open, FileAccess.Read);
-
-            /* 
-            * Try/Catch/Finally block that will attempt to deserialize the data
-            * If we fail to successfully deserialize the data, we'll just return the default value for Type
-            */
             try
             {
-                returnValue = (T)formatter.Deserialize(fileStream);
-            }
-            catch (SerializationException exception)
-            {
-                error = exception.Message;
-                isValid = false;
-            }
-            finally
-            {
-                fileStream.Close();
-                fileStream.Dispose();
-            }
+                string encrypted = File.ReadAllText(fullPath);
+                string decrypted = Decrypt(encrypted);
+                T data = JsonUtility.FromJson<T>(decrypted);
 
-            if (isValid)
-            {
-                //onComplete?.Invoke(returnValue);
-                return returnValue;
+                onComplete?.Invoke(data);
+                return data;
             }
-            else
+            catch (Exception e)
             {
-                //onFailed?.Invoke(error);
+                Debug.LogError($" Load failed: {e.Message}");
+                onFailed?.Invoke(e.Message);
                 return default;
             }
         }
         else
         {
-            //onFailed?.Invoke("Can't read data or file not exists");
+            string msg = $"File not found: {fullPath}";
+            //Debug.LogWarning(msg);
+            onFailed?.Invoke(msg);
             return default;
         }
     }
 
     public static bool IsExists(string filename)
     {
-        return File.Exists($"{_savePath}{filename}.any");
+        string fullPath = Path.Combine(_savePath, $"{Application.productName}_{filename}{FILE_EXTENSION}");
+        return File.Exists(fullPath);
+    }
+
+    // --- AES Encryption/Decryption Helpers ---
+    private static string Encrypt(string plainText)
+    {
+        using (Aes aes = Aes.Create())
+        {
+            aes.Key = Convert.FromBase64String(_encryptionKey);
+            aes.IV  = Convert.FromBase64String(_encryptionIV);
+            aes.Mode = CipherMode.CBC;
+            aes.Padding = PaddingMode.PKCS7;
+
+            ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
+            using (MemoryStream ms = new MemoryStream())
+            using (CryptoStream cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write))
+            using (StreamWriter sw = new StreamWriter(cs))
+            {
+                sw.Write(plainText);
+                sw.Close();
+                return Convert.ToBase64String(ms.ToArray());
+            }
+        }
+    }
+
+    private static string Decrypt(string cipherText)
+    {
+        using (Aes aes = Aes.Create())
+        {
+            aes.Key = Convert.FromBase64String(_encryptionKey);
+            aes.IV  = Convert.FromBase64String(_encryptionIV);
+            aes.Mode = CipherMode.CBC;
+            aes.Padding = PaddingMode.PKCS7;
+
+            ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
+            byte[] buffer = Convert.FromBase64String(cipherText);
+
+            using (MemoryStream ms = new MemoryStream(buffer))
+            using (CryptoStream cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Read))
+            using (StreamReader sr = new StreamReader(cs))
+            {
+                return sr.ReadToEnd();
+            }
+        }
     }
 }
 

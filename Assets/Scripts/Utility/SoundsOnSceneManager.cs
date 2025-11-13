@@ -42,17 +42,25 @@ public class SoundsOnSceneManager : MonoBehaviour
 
     public void AllAudioFadeIn()
     {
+         if(listOfSounds.Count <= 0)
+            return;
+
         foreach (AudioUtility s in listOfSounds)
         {
-            s.FadeInSound(globalVolume);
+            if(s != null)
+                s.FadeInSound(globalVolume);
         }
     }
 
     public void AllAudioFadeOut()
     {
+        if(listOfSounds.Count <= 0)
+            return;
+
         foreach(AudioUtility s in listOfSounds)
         {
-            s.FadeOutSound();
+            if(s != null)
+                s.FadeOutSound();
         }
     }
 

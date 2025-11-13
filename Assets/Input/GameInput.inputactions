@@ -45,7 +45,7 @@
                     "name": "PauseMenu",
                     "type": "Button",
                     "id": "8f8685f2-6d6b-449a-9653-6fe7ef8c90c6",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -54,7 +54,7 @@
                     "name": "Skill 1",
                     "type": "Button",
                     "id": "f6635550-7810-420d-8aa7-6599ac99d6a3",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -63,7 +63,7 @@
                     "name": "Skill2",
                     "type": "Button",
                     "id": "6883154e-91b7-4d02-95d6-a968f312fb80",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false

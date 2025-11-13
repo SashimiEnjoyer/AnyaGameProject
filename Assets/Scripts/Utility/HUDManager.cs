@@ -12,10 +12,7 @@ public class HUDManager : MonoBehaviour
     [SerializeField] EnemySpawnManager spawnerManager;
 
     [Header("Pause HUD Menu")]
-    [SerializeField] Button pauseButton;
-    [SerializeField] Button backGameButton;
-
-    int temp = 18;
+    [SerializeField] PauseMenu pauseButton;
 
     // private void Awake()
     // {
@@ -33,6 +30,27 @@ public class HUDManager : MonoBehaviour
     //     backGameButton.onClick.AddListener(OnBackToGameButtonClicked);
     // }
 
+    void OnPauseButtonClicked()
+    {
+        if (InGameTracker.instance.gameState == GameplayState.Pause)
+            return;
+            
+        InGameTracker.instance.ChangeGameState(GameplayState.Pause);
+        pauseButton.Show();
+    }
+
+    void OnBackToGameButtonClicked()
+    {
+        InGameTracker.instance.ChangeGameState(GameplayState.Playing);
+        pauseButton.Hide();
+    }
+    
+    void Awake()
+    {
+        InGameInput.instance.onPausePressed += OnPauseButtonClicked;
+        pauseButton.onBackPressed += OnBackToGameButtonClicked;
+    }
+
     private void Start()
     {
         HPImage.maxValue = PlayerStats.instance.startingStats.healthMax;
@@ -41,23 +59,12 @@ public class HUDManager : MonoBehaviour
 
     private void OnDisable()
     {
-        spawnerManager.OnEnemyDied -= OnEnemiesRemainingText;
+        InGameInput.instance.onPausePressed -= OnPauseButtonClicked;
+        pauseButton.onBackPressed -= OnBackToGameButtonClicked;
     }
 
     public void SetHealthBar(float value)
     {
         HPImage.value = value;
-    }
-
-    void OnEnemiesRemainingText()
-    {
-        temp --;
-        enemyRemainingText.SetText($"Remaining Enemies: {temp}");
-    }
-
-    private void OnDestroy()
-    {
-        pauseButton.onClick.RemoveAllListeners();
-        backGameButton.onClick.RemoveAllListeners();    
     }
 }

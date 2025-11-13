@@ -1,36 +1,28 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainMenuTemporary : MonoBehaviour
 {
-    [SerializeField] TMP_InputField inputField;
     [SerializeField] TMP_Text debugText;
     [SerializeField] TMP_Text versionText;
     [SerializeField] Button buttonPlay;
 
     [SerializeField] string nextScene;
 
-    private void Awake()
+    private void Start()
     {
+        TransitionScreen.instance.StartingTransition(TransitionPosition.FromBlack, 1f, null);
+        SoundsOnSceneManager.instance.AllAudioFadeIn();
+
         versionText.SetText(Application.version);
         buttonPlay.onClick.AddListener(() =>
-        {
-            PlayerStats.playerName = inputField.text;
-            if(string.IsNullOrWhiteSpace(inputField.text))
+        { 
+            SoundsOnSceneManager.instance.AllAudioFadeOut();
+            TransitionScreen.instance.StartingTransition(TransitionPosition.ToBlack, 2f, () =>
             {
-                return;
-            }
-            SceneManager.LoadScene(nextScene);
+                SceneLoader.LoadScene(nextScene);
+            });
         });
-    }
-
-    public void CheckInputField(string check)
-    {
-        if (string.IsNullOrWhiteSpace(check))
-            debugText.SetText( "Insert Username!");
-        else
-            debugText.SetText(string.Empty);
     }
 }

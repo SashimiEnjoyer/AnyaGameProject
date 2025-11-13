@@ -101,12 +101,12 @@ public class PlayerLocomotion : CharacterState
 
     void Skill2Pressed()
     {
-        character.SetState(character.skillManager.GetSkill(1, this));
+        //character.SetState(character.skillManager.GetSkill(1, this));
     }
 
     void Skill3Pressed()
     {
-        character.SetState(character.skillManager.GetSkill(2, this));
+        //character.SetState(character.skillManager.GetSkill(2, this));
     }
 
     void InteractKeyPressed()

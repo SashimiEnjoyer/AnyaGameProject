@@ -50,7 +50,11 @@ public class SimpleEnemyType : EnemyController
 
     public override void Knocked()
     {
-        rb.AddForce(new Vector2(0, knockDistance.y));
+        float playerDirX = PlayerDirection().x < 0 ? -1f : 1f;
+        float xRes = Random.Range(knockDistance.x, knockDistance.x + 5f);
+        float yRes = Random.Range(knockDistance.y, knockDistance.y + 5f);
+
+        rb.AddForce(new Vector2(-playerDirX * xRes, yRes));
     }
 
     public override void Died()

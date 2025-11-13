@@ -4,6 +4,7 @@ using DG.Tweening;
 
  public enum TransitionPosition { FromBlack, ToBlack, Full}
 
+[DefaultExecutionOrder(-10)]
 public class TransitionScreen : MonoBehaviour
 {
     public static TransitionScreen instance;
@@ -30,6 +31,10 @@ public class TransitionScreen : MonoBehaviour
     public void StartingTransition(TransitionPosition _transitionPos, float _transitionTimer, Action _OnFinished)
     {
         OnFinished = _OnFinished;
+
+        if(!gameObject.activeSelf)
+            gameObject.SetActive(true);
+
         if (InGameTracker.instance != null && InGameTracker.instance.gameState != GameplayState.Stop)
             InGameTracker.instance.gameState = GameplayState.Stop;
 
@@ -40,7 +45,11 @@ public class TransitionScreen : MonoBehaviour
         {
             case TransitionPosition.FromBlack:
                 canvasGroup.alpha = 1f;
-                DOTween.To(() => canvasGroup.alpha, x => canvasGroup.alpha = x, 0, transitionTimer).SetEase(Ease.Linear).OnComplete(() => OnFinished?.Invoke());
+                DOTween.To(() => canvasGroup.alpha, x => canvasGroup.alpha = x, 0, transitionTimer).SetEase(Ease.Linear).OnComplete(() => 
+                {
+                    gameObject.SetActive(false);
+                    OnFinished?.Invoke(); 
+                });
                 break;
             case TransitionPosition.ToBlack:
                 canvasGroup.alpha = 0;
@@ -53,15 +62,21 @@ public class TransitionScreen : MonoBehaviour
     
     public void StartingFullTransition(float _transitionTimer,  Action _OnMiddleTransition = null, Action _OnFinished = null)
     {
+        if(!gameObject.activeSelf)
+            gameObject.SetActive(true);
+
         if (InGameTracker.instance != null && InGameTracker.instance.gameState != GameplayState.Stop)
             InGameTracker.instance.gameState = GameplayState.Stop;
 
         Sequence s = DOTween.Sequence();
         canvasGroup.alpha = 0;
-        s.Append(DOTween.To(() => canvasGroup.alpha, x => canvasGroup.alpha = x, 1, _transitionTimer / 2).SetEase(Ease.OutQuint));
+        s.Append(DOTween.To(() => canvasGroup.alpha, x => canvasGroup.alpha = x, 1, _transitionTimer).SetEase(Ease.OutQuint));
         s.AppendCallback(() => _OnMiddleTransition?.Invoke());
-        s.Append(DOTween.To(() => canvasGroup.alpha, x => canvasGroup.alpha = x, 0, _transitionTimer / 2).SetEase(Ease.Linear));
-        s.AppendCallback(() => _OnFinished?.Invoke());
+        s.Append(DOTween.To(() => canvasGroup.alpha, x => canvasGroup.alpha = x, 0, _transitionTimer).SetEase(Ease.Linear));
+        s.AppendCallback(() => {
+            gameObject.SetActive(false);
+            _OnFinished?.Invoke();
+        });
         s.AppendCallback(() => InGameTracker.instance.gameState = GameplayState.Playing);
     }
 

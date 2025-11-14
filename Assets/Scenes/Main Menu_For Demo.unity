@@ -119,6 +119,51 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &314625260
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 314625261}
+  - component: {fileID: 314625262}
+  m_Layer: 0
+  m_Name: Scene Transition Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &314625261
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 314625260}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &314625262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 314625260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ffd345fd0932c9478d353331857117b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loadingUIPrefab: {fileID: 3989010140152730515, guid: a42b3315c2c9fca478133cebad2d53d9, type: 3}
 --- !u!1 &668991325
 GameObject:
   m_ObjectHideFlags: 0
@@ -984,6 +1029,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cf8964f8773f8a43b4ff35a3116ff29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  transitionManager: {fileID: 314625262}
   debugText: {fileID: 0}
   versionText: {fileID: 1955575645}
   buttonPlay: {fileID: 2124995891}
@@ -1271,3 +1317,4 @@ SceneRoots:
   - {fileID: 1764681060}
   - {fileID: 686050157}
   - {fileID: 1345832967}
+  - {fileID: 314625261}

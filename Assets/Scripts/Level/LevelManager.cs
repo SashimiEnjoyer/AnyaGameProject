@@ -5,15 +5,20 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private SkillManager skillManager;
     [SerializeField] private LevelSectionManager[] levelSections;
 
-    private int currentSectionIndex = 0;
+    private int currentSectionIndex = -1;
     private bool levelInitiated = false;
     public int CurrentSectionIndex => currentSectionIndex;
-
-
 
     void Awake()
     {
         skillManager.InstantiateSkills();
+        
+        foreach (var section in levelSections)
+        {
+            section.CleanupSection();
+        }
+
+
         levelInitiated = true;
 
         TransitionScreen.instance.StartingTransition(TransitionPosition.FromBlack, 1f, null);
@@ -21,6 +26,7 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
+        SetCurrentSectionIndex(0);
         SoundsOnSceneManager.instance.AllAudioFadeIn();
     }
 

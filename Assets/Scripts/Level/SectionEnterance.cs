@@ -2,9 +2,14 @@ using UnityEngine;
 
 public class SectionEnterance : MonoBehaviour
 {
-    [SerializeField] private LevelSectionManager thisSection;
+    private LevelSectionManager thisSection;
     [SerializeField] private Transform startingPoint;
     [SerializeField] private int nextSectionIndex;
+
+    void Awake()
+    {
+        thisSection = GetComponentInParent<LevelSectionManager>();
+    }
 
     void OnTriggerEnter2D(Collider2D collision)
     {

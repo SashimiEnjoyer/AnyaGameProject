@@ -4,11 +4,13 @@ using UnityEngine.UI;
 
 public class MainMenuTemporary : MonoBehaviour
 {
+    [SerializeField] private SceneTransitionManager transitionManager;
     [SerializeField] TMP_Text debugText;
     [SerializeField] TMP_Text versionText;
     [SerializeField] Button buttonPlay;
 
     [SerializeField] string nextScene;
+
 
     private void Start()
     {
@@ -18,11 +20,7 @@ public class MainMenuTemporary : MonoBehaviour
         versionText.SetText(Application.version);
         buttonPlay.onClick.AddListener(() =>
         { 
-            SoundsOnSceneManager.instance.AllAudioFadeOut();
-            TransitionScreen.instance.StartingTransition(TransitionPosition.ToBlack, 2f, () =>
-            {
-                SceneLoader.LoadScene(nextScene);
-            });
+            transitionManager.MoveScene(nextScene);
         });
     }
 }

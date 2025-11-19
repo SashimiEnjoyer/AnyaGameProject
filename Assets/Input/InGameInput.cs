@@ -2,11 +2,10 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
-[DefaultExecutionOrder(-10)]
 public class InGameInput : MonoBehaviour
 {
     [SerializeField] InputActionAsset action;
-    public static InGameInput instance;
+
     GameInput input;
 
     public UnityAction<float> onMovePressed;
@@ -18,31 +17,6 @@ public class InGameInput : MonoBehaviour
     public UnityAction onAttackPressed;
     public UnityAction onInteractPressed;
     public UnityAction onPausePressed;
-
-    private void Awake()
-    {
-        if (instance == null)
-            instance = this;
-        else
-            Destroy(this.gameObject);
-
-        input = new GameInput();
-    }
-
-    private void OnEnable()
-    {
-        input.Enable();
-
-        input.InGame.HorizontalMove.performed += MoveInput;
-        input.InGame.HorizontalMove.canceled += MoveStop;
-        input.InGame.Skill1.performed += Skill1Input;
-        input.InGame.Skill2.performed += Skill2Input;
-        input.InGame.Skill3.performed += Skill3Input;
-        input.InGame.Jump.performed += JumpInput;
-        input.InGame.Attack.performed += AttackInput;
-        input.InGame.Interact.performed += InteractInput;
-        input.InGame.PauseMenu.performed += PauseInput;
-    }
 
 
     private void OnDisable()
@@ -59,6 +33,23 @@ public class InGameInput : MonoBehaviour
         input.Disable();
     }
 
+    public void Initialize()
+    {
+        input = new GameInput();
+
+        input.Enable();
+
+        input.InGame.HorizontalMove.performed += MoveInput;
+        input.InGame.HorizontalMove.canceled += MoveStop;
+        input.InGame.Skill1.performed += Skill1Input;
+        input.InGame.Skill2.performed += Skill2Input;
+        input.InGame.Skill3.performed += Skill3Input;
+        input.InGame.Jump.performed += JumpInput;
+        input.InGame.Attack.performed += AttackInput;
+        input.InGame.Interact.performed += InteractInput;
+        input.InGame.PauseMenu.performed += PauseInput;
+    }
+
     public void SetInputActive(bool isActive)
     {
         if (isActive)
@@ -66,12 +57,6 @@ public class InGameInput : MonoBehaviour
         else
             input.Disable();
     }
-
-    //[ContextMenu("Check Map")]
-    //public void ChangeInputMap()
-    //{
-    //    Debug.Log(action.actionMaps[0][]);
-    //}
 
     void MoveInput(InputAction.CallbackContext ctx){  onMovePressed?.Invoke(ctx.ReadValue<float>()); }
     void MoveStop(InputAction.CallbackContext ctx) { onMoveStop?.Invoke(0); }

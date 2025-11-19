@@ -15,7 +15,7 @@ public static partial class PatrolType
         {
             Debug.Log("Enter Chase State!");
             baseEnemy.SetAnimatorState(baseEnemy.anim, "Enemy_Walk");
-            interval = Time.time + Random.Range(0.25f, 0.6f);
+            interval = Time.time + Random.Range(0.25f, 0.45f);
         }
 
         public override void Tick()
@@ -42,12 +42,12 @@ public static partial class PatrolType
                         baseEnemy.StopMove();
                     else
                     {
-                        baseEnemy.Move(2.3f);
+                        baseEnemy.Move(Random.Range(2f, 2.5f));
                     }
                     break;
 
                 default:
-                    baseEnemy.Move(2.3f);
+                    baseEnemy.Move(Random.Range(2f, 2.5f));
                     break;
             }
             

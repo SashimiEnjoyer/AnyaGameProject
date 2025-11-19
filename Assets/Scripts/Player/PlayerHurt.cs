@@ -23,7 +23,7 @@ public class PlayerHurt : CharacterState
         Time.timeScale = 0.2f;
         isNormal = false;
         
-        CameraImpulseManager.instance.ActivePlayerImpulse();
+        GameManager.instance.CameraImpulseManager.ActivePlayerImpulse();
     }
 
     public override void Tick()

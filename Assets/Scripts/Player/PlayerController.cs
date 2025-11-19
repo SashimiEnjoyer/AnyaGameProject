@@ -88,16 +88,16 @@ public class PlayerController : CharacterStateManager
 
     private void OnDestroy()
     {
-        InGameInput.instance.onMovePressed -= GetMoveInput;
-        InGameInput.instance.onMoveStop -= GetMoveInput;
+        GameManager.instance.Input.onMovePressed -= GetMoveInput;
+        GameManager.instance.Input.onMoveStop -= GetMoveInput;
         InGameTracker.instance.onGameStateChange -= SwitchGameState;
     }
 
     private void Start()
     {
         InGameTracker.instance.onGameStateChange += SwitchGameState;
-        InGameInput.instance.onMovePressed += GetMoveInput;
-        InGameInput.instance.onMoveStop += GetMoveInput;
+        GameManager.instance.Input.onMovePressed += GetMoveInput;
+        GameManager.instance.Input.onMoveStop += GetMoveInput;
         SetState(playerLocomotionState);
         SpawnPos = transform.position;
     }
@@ -151,14 +151,14 @@ public class PlayerController : CharacterStateManager
                 Cursor.lockState = CursorLockMode.None;
                 rb.gravityScale = 0;
                 isStop = true;
-                InGameInput.instance.SetInputActive(false);
+                GameManager.instance.Input.SetInputActive(false);
                 break; 
             case GameplayState.Playing:
 
                 rb.gravityScale = 3;
                 Cursor.lockState = CursorLockMode.Locked;
                 isStop = false;
-                InGameInput.instance.SetInputActive(true);
+                GameManager.instance.Input.SetInputActive(true);
                 break;
         }
     }

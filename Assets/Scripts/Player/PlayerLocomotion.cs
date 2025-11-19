@@ -16,12 +16,12 @@ public class PlayerLocomotion : CharacterState
 
     public override void EnterState()
     {
-        InGameInput.instance.onSkill1Pressed += Skill1Pressed;
-        InGameInput.instance.onSkill2Pressed += Skill2Pressed;
-        InGameInput.instance.onSkill3Pressed += Skill3Pressed;
-        InGameInput.instance.onJumpPressed += PlayerJumping;
-        InGameInput.instance.onAttackPressed += AttackKeyPressed;
-        InGameInput.instance.onInteractPressed += InteractKeyPressed;
+        GameManager.instance.Input.onSkill1Pressed += Skill1Pressed;
+        GameManager.instance.Input.onSkill2Pressed += Skill2Pressed;
+        GameManager.instance.Input.onSkill3Pressed += Skill3Pressed;
+        GameManager.instance.Input.onJumpPressed += PlayerJumping;
+        GameManager.instance.Input.onAttackPressed += AttackKeyPressed;
+        GameManager.instance.Input.onInteractPressed += InteractKeyPressed;
         character.SetAnimatorState(character.anim, "Anya_Idle");
 
         clingWall = false;
@@ -29,12 +29,12 @@ public class PlayerLocomotion : CharacterState
 
     public override void ExitState()
     {
-        InGameInput.instance.onSkill1Pressed -= Skill1Pressed;
-        InGameInput.instance.onSkill2Pressed -= Skill2Pressed;
-        InGameInput.instance.onSkill3Pressed -= Skill3Pressed;
-        InGameInput.instance.onJumpPressed -= PlayerJumping;
-        InGameInput.instance.onAttackPressed -= AttackKeyPressed;
-        InGameInput.instance.onInteractPressed -= InteractKeyPressed;
+        GameManager.instance.Input.onSkill1Pressed -= Skill1Pressed;
+        GameManager.instance.Input.onSkill2Pressed -= Skill2Pressed;
+        GameManager.instance.Input.onSkill3Pressed -= Skill3Pressed;
+        GameManager.instance.Input.onJumpPressed -= PlayerJumping;
+        GameManager.instance.Input.onAttackPressed -= AttackKeyPressed;
+        GameManager.instance.Input.onInteractPressed -= InteractKeyPressed;
         character.anim.SetFloat("Speed", Mathf.Abs(character.horizontalInput));
     }
 

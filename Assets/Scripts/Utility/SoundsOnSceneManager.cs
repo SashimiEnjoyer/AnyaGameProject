@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SoundsOnSceneManager : MonoBehaviour
 {
-    public static SoundsOnSceneManager instance;
+
     public static Action<float> OnVolumeChange;
 
     public List<AudioUtility> listOfSounds = new List<AudioUtility>();
@@ -19,14 +19,6 @@ public class SoundsOnSceneManager : MonoBehaviour
             OnVolumeChange.Invoke(value);
         }
         get { return globalVolume; }
-    }
-
-    private void Awake()
-    {
-        if (instance == null)
-            instance = this;
-        else
-            Destroy(this.gameObject);
     }
 
     public void AddSound(AudioUtility _audioUtility)

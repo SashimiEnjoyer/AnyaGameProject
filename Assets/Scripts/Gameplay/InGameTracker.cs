@@ -76,4 +76,25 @@ public class InGameTracker : MonoBehaviour
         progressTracker[index].isDone = true;
     }
 
+    private void SetUIFromState(GameplayState state)
+    {
+        switch (state)
+        {
+            case GameplayState.Playing:
+                Cursor.lockState = CursorLockMode.Locked;
+                break;
+            case GameplayState.Pause:
+                Cursor.lockState = CursorLockMode.None;
+                break;
+            case GameplayState.Dialogue:
+                Cursor.lockState = CursorLockMode.None;
+                break;
+            case GameplayState.Stop:
+                Cursor.lockState = CursorLockMode.None;
+                break;
+            default:
+                break;
+        }
+    }
+
 }

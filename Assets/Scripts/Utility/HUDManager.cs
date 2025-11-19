@@ -1,4 +1,3 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,13 +5,11 @@ public class HUDManager : MonoBehaviour
 {
     [Header("Player HUD")]
     [SerializeField] Slider HPImage;
-    [SerializeField] PlayerController playerController;
-    [SerializeField] TMP_Text enemyRemainingText;
-    [SerializeField] TMP_Text timerText;
-    [SerializeField] EnemySpawnManager spawnerManager;
 
     [Header("Pause HUD Menu")]
     [SerializeField] PauseMenu pauseButton;
+    [SerializeField] EndGameUIManager endGameUIManager;
+    [SerializeField] GameObject panelInteract;
 
     // private void Awake()
     // {
@@ -47,7 +44,7 @@ public class HUDManager : MonoBehaviour
     
     void Awake()
     {
-        InGameInput.instance.onPausePressed += OnPauseButtonClicked;
+        GameManager.instance.Input.onPausePressed += OnPauseButtonClicked;
         pauseButton.onBackPressed += OnBackToGameButtonClicked;
     }
 
@@ -59,12 +56,22 @@ public class HUDManager : MonoBehaviour
 
     private void OnDisable()
     {
-        InGameInput.instance.onPausePressed -= OnPauseButtonClicked;
+        GameManager.instance.Input.onPausePressed -= OnPauseButtonClicked;
         pauseButton.onBackPressed -= OnBackToGameButtonClicked;
     }
 
     public void SetHealthBar(float value)
     {
         HPImage.value = value;
+    }
+
+    public void SetInteractPanel(bool state)
+    {
+        panelInteract.SetActive(state);
+    }
+
+    public void SetDeathScreen()
+    {
+        endGameUIManager.SetActiveState(true);
     }
 }

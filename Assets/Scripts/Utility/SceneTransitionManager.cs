@@ -1,7 +1,6 @@
 
 using UnityEngine;
 using TMPro;
-using DG.Tweening;
 
 public class SceneTransitionManager : MonoBehaviour
 {
@@ -11,13 +10,12 @@ public class SceneTransitionManager : MonoBehaviour
 
     private string nextSceneName;
 
-
     public void MoveScene(string sceneName)
     {
         
         nextSceneName = sceneName;
         TransitionScreen.instance.StartingTransition(TransitionPosition.ToBlack, 2f, GoToNextScene);
-        SoundsOnSceneManager.instance.AllAudioFadeOut();
+        GameManager.instance.SoundsOnSceneManager.AllAudioFadeOut();
 
         Debug.Log("Moving Scene");
     }
@@ -29,6 +27,7 @@ public class SceneTransitionManager : MonoBehaviour
 
     void LoadingStart()
     {
+
         if (loadingUI == null)
             loadingUI = Instantiate(loadingUIPrefab);
 

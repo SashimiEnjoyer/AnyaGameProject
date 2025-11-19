@@ -39,12 +39,12 @@ public static partial class PatrolType
                         baseEnemy.StopMove();
                     else
                     {
-                        baseEnemy.Move(2.3f);
+                        baseEnemy.Move(Random.Range(2.3f, 2.6f));
                     }
                     break;
 
                 default:
-                    baseEnemy.Move(2.3f);
+                    baseEnemy.Move(Random.Range(2.3f, 2.6f));
                     break;
             }
 

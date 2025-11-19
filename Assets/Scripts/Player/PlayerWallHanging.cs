@@ -12,7 +12,7 @@ public class PlayerWallHanging : CharacterState
 
     public override void EnterState()
     {
-        InGameInput.instance.onJumpPressed += PlayerJumping;
+        GameManager.instance.Input.onJumpPressed += PlayerJumping;
         character.horizontalInput = 0;
         
 
@@ -21,7 +21,7 @@ public class PlayerWallHanging : CharacterState
 
     public override void ExitState()
     {
-        InGameInput.instance.onJumpPressed -= PlayerJumping;
+        GameManager.instance.Input.onJumpPressed -= PlayerJumping;
         PlayerStats.instance.startingStats.gravityForce = 0.03f;
         beginCountdown = false;
     }

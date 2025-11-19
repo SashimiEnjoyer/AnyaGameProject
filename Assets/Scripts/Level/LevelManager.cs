@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
+    [SerializeField] private string mainMenuSceneName = "MainMenu";
     [SerializeField] private SkillManager skillManager;
     [SerializeField] private LevelSectionManager[] levelSections;
 
@@ -27,7 +28,7 @@ public class LevelManager : MonoBehaviour
     void Start()
     {
         SetCurrentSectionIndex(0);
-        SoundsOnSceneManager.instance.AllAudioFadeIn();
+        GameManager.instance.SoundsOnSceneManager.AllAudioFadeIn();
     }
 
     public void SetCurrentSectionIndex(int index)
@@ -45,4 +46,9 @@ public class LevelManager : MonoBehaviour
             Debug.LogWarning("Invalid section index set in LevelManager.");
         }
     }
+
+    public void GoToMainMenu()
+    {
+        GameManager.instance.SceneTransitionManager.MoveScene(mainMenuSceneName);
+    } 
 }

@@ -25,7 +25,7 @@ public class AudioUtility : MonoBehaviour
 
     private void Start()
     {
-        SoundsOnSceneManager.instance.AddSound(this);
+        GameManager.instance.SoundsOnSceneManager.AddSound(this);
         SoundsOnSceneManager.OnVolumeChange += SetVolumeSound;
     }
 
@@ -59,7 +59,7 @@ public class AudioUtility : MonoBehaviour
     private void OnDestroy()
     {
         SoundsOnSceneManager.OnVolumeChange -= SetVolumeSound;
-        SoundsOnSceneManager.instance.RemoveSound(this);
+        GameManager.instance.SoundsOnSceneManager.RemoveSound(this);
 
     }
 }

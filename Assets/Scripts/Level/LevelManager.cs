@@ -44,8 +44,11 @@ public class LevelManager : MonoBehaviour
         skillManager.InstantiateSkills();
         SetCurrentSectionIndex(0);
 
-        GameManager.instance.SoundsOnSceneManager.AllAudioFadeIn();
-        TransitionScreen.instance.StartingTransition(TransitionPosition.FromBlack, 1f, null);
+        TransitionScreen.instance.StartingTransition(TransitionPosition.FromBlack, 1f, ()=>
+        {
+            SetGameState(GameplayState.Playing);
+            GameManager.instance.SoundsOnSceneManager.AllAudioFadeIn();
+        });
         
     }
 

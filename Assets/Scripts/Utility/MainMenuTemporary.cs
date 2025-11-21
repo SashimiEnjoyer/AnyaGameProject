@@ -7,6 +7,7 @@ public class MainMenuTemporary : MonoBehaviour
     [SerializeField] TMP_Text debugText;
     [SerializeField] TMP_Text versionText;
     [SerializeField] Button buttonPlay;
+    [SerializeField] Button exitGameBtn;
 
     [SerializeField] string nextScene;
 
@@ -20,6 +21,14 @@ public class MainMenuTemporary : MonoBehaviour
         buttonPlay.onClick.AddListener(() =>
         { 
             GameManager.instance.SceneTransitionManager.MoveScene(nextScene);
+        });
+
+        exitGameBtn.onClick.AddListener(() =>
+        {
+            TransitionScreen.instance.StartingTransition(TransitionPosition.ToBlack, 1f, () =>
+            {
+                Application.Quit();
+            });
         });
     }
 }

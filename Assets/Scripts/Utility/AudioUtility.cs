@@ -1,5 +1,6 @@
 using UnityEngine;
 using DG.Tweening;
+using DG.Tweening.Core;
 
 [RequireComponent(typeof(AudioSource))]
 public class AudioUtility : MonoBehaviour
@@ -8,6 +9,7 @@ public class AudioUtility : MonoBehaviour
 
     [SerializeField, Range(0,1)]
     private float maxVolume = 1;
+    private Tween currentTween;
     public float MaxVolume
     {
         get { return maxVolume; }
@@ -21,11 +23,12 @@ public class AudioUtility : MonoBehaviour
     {
         if(source == null)
             source = GetComponent<AudioSource>();
+       
     }
 
-    private void Start()
+    void Start()
     {
-        GameManager.instance.SoundsOnSceneManager.AddSound(this);
+         GameManager.instance.SoundsOnSceneManager.AddSound(this);
         SoundsOnSceneManager.OnVolumeChange += SetVolumeSound;
     }
 
@@ -34,16 +37,20 @@ public class AudioUtility : MonoBehaviour
         if (source.volume > 0)
             source.volume = 0;
 
+        Debug.Log("Fading In Sound" + source.name);
+
         if(!source.isPlaying)
             source.Play();
 
-        DOTween.To(() => source.volume, x => source.volume = x, GetVolume(destVal), 5f);
+        currentTween = DOTween.To(() => source.volume, x => source.volume = x, GetVolume(destVal), 5f);
     }
 
     public void FadeOutSound()
     {
+        currentTween.Kill();
+
         if(source.volume > 0)
-            DOTween.To(() => source.volume, x => source.volume = x, 0, 1.7f);
+            DOTween.To(() => source.volume, x => source.volume = x, 0, 1f);
     }
 
     void SetVolumeSound(float volume)

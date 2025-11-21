@@ -20,7 +20,7 @@ public class PlayerHurt : CharacterState
         endOfStateTiming = Time.time + 1f;
         endOfSlowmoTiming = Time.time + 0.12f;
 
-        Time.timeScale = 0.2f;
+        Time.timeScale = 0.5f;
         isNormal = false;
         
         GameManager.instance.CameraImpulseManager.ActivePlayerImpulse();

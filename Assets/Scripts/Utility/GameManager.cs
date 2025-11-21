@@ -27,8 +27,11 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        
-        
         input.Initialize();
+    }
+
+    public string GetCurrentSceneName()
+    {
+        return UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
     }
 }

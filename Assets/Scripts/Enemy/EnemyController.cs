@@ -91,12 +91,12 @@ public class EnemyController : CharacterStateManager, IEnemy
 
     private void Start()
     {
-        InGameTracker.instance.onGameStateChange += SwitchGameState;
+        LevelManager.instance.onGameStateChange += SwitchGameState;
     }
 
     private void OnDestroy()
     {
-        InGameTracker.instance.onGameStateChange -= SwitchGameState;
+        LevelManager.instance.onGameStateChange -= SwitchGameState;
     }
 
     public void SwitchGameState(GameplayState state)
@@ -105,7 +105,7 @@ public class EnemyController : CharacterStateManager, IEnemy
         {
             case GameplayState.Pause:
             case GameplayState.Dialogue:
-            case GameplayState.Stop:
+            case GameplayState.Died:
                 prevState = currState;
                 SetState(enemyPause);
                 break;

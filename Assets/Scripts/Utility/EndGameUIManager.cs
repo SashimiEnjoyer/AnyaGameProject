@@ -1,10 +1,25 @@
-using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class EndGameUIManager : MonoBehaviour
 {
+    [SerializeField] private Button restartButton;
+    [SerializeField] private Button mainMenuButton;
+
+    void Awake()
+    {
+        restartButton.onClick.AddListener(() =>
+        {
+            LevelManager.instance.GoToScene(GameManager.instance.GetCurrentSceneName());
+        });
+
+        mainMenuButton.onClick.AddListener(() =>
+        {
+            LevelManager.instance.GoToMainMenu();
+        });
+
+        SetActiveState(false);
+    }
     
     public void SetActiveState(bool isActive)
     {

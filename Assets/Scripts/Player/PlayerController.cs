@@ -90,12 +90,12 @@ public class PlayerController : CharacterStateManager
     {
         GameManager.instance.Input.onMovePressed -= GetMoveInput;
         GameManager.instance.Input.onMoveStop -= GetMoveInput;
-        InGameTracker.instance.onGameStateChange -= SwitchGameState;
+        LevelManager.instance.onGameStateChange -= SwitchGameState;
     }
 
     private void Start()
     {
-        InGameTracker.instance.onGameStateChange += SwitchGameState;
+        LevelManager.instance.onGameStateChange += SwitchGameState;
         GameManager.instance.Input.onMovePressed += GetMoveInput;
         GameManager.instance.Input.onMoveStop += GetMoveInput;
         SetState(playerLocomotionState);
@@ -143,7 +143,7 @@ public class PlayerController : CharacterStateManager
         {
             case GameplayState.Pause:
             case GameplayState.Dialogue:
-            case GameplayState.Stop:
+            case GameplayState.Died:
 
                 if(currState != playerLocomotionState)
                     SetState(playerLocomotionState);

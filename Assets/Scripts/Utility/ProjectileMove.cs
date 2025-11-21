@@ -15,7 +15,7 @@ public class ProjectileMove : MonoBehaviour
 
     private void Update()
     {
-        if (InGameTracker.instance.gameState != GameplayState.Playing)
+        if (LevelManager.instance.GetgameState() != GameplayState.Playing)
             return;
 
         timeCounter += Time.deltaTime;

@@ -118,7 +118,7 @@ public class EnemySpawnManager : MonoBehaviour
             && patrolEnemyDetail.spawnCounter >= maxSpawnCounter
             && bringerOfDeathDetail.spawnCounter >= maxSpawnCounter)
         {
-            InGameTracker.instance.onWinEnding?.Invoke();
+            //InGameTracker.instance.onWinEnding?.Invoke();
         }
     }
 }

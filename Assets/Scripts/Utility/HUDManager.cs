@@ -29,17 +29,18 @@ public class HUDManager : MonoBehaviour
 
     void OnPauseButtonClicked()
     {
-        if (InGameTracker.instance.gameState == GameplayState.Pause)
+        if (LevelManager.instance.GetgameState() == GameplayState.Pause)
             return;
             
-        InGameTracker.instance.ChangeGameState(GameplayState.Pause);
-        pauseButton.Show();
+        LevelManager.instance.SetGameState(GameplayState.Pause);
+        //pauseButton.Show();
     }
 
     void OnBackToGameButtonClicked()
     {
-        InGameTracker.instance.ChangeGameState(GameplayState.Playing);
-        pauseButton.Hide();
+        LevelManager.instance.SetGameState(GameplayState.Playing);
+        Debug.Log("Back to Game from HUDManager");
+        //pauseButton.Hide();
     }
     
     void Awake()
@@ -68,6 +69,8 @@ public class HUDManager : MonoBehaviour
     public void SetInteractPanel(bool state)
     {
         panelInteract.SetActive(state);
+
+        Debug.Log("Set Interact Panel: " + state);
     }
 
     public void SetDeathScreen()

@@ -50,7 +50,7 @@ public class DialogueController : MonoBehaviour, IInteractable
             dialogueUI = dialogueObject.GetComponent<DialogueModalUI>();
             dialogueUI.SetDialogueUI(dialogues[0]);
             dialogueUI.OnNextDialogueButtonPressed += NextDialogue;
-            InGameTracker.instance.gameState = GameplayState.Dialogue;
+            LevelManager.instance.SetGameState(GameplayState.Dialogue);
         }
     }
 
@@ -76,7 +76,7 @@ public class DialogueController : MonoBehaviour, IInteractable
         gameObject.SetActive(false);
         ObjectDestroyed = true;
         DialogueEnd = true;
-        InGameTracker.instance.gameState = GameplayState.Playing;
+        LevelManager.instance.SetGameState(GameplayState.Playing);
         dialogueIndex = 0;
     }
 

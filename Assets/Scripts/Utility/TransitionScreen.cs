@@ -35,8 +35,8 @@ public class TransitionScreen : MonoBehaviour
         if(!gameObject.activeSelf)
             gameObject.SetActive(true);
 
-        if (InGameTracker.instance != null && InGameTracker.instance.gameState != GameplayState.Stop)
-            InGameTracker.instance.gameState = GameplayState.Stop;
+        if (LevelManager.instance != null && LevelManager.instance.GetgameState() != GameplayState.Dialogue)
+            LevelManager.instance.SetGameState( GameplayState.Dialogue);
 
         transitionPos = _transitionPos;
         transitionTimer = _transitionTimer;
@@ -65,8 +65,8 @@ public class TransitionScreen : MonoBehaviour
         if(!gameObject.activeSelf)
             gameObject.SetActive(true);
 
-        if (InGameTracker.instance != null && InGameTracker.instance.gameState != GameplayState.Stop)
-            InGameTracker.instance.gameState = GameplayState.Stop;
+        if (LevelManager.instance != null && LevelManager.instance.GetgameState() != GameplayState.Dialogue)
+            LevelManager.instance.SetGameState( GameplayState.Dialogue);
 
         Sequence s = DOTween.Sequence();
         canvasGroup.alpha = 0;
@@ -77,7 +77,7 @@ public class TransitionScreen : MonoBehaviour
             gameObject.SetActive(false);
             _OnFinished?.Invoke();
         });
-        s.AppendCallback(() => InGameTracker.instance.gameState = GameplayState.Playing);
+        s.AppendCallback(() => LevelManager.instance.SetGameState( GameplayState.Playing));
     }
 
     private void OnDestroy()

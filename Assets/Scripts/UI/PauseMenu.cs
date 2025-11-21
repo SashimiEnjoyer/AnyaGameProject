@@ -17,6 +17,8 @@ public class PauseMenu : MonoBehaviour
     [ContextMenu("Show Pause Menu")]
     public void Show()
     {
+        DOTween.KillAll();
+
         gameObject.SetActive(true);
         Sequence s = DOTween.Sequence();
         s.Append(bgPanel.DOLocalMoveX(0, 0.2f).From(new Vector3(1420f, 0, 0)).SetEase(Ease.InSine));
@@ -26,6 +28,8 @@ public class PauseMenu : MonoBehaviour
     [ContextMenu("Hide Pause Menu")]
     public void Hide()
     {
+        DOTween.KillAll();
+        
         Sequence s = DOTween.Sequence();
         s.Append(menuPanel.DOLocalMoveX(1500, 0.5f).From(new Vector3(0, 0, 0)).SetEase(Ease.InSine));
         s.Append(bgPanel.DOLocalMoveX(1980, 0.5f).From(new Vector3(0, 0, 0)).SetEase(Ease.OutSine));

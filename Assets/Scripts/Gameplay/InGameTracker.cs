@@ -2,7 +2,7 @@ using UnityEngine;
 using System;
 using UnityEngine.Events;
 
-public enum GameplayState { Playing, Pause, Dialogue, Stop}
+public enum GameplayState { Playing, Pause, Dialogue, Died}
 
 [Serializable]
 public struct InGameProgressTracker
@@ -13,7 +13,6 @@ public struct InGameProgressTracker
 
 public class InGameTracker : MonoBehaviour
 {
-    public static InGameTracker instance;
     public UnityAction onWinEnding;
     public UnityAction onLoseEnding;
 
@@ -46,15 +45,6 @@ public class InGameTracker : MonoBehaviour
         gameState = state;
     }
 
-    private void Awake()
-    {
-        if (instance == null)
-            instance = this;
-        else
-            Destroy(this.gameObject);
-
-    }
-
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -75,26 +65,4 @@ public class InGameTracker : MonoBehaviour
 
         progressTracker[index].isDone = true;
     }
-
-    private void SetUIFromState(GameplayState state)
-    {
-        switch (state)
-        {
-            case GameplayState.Playing:
-                Cursor.lockState = CursorLockMode.Locked;
-                break;
-            case GameplayState.Pause:
-                Cursor.lockState = CursorLockMode.None;
-                break;
-            case GameplayState.Dialogue:
-                Cursor.lockState = CursorLockMode.None;
-                break;
-            case GameplayState.Stop:
-                Cursor.lockState = CursorLockMode.None;
-                break;
-            default:
-                break;
-        }
-    }
-
 }

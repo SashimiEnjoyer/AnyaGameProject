@@ -6,7 +6,6 @@ using UnityEngine.Events;
 public enum ItemType { Collection, Health, Door, EnemyMassageBox}
 public class InteractableObject : MonoBehaviour, IInteractable
 {
-
     [Header("Pop Up Settings")]
     [Tooltip("If Ui PopUp prefab is null, this game object will be floating")]
     [SerializeField] public bool isFloating;
@@ -22,6 +21,7 @@ public class InteractableObject : MonoBehaviour, IInteractable
     Vector2 startingPosition;
     Vector2 movingPosition;
     float floatingValue;
+    bool interacted = false;
 
     private void Awake()
     {
@@ -29,24 +29,25 @@ public class InteractableObject : MonoBehaviour, IInteractable
         movingPosition = startingPosition;
     }
 
-    private void Update()
-    {
-        if (!isFloating)
-            return;
+    // private void Update()
+    // {
+    //     if (!isFloating)
+    //         return;
 
-        PopUpFloating();
-        
-
-    }
+    //     //PopUpFloating();
+    // }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
+            if(!interacted)
+                LevelManager.instance.HUDManager.SetInteractPanel(true);
             if (uiPopUp != null)
             {
                 uiPopUp.SetActive(true);
                 movingPosition = startingPosition;
+
             }
         }
             
@@ -56,10 +57,14 @@ public class InteractableObject : MonoBehaviour, IInteractable
     {
         if (collision.CompareTag("Player"))
         {
+            if(!interacted)
+                LevelManager.instance.HUDManager.SetInteractPanel(false);
+                
             if (uiPopUp != null)
             {
                 uiPopUp.SetActive(false);
                 floatingValue = 0;
+
             }
         }
     }
@@ -87,6 +92,11 @@ public class InteractableObject : MonoBehaviour, IInteractable
 
     public void ExecuteInteractable()
     {
+        if (interacted)
+            return;
+
         ExecuteInteractableEvent();
+        interacted = true;
+        LevelManager.instance.HUDManager.SetInteractPanel(false);
     }
 }

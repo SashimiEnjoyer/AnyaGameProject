@@ -6,7 +6,7 @@ public class EndGameUIManager : MonoBehaviour
     [SerializeField] private Button restartButton;
     [SerializeField] private Button mainMenuButton;
 
-    void Awake()
+    void Start()
     {
         restartButton.onClick.AddListener(() =>
         {
@@ -18,7 +18,7 @@ public class EndGameUIManager : MonoBehaviour
             LevelManager.instance.GoToMainMenu();
         });
 
-        SetActiveState(false);
+        //SetActiveState(false);
     }
     
     public void SetActiveState(bool isActive)

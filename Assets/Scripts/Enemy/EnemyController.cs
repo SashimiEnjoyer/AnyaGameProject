@@ -52,6 +52,7 @@ public class EnemyController : CharacterStateManager, IEnemy
     [Header("Events")]
     public UnityAction onEnemyDied;
 
+    public virtual void ManualStart(){ }
     public virtual void EnemyHurted() { }
 
     public virtual void EnemyDoAttack() { }
@@ -101,6 +102,8 @@ public class EnemyController : CharacterStateManager, IEnemy
 
     public void SwitchGameState(GameplayState state)
     {
+        Debug.LogWarning($"{gameObject.name} == {state}");
+
         switch (state)
         {
             case GameplayState.Pause:
@@ -110,6 +113,7 @@ public class EnemyController : CharacterStateManager, IEnemy
                 SetState(enemyPause);
                 break;
             case GameplayState.Playing:
+                prevState ??= defaultState;
                 SetState(prevState);
                 break;
         }

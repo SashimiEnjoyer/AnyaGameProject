@@ -8,7 +8,7 @@ public class HUDManager : MonoBehaviour
 
     [Header("Pause HUD Menu")]
     [SerializeField] PauseMenu pauseButton;
-    [SerializeField] EndGameUIManager endGameUIManager;
+    [SerializeField] GameObject endGameUIManager;
     [SerializeField] GameObject panelInteract;
 
     // private void Awake()
@@ -75,6 +75,7 @@ public class HUDManager : MonoBehaviour
 
     public void SetDeathScreen()
     {
-        endGameUIManager.SetActiveState(true);
+        endGameUIManager.SetActive(true);
+        //endGameUIManager.SetActiveState(true);
     }
 }

@@ -11,7 +11,6 @@ public static partial class SimpleEnemy
         public AttackState(SimpleEnemyType _enemy) : base(_enemy)
         {
             currEnemy = _enemy;
-            interval = Time.time + currEnemy.liveTime;
         }
 
         public override void EnterState()
@@ -20,6 +19,8 @@ public static partial class SimpleEnemy
                 baseEnemy.Flip();
             else if(!currEnemy.isWalkRight && baseEnemy.CurrentDirection > 0)
                 baseEnemy.Flip();
+            
+            interval = Time.time + currEnemy.liveTime;
         }
 
         public override void Tick()

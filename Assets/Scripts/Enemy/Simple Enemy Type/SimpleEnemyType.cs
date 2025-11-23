@@ -13,8 +13,14 @@ public class SimpleEnemyType : EnemyController
         enemyPause = new EnemyPause(this);
     }
 
-    private void OnEnable()
+    private void OnDisable()
     {
+        SetState(enemyPause);
+    }
+
+    public override void ManualStart()
+    {
+        Debug.Log("Simple Enemy: " + defaultState);
         SetState(defaultState);
     }
 

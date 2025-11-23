@@ -8,9 +8,7 @@ public class EnemyPause : CharacterState
 
     public override void EnterState()
     {
-        Debug.Log("Pause!!!!!!!!!!!!!");
+        Debug.LogWarning($"pause");
         baseEnemy.rb.linearVelocity = Vector2.zero;    
     }
-
-
 }

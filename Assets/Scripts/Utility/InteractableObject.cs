@@ -1,11 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 public enum ItemType { Collection, Health, Door, EnemyMassageBox}
+
 public class InteractableObject : MonoBehaviour, IInteractable
 {
+    [Header("Interactable Items Settings")]
+    [SerializeField] private bool isAutoExecute = false;
+    [SerializeField] protected bool canRepeat = false;
+
     [Header("Pop Up Settings")]
     [Tooltip("If Ui PopUp prefab is null, this game object will be floating")]
     [SerializeField] public bool isFloating;
@@ -41,22 +44,33 @@ public class InteractableObject : MonoBehaviour, IInteractable
     {
         if (collision.CompareTag("Player"))
         {
-            if(!interacted)
-                LevelManager.instance.HUDManager.SetInteractPanel(true);
-            if (uiPopUp != null)
+            if (isAutoExecute)
             {
-                uiPopUp.SetActive(true);
-                movingPosition = startingPosition;
-
+               ExecuteInteractable();
             }
+            else
+            {
+                if(!interacted)
+                    LevelManager.instance.HUDManager.SetInteractPanel(true);
+                
+                if (uiPopUp != null)
+                {
+                    uiPopUp.SetActive(true);
+                    movingPosition = startingPosition;
+
+                }
+            }
+
         }
-            
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
+            if(isAutoExecute)
+                return;
+            
             if(!interacted)
                 LevelManager.instance.HUDManager.SetInteractPanel(false);
                 
@@ -64,7 +78,6 @@ public class InteractableObject : MonoBehaviour, IInteractable
             {
                 uiPopUp.SetActive(false);
                 floatingValue = 0;
-
             }
         }
     }
@@ -92,11 +105,21 @@ public class InteractableObject : MonoBehaviour, IInteractable
 
     public void ExecuteInteractable()
     {
-        if (interacted)
-            return;
+        if (canRepeat)
+        {
+            ExecuteInteractableEvent();
+            LevelManager.instance.HUDManager.SetInteractPanel(false);
+        }
+        else
+        {
+            if (interacted)
+                return;
 
-        ExecuteInteractableEvent();
+            ExecuteInteractableEvent();
+            LevelManager.instance.HUDManager.SetInteractPanel(false);
+            
+        }
+
         interacted = true;
-        LevelManager.instance.HUDManager.SetInteractPanel(false);
     }
 }

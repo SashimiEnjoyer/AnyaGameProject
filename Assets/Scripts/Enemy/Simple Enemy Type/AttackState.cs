@@ -28,7 +28,7 @@ public static partial class SimpleEnemy
             baseEnemy.Move(4);
 
             if (Time.time > interval)
-                currEnemy.EnemyHurted();
+                currEnemy.Died();
         }
 
         public override void ExitState()

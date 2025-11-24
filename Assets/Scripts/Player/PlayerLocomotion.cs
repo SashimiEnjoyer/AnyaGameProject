@@ -96,7 +96,7 @@ public class PlayerLocomotion : CharacterState
 
     void Skill1Pressed()
     {
-        character.SetState(character.skillManager.GetSkill(0, this));   
+        character.SetState(LevelManager.instance.SkillManager.GetSkill(0, this));   
     }
 
     void Skill2Pressed()

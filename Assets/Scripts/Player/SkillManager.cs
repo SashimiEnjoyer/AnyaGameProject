@@ -4,7 +4,6 @@ using UnityEngine.Events;
 
 public class SkillManager : MonoBehaviour
 {
-    public PlayerController player;
     public SkillUIManager[] skillUIs;
     [Space]
     public SkillStats dashSkillStats;
@@ -26,7 +25,7 @@ public class SkillManager : MonoBehaviour
         radialSwingSkillStats.onSkillEnded -= SkillEnded;
     }
 
-    public void InstantiateSkills()
+    public void InstantiateSkills(PlayerController player)
     {
         SkillCatalogue.Clear();
 

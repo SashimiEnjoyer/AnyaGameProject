@@ -12,7 +12,6 @@ public class PlayerStats : MonoBehaviour
     public static PlayerStats instance;
     public static string playerName;
 
-    [SerializeField] private HUDManager HUDManager;
     private float health;
  
     private void Awake()
@@ -38,7 +37,7 @@ public class PlayerStats : MonoBehaviour
         set
         {
             health = Mathf.Clamp(value, 0, startingStats.healthMax);
-            HUDManager.SetHealthBar(health);
+            LevelManager.instance.HUDManager.SetHealthBar(health);
         }
             
     }

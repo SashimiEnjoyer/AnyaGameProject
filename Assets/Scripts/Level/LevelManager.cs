@@ -7,6 +7,7 @@ public class LevelManager : MonoBehaviour
     public static LevelManager instance;
 
     [SerializeField] private string mainMenuSceneName = "MainMenu";
+    [SerializeField] private PlayerController player;
     [SerializeField] private SkillManager skillManager;
     [SerializeField] private HUDManager hudManager;
     [SerializeField] private EndGameUIManager deadUIManager;
@@ -29,7 +30,9 @@ public class LevelManager : MonoBehaviour
         if(instance == null)
             instance = this;
 
-        
+        if(player == null)
+            player = FindAnyObjectByType<PlayerController>();
+
         foreach (var section in levelSections)
         {
             section.CleanupSection();
@@ -41,7 +44,7 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
-        skillManager.InstantiateSkills();
+        skillManager.InstantiateSkills(player);
         SetCurrentSectionIndex(0);
 
         TransitionScreen.instance.StartingTransition(TransitionPosition.FromBlack, 1f, ()=>

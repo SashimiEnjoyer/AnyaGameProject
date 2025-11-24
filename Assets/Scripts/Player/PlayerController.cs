@@ -19,8 +19,6 @@ public class PlayerController : CharacterStateManager
     public PlayerWallHanging playerWallHangingState;
     public CharacterState skill1;
 
-    public SkillManager skillManager;
-
     [Header("Run Setting")]
     public float horizontalInput = 0f;
     public float speed;

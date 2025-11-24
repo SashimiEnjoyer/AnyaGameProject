@@ -1230,7 +1230,7 @@ MonoBehaviour:
   versionText: {fileID: 1955575645}
   buttonPlay: {fileID: 2124995891}
   exitGameBtn: {fileID: 668410476}
-  nextScene: Tutorial Level 1
+  nextScene: Level 1
 --- !u!4 &1764681060
 Transform:
   m_ObjectHideFlags: 0

@@ -72,10 +72,10 @@ public class DialogueController : MonoBehaviour, IInteractable
     {
         dialogueUI.OnNextDialogueButtonPressed -= NextDialogue;
         onDialogueEnded?.Invoke();
-        dialogueObject.SetActive(false);
         gameObject.SetActive(false);
         ObjectDestroyed = true;
         DialogueEnd = true;
+        Destroy(dialogueObject);
         LevelManager.instance.SetGameState(GameplayState.Playing);
         dialogueIndex = 0;
     }

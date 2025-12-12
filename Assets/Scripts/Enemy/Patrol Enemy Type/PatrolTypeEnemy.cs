@@ -84,6 +84,8 @@ public class PatrolTypeEnemy : EnemyController
         if (getHit)
             return;
 
+        Debug.LogWarning("Hit By The Player");
+
         SetState(enemyHurted);
 
         if (afterHitEffect == null)

@@ -15,7 +15,7 @@ public static partial class PatrolType
         {
             Debug.Log("Enter Chase State!");
             baseEnemy.SetAnimatorState(baseEnemy.anim, "Enemy_Walk");
-            interval = Time.time + Random.Range(0.25f, 0.45f);
+            interval = Time.time + Random.Range(en.chaseToAttackInterval.x, en.chaseToAttackInterval.y);
         }
 
         public override void Tick()

@@ -6,7 +6,6 @@ public class PlayerAttack : CharacterState
     {
     }
 
-
     float timer = 0f;
     GameObject slashEffectObject;
     ParticleSystem slashEffect;

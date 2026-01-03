@@ -6,9 +6,9 @@ public static partial class PatrolType
     {
         float interval = 2f;
         //float resetting;
-        PatrolTypeEnemy en;
+        EnemyController en;
 
-        public PatrolState(PatrolTypeEnemy _enemy) : base(_enemy)
+        public PatrolState(EnemyController _enemy) : base(_enemy)
         {
             en = _enemy;
         }
@@ -16,11 +16,7 @@ public static partial class PatrolType
         public override void EnterState()
         {
             Debug.Log("Patrol State! " + en.gameObject.name);
-            baseEnemy.SetAnimatorState(baseEnemy.anim, "Enemy Default State");
-
-            //if (baseEnemy.Resetting)
-            //    resetting = Time.time + 5f;
-        
+            baseEnemy.AnimancerComponent.Play(en.walkAnim);
         }
 
         public override void Tick()
@@ -28,8 +24,8 @@ public static partial class PatrolType
             
             if(en.AggroStatus != EnemyAggroStatus.Calm)
             {
-                if(Mathf.Abs(baseEnemy.transform.position.x - baseEnemy.playerTransform.position.x) < en.aggroRadiusX &&
-                    Mathf.Abs(baseEnemy.transform.position.y - baseEnemy.playerTransform.position.y) < en.aggroRadiusY)
+                if(Mathf.Abs(baseEnemy.transform.position.x - baseEnemy.playerTransform.position.x) < en.idleToChaseTriggerDistance.x &&
+                    Mathf.Abs(baseEnemy.transform.position.y - baseEnemy.playerTransform.position.y) < en.idleToChaseTriggerDistance.y)
                 {
                     baseEnemy.SetState(baseEnemy.chaseState);
                 }
@@ -39,23 +35,20 @@ public static partial class PatrolType
             //    CheckResetting();
             //else
                 Patrolling();           
-                
-
 
         }
 
         public override void PhysicTick()
         {
-            baseEnemy.anim.SetFloat("EnemySpeed", Mathf.Clamp01(Mathf.Abs( baseEnemy.rb.linearVelocity.x)));
+            baseEnemy.AnimancerComponent.Play(baseEnemy.rb.linearVelocity.x > 0? baseEnemy.walkAnim : baseEnemy.idleClip);
         }
-
 
         private void Patrolling()
         {
             if (Time.time >= interval)
             {
                 baseEnemy.Flip();
-                interval = Time.time + Random.Range(en.minPatrolTime, en.maxPatrolTime);
+                interval = Time.time + Random.Range(en.patrolTimeRange.x, en.patrolTimeRange.y);
             }
             else
             {

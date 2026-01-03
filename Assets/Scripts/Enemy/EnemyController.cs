@@ -1,3 +1,4 @@
+using Animancer;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -11,29 +12,38 @@ public enum EnemyAggroStatus
 public class EnemyController : CharacterStateManager, IEnemy
 {
     [Header("Base Stats")]
+    public EnemyAggroStatus AggroStatus;
     public float maxHealth = 100;
     public float currHealth = 100;
     public float movementSpeed = 3f;
-    public float attackAnimLength = 0.01f;
-    public float maxDistanceBeforeDie = 2f;
+
+    [Header("Timer Stats")]
     public float staggerTime = 1f;
-    public float aggroRadiusX = 2f;
-    public float aggroRadiusY = 1f;
-    public Vector2 chaseToAttackInterval;
+    public Vector2 chaseToAttackTimeInterval;
+    public Vector2 patrolTimeRange;
+
+    [Header("Distance Stats")]
+    public float maxDistanceBeforeDie = 2f;
+    public float chaseToAttackTriggerDistance;
+    public Vector2 idleToChaseTriggerDistance;
     public Vector2 knockDistance;
-    public bool isGround;
+    [HideInInspector] public bool isGround;
 
     [Header("Base Status")]
     [HideInInspector] public bool getHit = false;
     [HideInInspector] public bool isFacingRight = true;
     [HideInInspector] public bool PatrolAttack = true;
     [HideInInspector] public bool CanAttack = true;
-     public bool Resetting = false;
-     public int CurrentDirection = 1;
+    public bool usePreAttack;
+    public bool Resetting = false;
+    public int CurrentDirection = 1;
 
     [Header("Base References")]
+    public AnimancerComponent AnimancerComponent;
     public Rigidbody2D rb;
     public Animator anim;
+    public GameObject attackHitBox;
+    public GameObject preAttackIndicator;
     public GameObject afterHitEffect;
     public Transform startingPoint;
     public Transform groundChecker;
@@ -42,6 +52,12 @@ public class EnemyController : CharacterStateManager, IEnemy
     public LayerMask playerMask;
     public LayerMask borderMask;
 
+    [Header("Animation Settings")]
+    public ClipTransition attackClip;
+    public ClipTransition walkAnim;
+    public ClipTransition idleClip;
+    public ClipTransition diedClip;
+
     [Header("States")]
     public CharacterState defaultState;
     public CharacterState chaseState;
@@ -49,6 +65,7 @@ public class EnemyController : CharacterStateManager, IEnemy
     public CharacterState enemyHurted;
     public CharacterState enemyDied;
     public CharacterState enemyPause;
+    public CharacterState preAttackState;
 
     [Header("Events")]
     public UnityAction onEnemyDied;

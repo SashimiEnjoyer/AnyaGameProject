@@ -14,7 +14,7 @@ public class RangeTypeEnemy : EnemyController
         defaultState = new RangeType.ChaseState(this);
         attackState = new RangeType.AttackState(this);
         enemyHurted = new EnemyHurt(this);
-        enemyDied = new EnemyDied(this);
+        //enemyDied = new EnemyDied(this);
         enemyPause = new EnemyPause(this);
         currHealth = maxHealth;
     }

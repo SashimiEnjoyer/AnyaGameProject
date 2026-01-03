@@ -1,29 +1,24 @@
+using Animancer;
 using UnityEngine;
 
 public class PatrolTypeEnemy : EnemyController
 {
-    [Header("Patrol Enemy References")]
-    public EnemyAggroStatus AggroStatus;
-    public GameObject attackHitBox;
-    public float preAttackTimer;
-    public float attackTimer;
-    public float minAttackTriggerRange;
-    public float minPatrolTime;
-    public float maxPatrolTime;
 
     private void Awake()
     {
         AssignPlayerTransform();
         rb = GetComponent<Rigidbody2D>();
         hitBox = GetComponent<CapsuleCollider2D>();
-        //anim = GetComponent<Animator>();
-
+        
         defaultState = new PatrolType.PatrolState(this);
         chaseState = new PatrolType.ChaseState(this);
         attackState = new PatrolType.AttackState(this);
         enemyHurted = new EnemyHurt(this);
         enemyDied = new EnemyDied(this);
         enemyPause = new EnemyPause(this);
+
+        if(usePreAttack)
+            preAttackState = new PreAttackState(this);
 
         currHealth = maxHealth;
     }
@@ -81,18 +76,53 @@ public class PatrolTypeEnemy : EnemyController
 
     public override void EnemyHurted()
     {
+        if(staggerTime <= 0)
+        {
+            currHealth -= 1;
+            getHit = true;
+
+            ParticleSystem hitEffect = null;
+
+            if (hitEffect == null)
+            {
+                hitEffect = GameObject.Instantiate(afterHitEffect, transform).GetComponent<ParticleSystem>();
+                hitEffect.Play();
+            }
+            else
+                hitEffect.Emit(50);
+
+            Knocked();
+            //GameManager.instance.CameraImpulseManager.ActiveEnemyImpulse();
+            getHit = false;
+
+            if (currHealth <= 0)
+                SetState(enemyDied);
+
+            return;
+        }
+
         if (getHit)
             return;
 
-        Debug.LogWarning("Hit By The Player");
-
         SetState(enemyHurted);
+    }
 
-        if (afterHitEffect == null)
-        {
-            Debug.LogWarning("No Effect Prefabs Assigned");
-            return;
-        }
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Vector3 xStart = transform.position + Vector3.left * idleToChaseTriggerDistance.x;
+        Vector3 xEnd = transform.position + Vector3.right * idleToChaseTriggerDistance.x;
+        Gizmos.DrawLine(xStart, xEnd);
+
+        // Draw the Y-Axis (Vertical)
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, chaseToAttackTriggerDistance);
+
+        Gizmos.color = Color.green;
+        Vector3 yStart = transform.position + Vector3.down * idleToChaseTriggerDistance.y;
+        Vector3 yEnd = transform.position + Vector3.up * idleToChaseTriggerDistance.y;
+        Gizmos.DrawLine(yStart, yEnd);
     }
 
     //public override void ResetPosition()

@@ -9,7 +9,7 @@ public class SimpleEnemyType : EnemyController
     {
         defaultState = new SimpleEnemy.AttackState(this);
         enemyHurted = new EnemyHurt(this);
-        enemyDied = new EnemyDied(this);
+        //enemyDied = new EnemyDied(this);
         enemyPause = new EnemyPause(this);
     }
 

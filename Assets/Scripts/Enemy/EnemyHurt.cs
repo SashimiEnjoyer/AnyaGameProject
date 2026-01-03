@@ -22,8 +22,8 @@ public class EnemyHurt : CharacterState
             hitEffect.Emit(50);
 
         baseEnemy.Knocked();
-        baseEnemy.SetAnimatorState(baseEnemy.anim, "Enemy_Hurt");
-        GameManager.instance.CameraImpulseManager.ActiveEnemyImpulse();
+        //baseEnemy.SetAnimatorState(baseEnemy.anim, "Enemy_Hurt");
+        //GameManager.instance.CameraImpulseManager.ActiveEnemyImpulse();
         timer = Time.time + baseEnemy.staggerTime;
     }
 

@@ -391,9 +391,9 @@ MonoBehaviour:
       data:
         m_PersistentCalls:
           m_Calls:
-          - m_Target: {fileID: 6128299151713323833}
-            m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-            m_MethodName: SetActive
+          - m_Target: {fileID: 3335298131983631685}
+            m_TargetAssemblyTypeName: PatrolTypeEnemy, Assembly-CSharp
+            m_MethodName: EnemyDoAttackNotify
             m_Mode: 6
             m_Arguments:
               m_ObjectArgument: {fileID: 0}
@@ -408,9 +408,9 @@ MonoBehaviour:
       data:
         m_PersistentCalls:
           m_Calls:
-          - m_Target: {fileID: 6128299151713323833}
-            m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-            m_MethodName: SetActive
+          - m_Target: {fileID: 3335298131983631685}
+            m_TargetAssemblyTypeName: PatrolTypeEnemy, Assembly-CSharp
+            m_MethodName: EnemyDoAttackNotify
             m_Mode: 6
             m_Arguments:
               m_ObjectArgument: {fileID: 0}

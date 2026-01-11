@@ -30,6 +30,12 @@ public class GameManager : MonoBehaviour
         input.Initialize();
     }
 
+    private void Start()
+    {
+        Application.targetFrameRate = 60;
+        QualitySettings.vSyncCount = 0;
+    }
+
     public string GetCurrentSceneName()
     {
         return UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;

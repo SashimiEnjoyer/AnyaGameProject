@@ -1,8 +1,9 @@
-using Animancer;
 using UnityEngine;
 
 public class PatrolTypeEnemy : EnemyController
 {
+
+    public RangeType.AttackState rangeEnemyAttackState;
 
     private void Awake()
     {
@@ -12,10 +13,14 @@ public class PatrolTypeEnemy : EnemyController
         
         defaultState = new PatrolType.PatrolState(this);
         chaseState = new PatrolType.ChaseState(this);
-        attackState = new PatrolType.AttackState(this);
         enemyHurted = new EnemyHurt(this);
         enemyDied = new EnemyDied(this);
         enemyPause = new EnemyPause(this);
+
+        if(isRangeType)
+            attackState = new RangeType.AttackState(this);
+        else
+             attackState = new PatrolType.AttackState(this);
 
         if(usePreAttack)
             preAttackState = new PreAttackState(this);

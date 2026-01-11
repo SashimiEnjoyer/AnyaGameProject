@@ -3,8 +3,10 @@ using UnityEngine;
 
 public static partial class PatrolType
 {
+    [System.Serializable]
     public class AttackState : CharacterState
     {
+
         float timeToAttack = 0f;
         float preAttack = 0f;
         PatrolTypeEnemy en;
@@ -16,6 +18,8 @@ public static partial class PatrolType
         public AttackState(PatrolTypeEnemy _enemy) : base(_enemy)
         {
             en = _enemy;
+
+            en.onEnemyDoAttack += DoAttack;
         }
 
         public override void EnterState()
@@ -48,17 +52,13 @@ public static partial class PatrolType
             }
         }
 
+        private void DoAttack(bool state)
+        {
+            en.attackHitBox.SetActive(state);
+        }
+
         public override void Tick()
         {
-            //if(Time.time > preAttack)
-            //    en.attackHitBox.SetActive(true);
-
-            //if (Time.time > timeToAttack)
-            //{
-            //    baseEnemy.SetState(baseEnemy.chaseState);
-            //    timeToAttack = 0f;
-            //}
-
             switch(en.AggroStatus)
             {
                 case EnemyAggroStatus.Semi:

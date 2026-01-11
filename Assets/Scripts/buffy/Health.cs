@@ -16,12 +16,6 @@ public class Health : MonoBehaviour
         currentHealth = maxHealth;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public void TakeDamage(float amount, Vector2 direction)
     {
         currentHealth -= amount;

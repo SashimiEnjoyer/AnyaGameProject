@@ -13,6 +13,7 @@ public class EnemyController : CharacterStateManager, IEnemy
 {
     [Header("Base Stats")]
     public EnemyAggroStatus AggroStatus;
+    public bool isRangeType = false;
     public float maxHealth = 100;
     public float currHealth = 100;
     public float movementSpeed = 3f;
@@ -37,6 +38,10 @@ public class EnemyController : CharacterStateManager, IEnemy
     public bool usePreAttack;
     public bool Resetting = false;
     public int CurrentDirection = 1;
+
+    [Header("Range Attack Settings")]
+    public Transform projectileOutputPos;
+    public float projectileSpeed = 4;
 
     [Header("Base References")]
     public AnimancerComponent AnimancerComponent;
@@ -68,6 +73,7 @@ public class EnemyController : CharacterStateManager, IEnemy
     public CharacterState preAttackState;
 
     [Header("Events")]
+    public UnityAction<bool> onEnemyDoAttack;
     public UnityAction onEnemyDied;
 
     public virtual void ManualStart(){ }
@@ -106,6 +112,11 @@ public class EnemyController : CharacterStateManager, IEnemy
     public Vector2 PlayerDirection()
     {
         return (playerTransform.position - transform.position).normalized;
+    }
+
+    public void EnemyDoAttackNotify(bool state)
+    {
+        onEnemyDoAttack?.Invoke(state);
     }
 
     private void Start()

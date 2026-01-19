@@ -9,13 +9,13 @@ public static partial class PatrolType
 
         float timeToAttack = 0f;
         float preAttack = 0f;
-        PatrolTypeEnemy en;
+        EnemyController en;
         AnimancerState state;
 
         int counter;
         int looping;
 
-        public AttackState(PatrolTypeEnemy _enemy) : base(_enemy)
+        public AttackState(EnemyController _enemy) : base(_enemy)
         {
             en = _enemy;
 

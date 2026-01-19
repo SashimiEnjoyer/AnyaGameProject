@@ -805,7 +805,7 @@ GameObject:
   - component: {fileID: 8977980071970775128}
   - component: {fileID: 6723822612374308011}
   - component: {fileID: 1936551469313636393}
-  - component: {fileID: 3627505003991665769}
+  - component: {fileID: 6033367920130392912}
   - component: {fileID: 8430880010838645834}
   m_Layer: 6
   m_Name: Wizard Range Type
@@ -918,7 +918,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &3627505003991665769
+--- !u!114 &6033367920130392912
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -927,20 +927,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 2786906031992809083}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53f86f0044bee674a80b2292d9262f24, type: 3}
+  m_Script: {fileID: 11500000, guid: c00ff816bf101564780d7e0ff1ba37b5, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assembly-CSharp::RangeTypeEnemy
   AggroStatus: 2
-  isRangeType: 1
   maxHealth: 3
   currHealth: 3
   movementSpeed: 0
-  staggerTime: 0
-  chaseToAttackTimeInterval: {x: 1, y: 1.5}
+  staggerTime: 1
+  chaseToAttackTimeInterval: {x: 1, y: 1.15}
   patrolTimeRange: {x: 5, y: 10}
   maxDistanceBeforeDie: 25
   chaseToAttackTriggerDistance: 25
-  idleToChaseTriggerDistance: {x: 25, y: 25}
+  idleToChaseTriggerDistance: {x: 25, y: 5}
   knockDistance: {x: 0, y: 75}
   isGround: 0
   getHit: 0
@@ -951,7 +950,7 @@ MonoBehaviour:
   Resetting: 0
   CurrentDirection: 1
   projectileOutputPos: {fileID: 668442028121747805}
-  projectileSpeed: 15
+  projectileSpeed: 16
   AnimancerComponent: {fileID: 8430880010838645834}
   rb: {fileID: 1936551469313636393}
   anim: {fileID: 8977980071970775128}
@@ -973,10 +972,10 @@ MonoBehaviour:
     _Speed: 1
     _Events:
       _NormalizedTimes:
-      - 0.8509586
+      - 0.66021365
       - NaN
       _Callbacks:
-      - rid: 3992308283262894400
+      - rid: 3992308421623283815
       _Names: []
     _Clip: {fileID: 7400000, guid: 5a51e808731f6e94c850757ae264300b, type: 2}
     _NormalizedStartTime: NaN
@@ -1010,13 +1009,13 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 3992308283262894400
+    - rid: 3992308421623283815
       type: {class: UnityEvent, ns: Animancer, asm: Kybernetik.Animancer}
       data:
         m_PersistentCalls:
           m_Calls:
-          - m_Target: {fileID: 3627505003991665769}
-            m_TargetAssemblyTypeName: PatrolTypeEnemy, Assembly-CSharp
+          - m_Target: {fileID: 6033367920130392912}
+            m_TargetAssemblyTypeName: RangeTypeEnemy, Assembly-CSharp
             m_MethodName: EnemyDoAttackNotify
             m_Mode: 6
             m_Arguments:

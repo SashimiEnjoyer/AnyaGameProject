@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class EnemyDied : CharacterState
 {
-    PatrolTypeEnemy en;
+    EnemyController en;
     AnimancerState state;
 
-    public EnemyDied(PatrolTypeEnemy _character) : base(_character)
+    public EnemyDied(EnemyController _character) : base(_character)
     {
         en = _character;
     }

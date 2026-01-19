@@ -13,7 +13,6 @@ public class EnemyController : CharacterStateManager, IEnemy
 {
     [Header("Base Stats")]
     public EnemyAggroStatus AggroStatus;
-    public bool isRangeType = false;
     public float maxHealth = 100;
     public float currHealth = 100;
     public float movementSpeed = 3f;
@@ -146,5 +145,23 @@ public class EnemyController : CharacterStateManager, IEnemy
                 SetState(prevState);
                 break;
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Vector3 xStart = transform.position + Vector3.left * idleToChaseTriggerDistance.x;
+        Vector3 xEnd = transform.position + Vector3.right * idleToChaseTriggerDistance.x;
+        Gizmos.DrawLine(xStart, xEnd);
+
+        // Draw the Y-Axis (Vertical)
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, chaseToAttackTriggerDistance);
+
+        Gizmos.color = Color.green;
+        Vector3 yStart = transform.position + Vector3.down * idleToChaseTriggerDistance.y;
+        Vector3 yEnd = transform.position + Vector3.up * idleToChaseTriggerDistance.y;
+        Gizmos.DrawLine(yStart, yEnd);
     }
 }

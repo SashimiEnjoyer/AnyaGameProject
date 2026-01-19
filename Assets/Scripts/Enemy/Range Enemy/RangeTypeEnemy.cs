@@ -2,20 +2,19 @@ using UnityEngine;
 
 public class RangeTypeEnemy : EnemyController
 {
-    [Header("Range Enemy References")]
-    public Transform projectilePos;
-    public GameObject projectile;
-    public float projectileSpeed = 10f;
-    public float nextProjectileTimer = 3f;
-    public float spawnTimerAfterAnimation = 0.5f;
 
     private void Awake()
     {
-        defaultState = new RangeType.ChaseState(this);
-        //attackState = new RangeType.AttackState(this);
+        defaultState = new PatrolType.PatrolState(this);
+        chaseState = new PatrolType.ChaseState(this);
+        attackState = new RangeType.AttackState(this);
         enemyHurted = new EnemyHurt(this);
-        //enemyDied = new EnemyDied(this);
+        enemyDied = new EnemyDied(this);
         enemyPause = new EnemyPause(this);
+
+        if (usePreAttack)
+            preAttackState = new PreAttackState(this);
+
         currHealth = maxHealth;
     }
     private void OnEnable()
@@ -52,13 +51,6 @@ public class RangeTypeEnemy : EnemyController
     public override void Knocked()
     {
         rb.AddForce(new Vector2(0, knockDistance.y));
-    }
-
-    public void RotateTowards(Vector2 target)
-    {
-        Vector2 direction = (target - (Vector2)projectilePos.position).normalized;
-        var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        projectilePos.rotation = Quaternion.Euler(Vector3.forward * (angle));
     }
 
     public override void Died()

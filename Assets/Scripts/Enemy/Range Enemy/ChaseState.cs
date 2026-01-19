@@ -16,12 +16,12 @@ public static partial class RangeType
         {
             Debug.Log("Enter Chase State!");
             baseEnemy.SetAnimatorState(baseEnemy.anim, "Enemy_Walk");
-            interval = Time.time + curr.nextProjectileTimer;
+            //interval = Time.time + curr.nextProjectileTimer;
         }
 
         public override void Tick()
         {
-            curr.RotateTowards(baseEnemy.playerTransform.position);
+            //curr.RotateTowards(baseEnemy.playerTransform.position);
             
             if (Mathf.Sign(baseEnemy.CurrentDirection) != Mathf.Sign(baseEnemy.PlayerDirection().x))
             {

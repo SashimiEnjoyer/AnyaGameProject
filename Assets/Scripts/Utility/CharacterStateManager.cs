@@ -6,6 +6,10 @@ public class CharacterStateManager : MonoBehaviour
 {
     protected CharacterState currState;
     protected CharacterState prevState;
+
+    protected EnemyBossState currBossState;
+    protected EnemyBossState prevBossState;
+
     protected string currentAnimationLayer;
     private IEnumerator coroutine;
     private WaitForSeconds wait;
@@ -15,6 +19,13 @@ public class CharacterStateManager : MonoBehaviour
         currState?.ExitState();
         currState = state;
         currState?.EnterState();
+    }
+
+    public void SetState(EnemyBossState state)
+    {
+        currBossState?.ExitState();
+        currBossState = state;
+        currBossState?.EnterState();
     }
 
     public void SetAnimatorState(Animator animator, string animationStateName, bool canMultiple = false)
@@ -57,12 +68,14 @@ public class CharacterStateManager : MonoBehaviour
     protected virtual void Update()
     {
         currState?.Tick();
+        currBossState?.Tick();
         
     }
 
     protected virtual void FixedUpdate()
     {
         currState?.PhysicTick();
+        currBossState?.PhysicTick();
     }
 
 }

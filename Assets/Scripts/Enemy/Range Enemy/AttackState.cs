@@ -8,10 +8,10 @@ public static partial class RangeType
     {
         private GameObject proj;
 
-        PatrolTypeEnemy en;
+        EnemyController en;
         AnimancerState state;
 
-        public AttackState(PatrolTypeEnemy _enemy) : base(_enemy)
+        public AttackState(EnemyController _enemy) : base(_enemy)
         {
             en = _enemy;
             en.onEnemyDoAttack += DoAttack;
@@ -67,11 +67,6 @@ public static partial class RangeType
             en.projectileOutputPos.rotation = Quaternion.Euler(Vector3.forward * (angle));
         }
 
-        public override void ExitState()
-        {
-            
-            
-        }
     }
 }
 

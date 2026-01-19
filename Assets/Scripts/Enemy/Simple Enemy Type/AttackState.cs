@@ -5,35 +5,39 @@ public static partial class SimpleEnemy
 {
     public class AttackState : CharacterState
     {
-        SimpleEnemyType currEnemy;
+        EnemyController currEnemy;
         float interval;
 
-        public AttackState(SimpleEnemyType _enemy) : base(_enemy)
+        public AttackState(EnemyController _enemy) : base(_enemy)
         {
             currEnemy = _enemy;
         }
 
-        public override void EnterState()
-        {
-            if (currEnemy.isWalkRight && baseEnemy.CurrentDirection < 0)
-                baseEnemy.Flip();
-            else if(!currEnemy.isWalkRight && baseEnemy.CurrentDirection > 0)
-                baseEnemy.Flip();
-            
-            interval = Time.time + currEnemy.liveTime;
-        }
-
         public override void Tick()
         {
-            baseEnemy.Move(4);
 
-            if (Time.time > interval)
-                currEnemy.Died();
+            if (Time.time >= interval)
+            {
+                baseEnemy.Flip();
+                interval = Time.time + Random.Range(currEnemy.patrolTimeRange.x, currEnemy.patrolTimeRange.y);
+            }
+            else
+            {
+
+                if (baseEnemy.CheckMask(baseEnemy.borderMask) && !baseEnemy.Resetting)
+                    baseEnemy.StopMove();
+                else
+                {
+                    baseEnemy.Move(1f);
+                }
+            }
+
+            currEnemy.Move(4);
         }
 
         public override void ExitState()
         {
-            baseEnemy.rb.linearVelocity = Vector2.zero;
+            currEnemy.rb.linearVelocity = Vector2.zero;
         }
     }
 }

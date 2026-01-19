@@ -4,9 +4,9 @@ public static partial class PatrolType
 {
     public class ChaseState : CharacterState
     {
-        PatrolTypeEnemy en;
+        EnemyController en;
         float interval;
-        public ChaseState(PatrolTypeEnemy _enemy) : base(_enemy)
+        public ChaseState(EnemyController _enemy) : base(_enemy)
         {
             en = _enemy;
         }
@@ -19,13 +19,19 @@ public static partial class PatrolType
             interval = Time.time + Random.Range(en.chaseToAttackTimeInterval.x, en.chaseToAttackTimeInterval.y);
         }
 
-        public override void Tick()
+        public override void PhysicTick()
         {
+            if (Mathf.Sign(baseEnemy.CurrentDirection) != Mathf.Sign(baseEnemy.PlayerDirection().x))
+            {
+                baseEnemy.Flip();
+            }
+
+
             if (Time.time > interval)
             {
-                if (Mathf.Abs(Vector2.Distance(baseEnemy.transform.position, baseEnemy.playerTransform.position)) < en.chaseToAttackTriggerDistance) 
+                if (Mathf.Abs(Vector2.Distance(baseEnemy.transform.position, baseEnemy.playerTransform.position)) < en.chaseToAttackTriggerDistance)
                 {
-                    if(baseEnemy.usePreAttack)
+                    if (baseEnemy.usePreAttack)
                         baseEnemy.SetState(baseEnemy.preAttackState);
                     else
                         baseEnemy.SetState(baseEnemy.attackState);
@@ -40,10 +46,10 @@ public static partial class PatrolType
                 }
             }
 
-            switch(en.AggroStatus)
+            switch (en.AggroStatus)
             {
                 case EnemyAggroStatus.Semi:
-                    
+
                     if (baseEnemy.CheckMask(baseEnemy.borderMask) && !baseEnemy.Resetting)
                         baseEnemy.StopMove();
                     else
@@ -56,16 +62,8 @@ public static partial class PatrolType
                     baseEnemy.Move(Random.Range(1.5f, 1.7f));
                     break;
             }
-            
 
-        }
 
-        public override void PhysicTick()
-        {
-            if (Mathf.Sign(baseEnemy.CurrentDirection) != Mathf.Sign(baseEnemy.PlayerDirection().x))
-            {
-                baseEnemy.Flip();
-            }
         }
 
     }

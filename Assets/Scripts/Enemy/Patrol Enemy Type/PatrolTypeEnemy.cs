@@ -2,9 +2,6 @@ using UnityEngine;
 
 public class PatrolTypeEnemy : EnemyController
 {
-
-    public RangeType.AttackState rangeEnemyAttackState;
-
     private void Awake()
     {
         AssignPlayerTransform();
@@ -16,11 +13,7 @@ public class PatrolTypeEnemy : EnemyController
         enemyHurted = new EnemyHurt(this);
         enemyDied = new EnemyDied(this);
         enemyPause = new EnemyPause(this);
-
-        if(isRangeType)
-            attackState = new RangeType.AttackState(this);
-        else
-             attackState = new PatrolType.AttackState(this);
+        attackState = new PatrolType.AttackState(this);
 
         if(usePreAttack)
             preAttackState = new PreAttackState(this);
@@ -110,24 +103,6 @@ public class PatrolTypeEnemy : EnemyController
             return;
 
         SetState(enemyHurted);
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Vector3 xStart = transform.position + Vector3.left * idleToChaseTriggerDistance.x;
-        Vector3 xEnd = transform.position + Vector3.right * idleToChaseTriggerDistance.x;
-        Gizmos.DrawLine(xStart, xEnd);
-
-        // Draw the Y-Axis (Vertical)
-
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, chaseToAttackTriggerDistance);
-
-        Gizmos.color = Color.green;
-        Vector3 yStart = transform.position + Vector3.down * idleToChaseTriggerDistance.y;
-        Vector3 yEnd = transform.position + Vector3.up * idleToChaseTriggerDistance.y;
-        Gizmos.DrawLine(yStart, yEnd);
     }
 
     //public override void ResetPosition()

@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class SimpleEnemyType : EnemyController
 {
-
     private void Awake()
     {
         defaultState = new SimpleEnemy.AttackState(this);

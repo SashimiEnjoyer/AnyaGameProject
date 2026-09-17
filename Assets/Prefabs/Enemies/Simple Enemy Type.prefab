@@ -39,6 +39,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &214781451017688908
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -57,6 +58,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -78,9 +81,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: -6297963663658585838, guid: 8d1195de94d7a114690500fc093d4d59, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -90,7 +95,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!95 &4383857596109284666
 Animator:
@@ -153,27 +157,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9dd4f8f7da0548438e78205c7e1dca0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AggroStatus: 0
   maxHealth: 1
   currHealth: 1
-  movementSpeed: 6
-  attackAnimLength: 0.01
-  maxDistanceBeforeDie: 2
+  movementSpeed: 4
   staggerTime: 1
-  aggroRadiusX: 2
-  aggroRadiusY: 1
+  chaseToAttackTimeInterval: {x: 0, y: 0}
+  patrolTimeRange: {x: 10, y: 12}
+  maxDistanceBeforeDie: 2
+  chaseToAttackTriggerDistance: 0
+  idleToChaseTriggerDistance: {x: 0, y: 0}
   knockDistance: {x: 150, y: -80}
   isGround: 0
   getHit: 0
   isFacingRight: 1
   PatrolAttack: 1
   CanAttack: 1
+  usePreAttack: 0
   Resetting: 0
   CurrentDirection: -1
+  projectileOutputPos: {fileID: 0}
+  projectileSpeed: 4
+  AnimancerComponent: {fileID: 0}
   rb: {fileID: 5331721470742374805}
   anim: {fileID: 0}
+  attackHitBox: {fileID: 0}
+  preAttackIndicator: {fileID: 0}
   afterHitEffect: {fileID: 1030730534638234535, guid: f9c35b667571eb040b2e765b3e7195eb, type: 3}
   startingPoint: {fileID: 0}
-  groundChecker: {fileID: 0}
+  groundChecker: {fileID: 8056474028530040001}
   playerTransform: {fileID: 0}
   hitBox: {fileID: 7110491785828639022}
   playerMask:
@@ -182,8 +194,45 @@ MonoBehaviour:
   borderMask:
     serializedVersion: 2
     m_Bits: 0
-  isWalkRight: 0
-  liveTime: 5
+  attackClip:
+    _FadeDuration: 0.25
+    _Speed: 1
+    _Events:
+      _NormalizedTimes: []
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 0}
+    _NormalizedStartTime: NaN
+  walkAnim:
+    _FadeDuration: 0.25
+    _Speed: 1
+    _Events:
+      _NormalizedTimes: []
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 0}
+    _NormalizedStartTime: NaN
+  idleClip:
+    _FadeDuration: 0.25
+    _Speed: 1
+    _Events:
+      _NormalizedTimes: []
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 0}
+    _NormalizedStartTime: NaN
+  diedClip:
+    _FadeDuration: 0.25
+    _Speed: 1
+    _Events:
+      _NormalizedTimes: []
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 0}
+    _NormalizedStartTime: NaN
+  references:
+    version: 2
+    RefIds: []
 --- !u!70 &7110491785828639022
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -257,6 +306,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5154275291349229509
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -275,6 +325,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -296,9 +348,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -308,7 +362,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!61 &667102477502592535
 BoxCollider2D:

@@ -15,15 +15,21 @@ public class EnemyDied : CharacterState
     {
         Debug.Log("Enter Die State!");
 
-        state = baseEnemy.AnimancerComponent.Play(en.diedClip);
-        state.Events(this).OnEnd ??= OnEnd;
-
+        if (en.AnimancerComponent == null)
+        {
+            OnEnd();
+        }
+        else
+        {
+            state = en.AnimancerComponent.Play(en.diedClip);
+            state.Events(this).OnEnd ??= OnEnd;
+        }
     }
 
     void OnEnd() 
     {
-        baseEnemy.onEnemyDied?.Invoke();
-        baseEnemy.Died();
-        baseEnemy.currHealth = baseEnemy.maxHealth;
+        en.onEnemyDied?.Invoke();
+        en.Died();
+        en.currHealth = en.maxHealth;
     }
 }

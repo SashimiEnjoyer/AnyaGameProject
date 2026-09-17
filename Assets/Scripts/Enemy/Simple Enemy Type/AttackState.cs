@@ -15,24 +15,16 @@ public static partial class SimpleEnemy
 
         public override void Tick()
         {
-
+            interval = Time.time + currEnemy.patrolTimeRange.x;
             if (Time.time >= interval)
             {
-                baseEnemy.Flip();
-                interval = Time.time + Random.Range(currEnemy.patrolTimeRange.x, currEnemy.patrolTimeRange.y);
+                currEnemy.SetState(currEnemy.enemyDied);
             }
             else
             {
-
-                if (baseEnemy.CheckMask(baseEnemy.borderMask) && !baseEnemy.Resetting)
-                    baseEnemy.StopMove();
-                else
-                {
-                    baseEnemy.Move(1f);
-                }
+                currEnemy.Move(4);
             }
 
-            currEnemy.Move(4);
         }
 
         public override void ExitState()

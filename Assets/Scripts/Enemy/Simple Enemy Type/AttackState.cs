@@ -5,12 +5,18 @@ public static partial class SimpleEnemy
 {
     public class AttackState : CharacterState
     {
-        EnemyController currEnemy;
-        float interval;
+        private EnemyController currEnemy;
+        private float interval;
+        private float runSpeedMultiplier;
 
         public AttackState(EnemyController _enemy) : base(_enemy)
         {
             currEnemy = _enemy;
+        }
+
+        public override void EnterState()
+        {
+            runSpeedMultiplier = Random.Range(3.9f, 4.3f);
         }
 
         public override void Tick()
@@ -22,7 +28,7 @@ public static partial class SimpleEnemy
             }
             else
             {
-                currEnemy.Move(4);
+                currEnemy.Move(runSpeedMultiplier);
             }
 
         }

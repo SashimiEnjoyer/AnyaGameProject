@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem.LowLevel;
 
 public class PatrolTypeEnemy : EnemyController
 {
@@ -19,10 +20,12 @@ public class PatrolTypeEnemy : EnemyController
             preAttackState = new PreAttackState(this);
 
         currHealth = maxHealth;
+        //startingPoint = transform;
     }
 
     private void OnEnable()
     {
+        prevState = defaultState;
         SetState(defaultState);
     }
 
@@ -47,7 +50,8 @@ public class PatrolTypeEnemy : EnemyController
     public override void Died()
     {
         //Destroy(transform.parent.gameObject, 1f);
-        transform.parent.gameObject.SetActive(false);
+        prevState = null;
+        gameObject.SetActive(false);
     }
 
     public override void Flip()
@@ -105,15 +109,17 @@ public class PatrolTypeEnemy : EnemyController
         SetState(enemyHurted);
     }
 
-    //public override void ResetPosition()
-    //{
-    //    transform.position = startingPoint.position;
+    public override void ResetPosition()
+    {
+        transform.localPosition = startingPoint.localPosition;
+        currHealth = maxHealth;
+        startingPoint = transform;
 
-    //    //if (CurrentDirection != 1)
-    //    //{
-    //    //    Flip();
-    //    //    CurrentDirection = 1;
-    //    //}
-    //}
+        if (CurrentDirection != 1)
+        {
+            Flip();
+            CurrentDirection = 1;
+        }
+    }
 
 }

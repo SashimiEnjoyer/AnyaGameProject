@@ -12,7 +12,6 @@ public class SceneTransitionManager : MonoBehaviour
 
     public void MoveScene(string sceneName)
     {
-        
         nextSceneName = sceneName;
         TransitionScreen.instance.StartingTransition(TransitionPosition.ToBlack, 2f, GoToNextScene);
         GameManager.instance.SoundsOnSceneManager.AllAudioFadeOut();
@@ -27,7 +26,6 @@ public class SceneTransitionManager : MonoBehaviour
 
     void LoadingStart()
     {
-
         if (loadingUI == null)
             loadingUI = Instantiate(loadingUIPrefab);
 

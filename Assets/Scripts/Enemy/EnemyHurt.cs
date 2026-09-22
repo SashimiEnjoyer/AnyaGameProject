@@ -22,9 +22,7 @@ public class EnemyHurt : CharacterState
             hitEffect.Emit(50);
 
         baseEnemy.Knocked();
-        //baseEnemy.SetAnimatorState(baseEnemy.anim, "Enemy_Hurt");
-        //GameManager.instance.CameraImpulseManager.ActiveEnemyImpulse();
-        timer = Time.time + baseEnemy.staggerTime;
+        timer = Time.time + (baseEnemy.staggerTime * Random.Range(0.9f, 1.2f));
     }
 
     public override void Tick()

@@ -6,14 +6,14 @@ public static partial class PatrolType
     [System.Serializable]
     public class AttackState : CharacterState
     {
+        private float timeToAttack = 0f;
+        private float preAttack = 0f;
+        private float runSpeedMultiplier;
+        private EnemyController en;
+        private AnimancerState state;
 
-        float timeToAttack = 0f;
-        float preAttack = 0f;
-        EnemyController en;
-        AnimancerState state;
-
-        int counter;
-        int looping;
+        private int counter;
+        private int looping;
 
         public AttackState(EnemyController _enemy) : base(_enemy)
         {
@@ -28,8 +28,10 @@ public static partial class PatrolType
             looping = 3;
 
             state = baseEnemy.AnimancerComponent.Play(en.attackClip);
-            state.Events(this).OnEnd ??= OnEnd;  
-          
+            state.Events(this).OnEnd ??= OnEnd;
+
+            runSpeedMultiplier = Random.Range(3.9f, 4.3f);
+
             //baseEnemy.SetAnimatorState(baseEnemy.anim, "Enemy_Attack");
             //preAttack = Time.time + en.preAttackTimer;
             //timeToAttack = Time.time + en.attackTimer;
@@ -67,12 +69,12 @@ public static partial class PatrolType
                         baseEnemy.StopMove();
                     else
                     {
-                        baseEnemy.Move(Random.Range(1.7f, 2.3f));
+                        baseEnemy.Move(runSpeedMultiplier);
                     }
                     break;
 
                 default:
-                    baseEnemy.Move(Random.Range(1.5f, 2f));
+                    baseEnemy.Move(runSpeedMultiplier);
                     break;
             }
 

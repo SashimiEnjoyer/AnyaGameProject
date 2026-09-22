@@ -508,13 +508,15 @@ MonoBehaviour:
   usePreAttack: 1
   Resetting: 0
   CurrentDirection: 1
+  projectileOutputPos: {fileID: 0}
+  projectileSpeed: 4
   AnimancerComponent: {fileID: 7454465995354735965}
   rb: {fileID: 6644157030018930664}
   anim: {fileID: 6644157030018930199}
   attackHitBox: {fileID: 103388054412800428}
   preAttackIndicator: {fileID: 7512652102374758162}
   afterHitEffect: {fileID: 1030730534638234535, guid: f9c35b667571eb040b2e765b3e7195eb, type: 3}
-  startingPoint: {fileID: 0}
+  startingPoint: {fileID: 7545273402235464970}
   groundChecker: {fileID: 3889187198315076732}
   playerTransform: {fileID: 0}
   hitBox: {fileID: 6644157030018930666}

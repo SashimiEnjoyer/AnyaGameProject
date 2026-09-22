@@ -4,8 +4,10 @@ public static partial class PatrolType
 {
     public class ChaseState : CharacterState
     {
-        EnemyController en;
-        float interval;
+        private EnemyController en;
+        private float interval;
+        private float runSpeedMultiplier;
+
         public ChaseState(EnemyController _enemy) : base(_enemy)
         {
             en = _enemy;
@@ -15,8 +17,8 @@ public static partial class PatrolType
         {
             Debug.Log("Enter Chase State!");
             baseEnemy.AnimancerComponent.Play(en.walkAnim);
-            //baseEnemy.SetAnimatorState(baseEnemy.anim, "Enemy_Walk");
             interval = Time.time + Random.Range(en.chaseToAttackTimeInterval.x, en.chaseToAttackTimeInterval.y);
+            runSpeedMultiplier = Random.Range(1.6f, 1.8f);
         }
 
         public override void PhysicTick()
@@ -54,12 +56,12 @@ public static partial class PatrolType
                         baseEnemy.StopMove();
                     else
                     {
-                        baseEnemy.Move(Random.Range(1.6f, 1.8f));
+                        baseEnemy.Move(runSpeedMultiplier);
                     }
                     break;
 
                 default:
-                    baseEnemy.Move(Random.Range(1.5f, 1.7f));
+                    baseEnemy.Move(runSpeedMultiplier);
                     break;
             }
 

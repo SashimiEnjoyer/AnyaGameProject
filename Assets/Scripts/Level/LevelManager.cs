@@ -78,7 +78,14 @@ public class LevelManager : MonoBehaviour
 
     public void GoToScene(string sceneName)
     {
+        Debug.Log("Go TO Scene");
         GameManager.instance.SceneTransitionManager.MoveScene(sceneName);
+    }
+
+    [ContextMenu("Test Go To Scene")]
+    public void TestGotoScene()
+    {
+        GoToScene("Level 1");
     }
 
     public void SetGameState(GameplayState state)

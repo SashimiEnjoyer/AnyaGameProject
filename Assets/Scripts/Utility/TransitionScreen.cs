@@ -32,8 +32,8 @@ public class TransitionScreen : MonoBehaviour
     {
         OnFinished = _OnFinished;
 
-        if(!gameObject.activeSelf)
-            gameObject.SetActive(true);
+
+        gameObject.SetActive(true);
 
         if (LevelManager.instance != null && LevelManager.instance.GetgameState() != GameplayState.Dialogue)
             LevelManager.instance.SetGameState( GameplayState.Dialogue);
@@ -52,8 +52,10 @@ public class TransitionScreen : MonoBehaviour
                 });
                 break;
             case TransitionPosition.ToBlack:
+                Debug.Log("Start Transition");  
                 canvasGroup.alpha = 0;
-                DOTween.To(() => canvasGroup.alpha, x => canvasGroup.alpha = x, 1, transitionTimer).SetEase(Ease.OutQuint).OnComplete(() => OnFinished?.Invoke());
+                canvasGroup.DOFade(1, transitionTimer).OnComplete(() => OnFinished?.Invoke());
+                //DOTween.To(() => canvasGroup.alpha, x => canvasGroup.alpha = x, 1, transitionTimer).SetEase(Ease.OutQuint).OnComplete(() => OnFinished?.Invoke());
                 break;
             default:
                 break;

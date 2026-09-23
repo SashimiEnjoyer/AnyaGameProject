@@ -12,6 +12,8 @@ public static class SceneLoader
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
         //operation.allowSceneActivation = false;
 
+        Debug.Log("Load Scene");
+
         while (!operation.isDone)
         {
             onProgress?.Invoke(operation.progress * 100);

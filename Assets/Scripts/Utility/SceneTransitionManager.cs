@@ -13,14 +13,15 @@ public class SceneTransitionManager : MonoBehaviour
     public void MoveScene(string sceneName)
     {
         nextSceneName = sceneName;
-        TransitionScreen.instance.StartingTransition(TransitionPosition.ToBlack, 2f, GoToNextScene);
         GameManager.instance.SoundsOnSceneManager.AllAudioFadeOut();
+        TransitionScreen.instance.StartingTransition(TransitionPosition.ToBlack, 2f, GoToNextScene);
 
         Debug.Log("Moving Scene");
     }
 
     void GoToNextScene()
     {
+        Debug.Log("Go To Next Scene");
         SceneLoader.LoadScene(nextSceneName, LoadingStart, LoadingProgress);
     }
 

@@ -16,34 +16,34 @@ public static partial class PatrolType
         public override void EnterState()
         {
             Debug.Log("Enter Chase State!");
-            baseEnemy.AnimancerComponent.Play(en.walkAnim);
+            en.AnimancerComponent.Play(en.walkAnim);
             interval = Time.time + Random.Range(en.chaseToAttackTimeInterval.x, en.chaseToAttackTimeInterval.y);
             runSpeedMultiplier = Random.Range(1.6f, 1.8f);
         }
 
         public override void PhysicTick()
         {
-            if (Mathf.Sign(baseEnemy.CurrentDirection) != Mathf.Sign(baseEnemy.PlayerDirection().x))
+            if (Mathf.Sign(en.CurrentDirection) != Mathf.Sign(en.PlayerDirection().x))
             {
-                baseEnemy.Flip();
+                en.Flip();
             }
 
 
             if (Time.time > interval)
             {
-                if (Mathf.Abs(Vector2.Distance(baseEnemy.transform.position, baseEnemy.playerTransform.position)) < en.chaseToAttackTriggerDistance)
+                if (Mathf.Abs(Vector2.Distance(en.transform.position, en.playerTransform.position)) < en.chaseToAttackTriggerDistance)
                 {
-                    if (baseEnemy.usePreAttack)
-                        baseEnemy.SetState(baseEnemy.preAttackState);
+                    if (en.usePreAttack)
+                        en.SetState(en.preAttackState);
                     else
-                        baseEnemy.SetState(baseEnemy.attackState);
+                        en.SetState(en.attackState);
                 }
 
-                else if (Mathf.Abs(baseEnemy.transform.position.x - baseEnemy.playerTransform.position.x) > 35f ||
-                        Mathf.Abs(baseEnemy.transform.position.y - baseEnemy.playerTransform.position.y) > 7f)
+                else if (Mathf.Abs(en.transform.position.x - en.playerTransform.position.x) > 35f ||
+                        Mathf.Abs(en.transform.position.y - en.playerTransform.position.y) > 7f)
                 {
-                    //baseEnemy.transform.position = baseEnemy.startingPoint.position;
-                    baseEnemy.SetState(baseEnemy.defaultState);
+                    //en.transform.position = en.startingPoint.position;
+                    en.SetState(en.defaultState);
 
                 }
             }
@@ -52,16 +52,16 @@ public static partial class PatrolType
             {
                 case EnemyAggroStatus.Semi:
 
-                    if (baseEnemy.CheckMask(baseEnemy.borderMask) && !baseEnemy.Resetting)
-                        baseEnemy.StopMove();
+                    if (en.CheckMask(en.borderMask) && !en.Resetting)
+                        en.StopMove();
                     else
                     {
-                        baseEnemy.Move(runSpeedMultiplier);
+                        en.Move(runSpeedMultiplier);
                     }
                     break;
 
                 default:
-                    baseEnemy.Move(runSpeedMultiplier);
+                    en.Move(runSpeedMultiplier);
                     break;
             }
 

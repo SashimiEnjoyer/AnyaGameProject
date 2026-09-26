@@ -16,6 +16,8 @@ public class RaisinBossController : CharacterStateManager, IEnemy
     [SerializeField] private ClipTransition walkAnim;
     [SerializeField] private ClipTransition idleAnim;
 
+    public UnityEvent OnBossDied;
+
     private int directionFacing = 1;
     public int DirectionFacing => directionFacing;
     public Vector2 neutralTimeRange;
@@ -30,7 +32,7 @@ public class RaisinBossController : CharacterStateManager, IEnemy
     {
         defaultState = new BossRaisin.NeutralState(this);
         groundPoundAtkPattern = new BossRaisin.GroundPoundAttackPattern(this);
-        dashAtkPattern = new BossRaisin.DashAttackPattern(this);    
+        dashAtkPattern = new BossRaisin.DashAttackPattern(this);
         //enemyDied = new EnemyDied(this);
     }
 

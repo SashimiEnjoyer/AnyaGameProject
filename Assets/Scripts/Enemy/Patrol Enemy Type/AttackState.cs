@@ -27,12 +27,12 @@ public static partial class PatrolType
             counter = 0;
             looping = 3;
 
-            state = baseEnemy.AnimancerComponent.Play(en.attackClip);
+            state = en.AnimancerComponent.Play(en.attackClip);
             state.Events(this).OnEnd ??= OnEnd;
 
             runSpeedMultiplier = Random.Range(3.9f, 4.3f);
 
-            //baseEnemy.SetAnimatorState(baseEnemy.anim, "Enemy_Attack");
+            //en.SetAnimatorState(en.anim, "Enemy_Attack");
             //preAttack = Time.time + en.preAttackTimer;
             //timeToAttack = Time.time + en.attackTimer;
         }
@@ -44,13 +44,13 @@ public static partial class PatrolType
             if (looping <= 0)
             {
                 Debug.LogWarning("enemy Attak Ended");
-                baseEnemy.SetState(baseEnemy.chaseState);
+                en.SetState(en.chaseState);
             }
             else
             {
                 state.Time = 0;
                 looping -= 1;
-                baseEnemy.AnimancerComponent.Play(en.attackClip);
+                en.AnimancerComponent.Play(en.attackClip);
             }
         }
 
@@ -65,16 +65,16 @@ public static partial class PatrolType
             {
                 case EnemyAggroStatus.Semi:
                     
-                    if (baseEnemy.CheckMask(baseEnemy.borderMask) && !baseEnemy.Resetting)
-                        baseEnemy.StopMove();
+                    if (en.CheckMask(en.borderMask) && !en.Resetting)
+                        en.StopMove();
                     else
                     {
-                        baseEnemy.Move(runSpeedMultiplier);
+                        en.Move(runSpeedMultiplier);
                     }
                     break;
 
                 default:
-                    baseEnemy.Move(runSpeedMultiplier);
+                    en.Move(runSpeedMultiplier);
                     break;
             }
 

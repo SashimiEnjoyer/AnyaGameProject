@@ -16,7 +16,7 @@ public static partial class PatrolType
         public override void EnterState()
         {
             Debug.Log("Patrol State! " + en.gameObject.name);
-            baseEnemy.AnimancerComponent.Play(en.walkAnim);
+            en.AnimancerComponent.Play(en.walkAnim);
         }
 
         public override void Tick()
@@ -24,14 +24,14 @@ public static partial class PatrolType
             
             if(en.AggroStatus != EnemyAggroStatus.Calm)
             {
-                if(Mathf.Abs(baseEnemy.transform.position.x - baseEnemy.playerTransform.position.x) < en.idleToChaseTriggerDistance.x &&
-                    Mathf.Abs(baseEnemy.transform.position.y - baseEnemy.playerTransform.position.y) < en.idleToChaseTriggerDistance.y)
+                if(Mathf.Abs(en.transform.position.x - en.playerTransform.position.x) < en.idleToChaseTriggerDistance.x &&
+                    Mathf.Abs(en.transform.position.y - en.playerTransform.position.y) < en.idleToChaseTriggerDistance.y)
                 {
-                    baseEnemy.SetState(baseEnemy.chaseState);
+                    en.SetState(en.chaseState);
                 }
             }
 
-            //if (baseEnemy.Resetting)
+            //if (en.Resetting)
             //    CheckResetting();
             //else
                 Patrolling();           
@@ -40,14 +40,14 @@ public static partial class PatrolType
 
         public override void PhysicTick()
         {
-            baseEnemy.AnimancerComponent.Play(baseEnemy.rb.linearVelocity.x > 0? baseEnemy.walkAnim : baseEnemy.idleClip);
+            en.AnimancerComponent.Play(Mathf.Abs(en.rb.linearVelocity.x) > 0? en.walkAnim : en.idleClip);
         }
 
         private void Patrolling()
         {
             if (Time.time >= interval)
             {
-                baseEnemy.Flip();
+                en.Flip();
                 interval = Time.time + Random.Range(en.patrolTimeRange.x, en.patrolTimeRange.y);
             }
             else
@@ -57,16 +57,16 @@ public static partial class PatrolType
                 {
                     case EnemyAggroStatus.Semi:
                         
-                        if (baseEnemy.CheckMask(baseEnemy.borderMask) && !baseEnemy.Resetting)
-                            baseEnemy.StopMove();
+                        if (en.CheckMask(en.borderMask) && !en.Resetting)
+                            en.StopMove();
                         else
                         {
-                            baseEnemy.Move(1f);
+                            en.Move(1f);
                         }
                         break;
 
                     default:
-                        baseEnemy.Move(1f);
+                        en.Move(1f);
                         break;
                 }    
             }
@@ -75,12 +75,12 @@ public static partial class PatrolType
 
         //private void CheckResetting()
         //{
-        //    baseEnemy.StopMove();
+        //    en.StopMove();
         //    if (Time.time > resetting)
         //    {
-        //        baseEnemy.ResetPosition();
+        //        en.ResetPosition();
         //        interval = Time.time + 12;
-        //        baseEnemy.Resetting = false;
+        //        en.Resetting = false;
         //    }   
 
         //}

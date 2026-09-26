@@ -21,7 +21,7 @@ public class PreAttackState : CharacterState
         if (Time.time >= timer)
         {
             
-            baseEnemy.SetState(baseEnemy.attackState);
+            en.SetState(en.attackState);
         }
     }
 

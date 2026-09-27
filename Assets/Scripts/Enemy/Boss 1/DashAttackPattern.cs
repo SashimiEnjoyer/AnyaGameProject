@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
 
 public static partial class BossRaisin
 {
@@ -42,10 +43,16 @@ public static partial class BossRaisin
 
         public override void PhysicTick()
         {
-            if(Time.time > holdAtk)
+            if (Time.time > holdAtk)
+            {
+                controller.DashAtkIndicatorState(false);
                 controller.Move(3f);
+            }
             else
+            {
+                controller.DashAtkIndicatorState(true);
                 controller.StopMove();
+            }
         }
     }
 }

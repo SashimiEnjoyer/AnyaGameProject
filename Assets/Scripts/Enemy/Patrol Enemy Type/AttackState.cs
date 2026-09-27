@@ -48,6 +48,12 @@ public static partial class PatrolType
             }
             else
             {
+                if (en.AggroStatus == EnemyAggroStatus.Aggresive &&
+                    Mathf.Sign(en.CurrentDirection) != Mathf.Sign(en.PlayerDirection().x))
+                {
+                    en.Flip();
+                }
+
                 state.Time = 0;
                 looping -= 1;
                 en.AnimancerComponent.Play(en.attackClip);

@@ -20,6 +20,7 @@ public class RangeTypeEnemy : EnemyController
     private void OnEnable()
     {
         AssignPlayerTransform();
+        prevState = defaultState;
         SetState(defaultState);
     }
 
@@ -55,7 +56,20 @@ public class RangeTypeEnemy : EnemyController
 
     public override void Died()
     {
-        //Destroy(gameObject, 1f);
+        prevState = null;
         gameObject.SetActive(false);
+    }
+
+    public override void ResetPosition()
+    {
+        transform.localPosition = startingPoint.localPosition;
+        currHealth = maxHealth;
+        startingPoint = transform;
+
+        if (CurrentDirection != 1)
+        {
+            Flip();
+            CurrentDirection = 1;
+        }
     }
 }

@@ -9,4 +9,9 @@ public class TemporaryEnding : MonoBehaviour
     {
         mainMenuButton.onClick.AddListener(()=> GameManager.instance.SceneTransitionManager.MoveScene("Main Menu"));
     }
+
+    private void Start()
+    {
+        TransitionScreen.instance.StartingTransition(TransitionPosition.FromBlack, 1f, null);
+    }
 }

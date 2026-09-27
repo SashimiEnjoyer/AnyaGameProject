@@ -40,7 +40,7 @@ public static partial class PatrolType
 
         public override void PhysicTick()
         {
-            en.AnimancerComponent.Play(Mathf.Abs(en.rb.linearVelocity.x) > 0? en.walkAnim : en.idleClip);
+            en.AnimancerComponent.Play(Mathf.Abs(en.rb.linearVelocity.x) > 0.15f? en.walkAnim : en.idleClip);
         }
 
         private void Patrolling()

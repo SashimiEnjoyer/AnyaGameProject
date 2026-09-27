@@ -10,6 +10,7 @@ public class RaisinBossController : CharacterStateManager, IEnemy
     [SerializeField] private int maxHP;
     [SerializeField] private int hp;
     [SerializeField] private float neutralWalkSpd;
+    [SerializeField] private GameObject dashAtkIndicator;
     [SerializeField] private GameObject hitBox;
     [SerializeField] private GameObject groundPoundEffect;
     [SerializeField] private GameObject afterHitEffect;
@@ -77,10 +78,20 @@ public class RaisinBossController : CharacterStateManager, IEnemy
         else
             hitEffect.Emit(50);
 
-
         if (hp <= 0)
+        {
+            OnBossDied?.Invoke();
             transform.parent.gameObject.SetActive(false);
+        }
     }
+
+    [ContextMenu("Test Kill Boss")]
+    public void TestBossDied() 
+    { 
+        hp = 0;
+        EnemyHurted();
+    }
+
     public void InstantiateGroundPoundEffect()
     {
         for (int i = 0; i < 2; i++)
@@ -97,4 +108,5 @@ public class RaisinBossController : CharacterStateManager, IEnemy
     public void PlayIdleAnim() => animComponent.Play(idleAnim);
     public void PlayWalkAnim() => animComponent.Play(walkAnim);
     public void SetActiveHitbox(bool state) => hitBox.SetActive(state);
+    public void DashAtkIndicatorState(bool state) => dashAtkIndicator.SetActive(state);
 }

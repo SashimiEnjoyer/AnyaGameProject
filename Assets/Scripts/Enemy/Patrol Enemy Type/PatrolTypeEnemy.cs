@@ -120,5 +120,4 @@ public class PatrolTypeEnemy : EnemyController
             CurrentDirection = 1;
         }
     }
-
 }

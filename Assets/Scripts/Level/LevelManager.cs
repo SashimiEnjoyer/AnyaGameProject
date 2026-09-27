@@ -78,7 +78,6 @@ public class LevelManager : MonoBehaviour
 
     public void GoToScene(string sceneName)
     {
-        Debug.Log("Go TO Scene");
         GameManager.instance.SceneTransitionManager.MoveScene(sceneName);
     }
 
